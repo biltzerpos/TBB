@@ -82,13 +82,20 @@ public class TestListener implements ActionListener {
 		
 		//s.setScenarioFile(file.getAbsolutePath());
 		
-		new Thread(new Runnable() {
-            public void run() {
-                ScenarioParser s = new ScenarioParser();
-                s.setScenarioFile(file.getAbsolutePath());
-            }
-        }).start();
+//		new Thread(new Runnable() {
+//            public void run() {
+//                ScenarioParser s = new ScenarioParser();
+//                s.setScenarioFile(file.getAbsolutePath());
+//            }
+//        }).start();
 
+		Thread playerThread = new Thread("Player Thread") {
+		    public void run(){    
+		        ScenarioParser s = new ScenarioParser();
+		        s.setScenarioFile(file.getAbsolutePath());
+		    }
+		};
+		playerThread.start();
 	}
 
 	/**
