@@ -38,9 +38,9 @@ public class GUI extends JFrame {
 	private SettingsPanel settingsPanel;
 	private NewButtonListener newItem = new NewButtonListener(this);
 	
-	
 	private HashMap<KeyStroke, Action> actionMap = new HashMap<KeyStroke, Action>();
 	private HashMap<KeyStroke, String> newItemMap = new HashMap<KeyStroke, String>();
+	public  HashMap<String, Integer> counterMap = new HashMap<String, Integer>();
 
 
 	/**
@@ -187,7 +187,7 @@ public class GUI extends JFrame {
 		});
 		
 		KeyStroke key11 = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK);
-		actionMap.put(key11, new AbstractAction("Export") {
+		actionMap.put(key11, new AbstractAction("Save") {
 			private static final long serialVersionUID = 1L;
 			@Override
 		    public void actionPerformed(ActionEvent e) {
@@ -198,12 +198,23 @@ public class GUI extends JFrame {
 		});
 		
 		KeyStroke key12 = KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK);
-		actionMap.put(key12, new AbstractAction("Import") {
+		actionMap.put(key12, new AbstractAction("Load") {
 			private static final long serialVersionUID = 1L;
 			@Override
 		    public void actionPerformed(ActionEvent e) {
 				if (rightPanel.btnLoad.isEnabled()) {
 					rightPanel.btnLoad.doClick();
+				}
+			}
+		});
+		
+		KeyStroke key31 = KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK);
+		actionMap.put(key31, new AbstractAction("Test") {
+			private static final long serialVersionUID = 1L;
+			@Override
+		    public void actionPerformed(ActionEvent e) {
+				if (rightPanel.btnTestScenario.isEnabled()) {
+					rightPanel.btnTestScenario.doClick();
 				}
 			}
 		});
@@ -266,7 +277,33 @@ public class GUI extends JFrame {
 		
 		
 		
-		
+		counterMap.put("New Scenario", 0);
+		counterMap.put("New Item", 0);
+		counterMap.put("New Question", 0);
+		counterMap.put("Move Up", 0);
+		counterMap.put("Move Down", 0);
+		counterMap.put("Delete", 0);
+		counterMap.put("Save", 0);
+		counterMap.put("Load", 0);
+		counterMap.put("Pause", 0);
+		counterMap.put("Text-to-speech", 0);
+		counterMap.put("Display String", 0);
+		counterMap.put("Repeat", 0);
+		counterMap.put("Button Repeat", 0);
+		counterMap.put("Button Location", 0);
+		counterMap.put("User Input", 0);
+		counterMap.put("Sound", 0);
+		counterMap.put("Reset Buttons", 0);
+		counterMap.put("Go To Location", 0);
+		counterMap.put("Clear All", 0);
+		counterMap.put("Clear Cell", 0);
+		counterMap.put("Set Pins", 0);
+		counterMap.put("Set Character", 0);
+		counterMap.put("Raise Pin", 0);
+		counterMap.put("Lower Pin", 0);
+		counterMap.put("Set Voice", 0);
+		counterMap.put("Location Tag", 0);
+		counterMap.put("Test",  0);
 		
 		
 		
@@ -360,4 +397,42 @@ public class GUI extends JFrame {
 	public SettingsPanel getSettingsPanel() {
 		return this.settingsPanel;
 	}
+	
+	
+	/**
+	 * Resets the counter for each function. 
+	 */
+	public void resetCounter()
+	{
+		counterMap.clear();
+		counterMap.put("New Scenario", 0);
+		counterMap.put("New Item", 0);
+		counterMap.put("New Question", 0);
+		counterMap.put("Move Up", 0);
+		counterMap.put("Move Down", 0);
+		counterMap.put("Delete", 0);
+		counterMap.put("Save", 0);
+		counterMap.put("Load", 0);
+		counterMap.put("Pause", 0);
+		counterMap.put("Text-to-speech", 0);
+		counterMap.put("Display String", 0);
+		counterMap.put("Repeat", 0);
+		counterMap.put("Button Repeat", 0);
+		counterMap.put("Button Location", 0);
+		counterMap.put("User Input", 0);
+		counterMap.put("Sound", 0);
+		counterMap.put("Reset Buttons", 0);
+		counterMap.put("Go To Location", 0);
+		counterMap.put("Clear All", 0);
+		counterMap.put("Clear Cell", 0);
+		counterMap.put("Set Pins", 0);
+		counterMap.put("Set Character", 0);
+		counterMap.put("Raise Pin", 0);
+		counterMap.put("Lower Pin", 0);
+		counterMap.put("Set Voice", 0);
+		counterMap.put("Location Tag", 0);
+		counterMap.put("Test", 0);
+		
+	}
+	
 }

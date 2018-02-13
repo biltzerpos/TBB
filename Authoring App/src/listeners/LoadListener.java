@@ -65,6 +65,7 @@ public class LoadListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		gui.counterMap.put("Load", gui.counterMap.get("Load") + 1);
 		List<String> inputLines = getInput();
 
 		// Process first three lines

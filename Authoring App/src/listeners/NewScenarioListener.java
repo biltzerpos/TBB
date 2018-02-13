@@ -129,6 +129,7 @@ public class NewScenarioListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		gui.counterMap.put("New Scenario", gui.counterMap.get("New Scenario") + 1);
 		// A check to see if the Scenario pane is empty
 		if (gui.getLeftPanel().elementCheck()) {
 

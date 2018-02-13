@@ -48,6 +48,8 @@ public class TestListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		gui.counterMap.put("Test", gui.counterMap.get("Test") + 1);
+		System.out.println(gui.counterMap.toString());
 		StringBuilder sb = new StringBuilder();
 		// Build the file header first
 		sb.append("Cell " + gui.getSettingsPanel().getCellField() + newLine);
