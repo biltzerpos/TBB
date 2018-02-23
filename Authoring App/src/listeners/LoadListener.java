@@ -97,7 +97,8 @@ public class LoadListener implements ActionListener {
 			}
 			i++;
 		}
-
+		
+		gui.getLeftPanel().clearAll();
 		List<PlayerCommand> allCommands = parseString(inputLines);
 		mapper.addColourMapping(allCommands);
 		for (PlayerCommand pc : allCommands) {

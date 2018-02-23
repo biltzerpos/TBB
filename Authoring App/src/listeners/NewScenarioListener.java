@@ -61,7 +61,7 @@ public class NewScenarioListener implements ActionListener {
 	private void scenarioBuilder() {
 		// call to the clearItem() method that clears out all events in the
 		// scenario
-		gui.getLeftPanel().clearItem();
+		gui.getLeftPanel().clearAll();
 
 		// Adding the labels and textfields to create a layout for pane
 		myPanel.add(cellLabel);
