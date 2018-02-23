@@ -2,6 +2,7 @@ package listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.Charset;
@@ -48,6 +49,8 @@ public class LoadListener implements ActionListener {
 
 	private GUI gui;
 	private ColourMapper mapper;
+	private File filepath = null;
+	
 
 	/**
 	 * Create an import listener with a reference to the parent GUI.
@@ -109,10 +112,12 @@ public class LoadListener implements ActionListener {
 		FileNameExtensionFilter txtFilter = new FileNameExtensionFilter("text files (*.txt)", "txt");
 		importDialog.addChoosableFileFilter(txtFilter);
 		importDialog.setFileFilter(txtFilter);
+		if (filepath != null) { importDialog.setCurrentDirectory(filepath); }
 
 		int r = importDialog.showOpenDialog(gui);
 		if (r == JFileChooser.APPROVE_OPTION) {
 			URI uri = importDialog.getSelectedFile().toURI();
+			filepath = importDialog.getSelectedFile();
 			gui.getRightPanel().setStart(true);
 			gui.getRightPanel().setNew(true);
 			gui.getRightPanel().setExport(true);
