@@ -61,7 +61,7 @@ public class NewScenarioListener implements ActionListener {
 	private void scenarioBuilder() {
 		// call to the clearItem() method that clears out all events in the
 		// scenario
-		gui.getLeftPanel().clearItem();
+		gui.getLeftPanel().clearAll();
 
 		// Adding the labels and textfields to create a layout for pane
 		myPanel.add(cellLabel);
@@ -129,6 +129,7 @@ public class NewScenarioListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		gui.counterMap.put("New Scenario", gui.counterMap.get("New Scenario") + 1);
 		// A check to see if the Scenario pane is empty
 		if (gui.getLeftPanel().elementCheck()) {
 

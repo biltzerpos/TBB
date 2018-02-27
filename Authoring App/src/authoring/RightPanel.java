@@ -142,10 +142,13 @@ public class RightPanel extends JPanel implements ActionListener {
 			btnStop.setEnabled(false);
 		} else if (e.getSource() == btnMoveUp) {
 			gui.getLeftPanel().moveUp();
+			gui.counterMap.put("Move Up", gui.counterMap.get("Move Up") + 1);
 		} else if (e.getSource() == btnMoveDown) {
 			gui.getLeftPanel().moveDown();
+			gui.counterMap.put("Move Down", gui.counterMap.get("Move Down") + 1);
 		} else if (e.getSource() == btnDelete) {
 			gui.getLeftPanel().deleteItem();
+			gui.counterMap.put("Delete", gui.counterMap.get("Delete") + 1);
 		} else if (e.getSource() == readFile) {
 			this.fileChooser();
 		}

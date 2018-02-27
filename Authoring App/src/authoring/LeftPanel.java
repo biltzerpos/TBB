@@ -166,7 +166,7 @@ public class LeftPanel extends JPanel implements KeyListener {
 	/**
 	 * Remove all elements from the list
 	 */
-	public void clearItem() {
+	public void clearAll() {
 		listModel.removeAllElements();
 	}
 

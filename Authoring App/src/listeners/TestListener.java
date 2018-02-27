@@ -4,9 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.List;
 
@@ -33,7 +35,7 @@ import enamel.ScenarioParser;
 public class TestListener implements ActionListener {
 
 	private GUI gui;
-	File file; 
+	File file;
 	String newLine = System.getProperty("line.separator");
 	/**
 	 * Create an export listener with a reference to the parent GUI.
@@ -48,6 +50,8 @@ public class TestListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		gui.counterMap.put("Test", gui.counterMap.get("Test") + 1);
+		System.out.println(gui.counterMap.toString());
 		StringBuilder sb = new StringBuilder();
 		// Build the file header first
 		sb.append("Cell " + gui.getSettingsPanel().getCellField() + newLine);
@@ -59,28 +63,37 @@ public class TestListener implements ActionListener {
 		sb.append(parseCommands(list));
 
 		// sb now contains the export file contents
-		JFileChooser save = new JFileChooser("SampleScenarios/");
-
-		FileNameExtensionFilter txtFilter = new FileNameExtensionFilter("text files (*.txt)", "txt");
-		save.addChoosableFileFilter(txtFilter);
-		save.setFileFilter(txtFilter);
-
-		save.showSaveDialog(null);
-
-		// Check to see if any file was set
-		file = save.getSelectedFile();
-		if (file == null) {
-			return;
-		}
-
-		// Get the file and fix the extension if it's wrong
-		if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("txt")) {
-			file = new File(file.toString() + ".txt");
-		}
-
-		exportFile(file, sb.toString());
+//		JFileChooser save = new JFileChooser("SampleScenarios/");
+//
+//		FileNameExtensionFilter txtFilter = new FileNameExtensionFilter("text files (*.txt)", "txt");
+//		save.addChoosableFileFilter(txtFilter);
+//		save.setFileFilter(txtFilter);
+//
+//		save.showSaveDialog(null);
+//
+//		// Check to see if any file was set
+//		file = save.getSelectedFile();
+//		if (file == null) {
+//			return;
+//		}
+//
+//		// Get the file and fix the extension if it's wrong
+//		if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("txt")) {
+//			file = new File(file.toString() + ".txt");
+//		}
+		//if (file.exists()) {file.delete();}
+		file = new File(System.getProperty("user.dir") + "\\" + "test.txt");
 		
-		//s.setScenarioFile(file.getAbsolutePath());
+		try {
+			file.createNewFile();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		file.deleteOnExit();
+		
+		
+		
+		exportFile(file, sb.toString());
 		
 //		new Thread(new Runnable() {
 //            public void run() {

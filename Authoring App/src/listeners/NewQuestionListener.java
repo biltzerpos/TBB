@@ -187,6 +187,7 @@ public class NewQuestionListener extends JPanel implements ActionListener, Acces
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		gui.counterMap.put("New Question", gui.counterMap.get("New Question") + 1);
 		// Generate a psuedorandom identifier
 		Random r = new Random();
 		String randomLabel = "" + r.nextInt(500);
