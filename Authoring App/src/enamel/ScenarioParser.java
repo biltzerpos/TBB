@@ -128,7 +128,7 @@ public class ScenarioParser
             //The key phrase to indicate to play a sound file.
         	if (fileLine.length () >= 8 && fileLine.substring(0, 8).equals("/~sound:"))
             {
-                playSound (fileLine.substring(8));
+                playSound (fileLine.substring(8).trim());
             }
             //The key phrase to indicate to skip to another part of the scenario.
             else if (fileLine.length () >= 7 && fileLine.substring(0, 7).equals("/~skip:"))
@@ -591,8 +591,8 @@ public class ScenarioParser
         
         System.out.println(message);
         
-        speak ("Error! Something went wrong in the program! Please consult a teacher " +
-                "or administrator for assistance! Also please view the ERROR_LOG file for more details");
+//        speak ("Error! Something went wrong in the program! Please consult a teacher " +
+//                "or administrator for assistance! Also please view the ERROR_LOG file for more details");
         //The try-catch block is to format the Logger class so that the error log file is easier to understand.
         try 
         {  
@@ -620,16 +620,22 @@ public class ScenarioParser
         exit ();
     }
     
+    private void errorLog (String exception, String message, String toSpeak)
+    {
+        speak(toSpeak);
+        errorLog(exception, message);
+    }
     /*
      * This method corresponds to the /~sound: key phrase in the scenario file, and it plays the sound files
      * where the argument is the name of the sound file. 
      */
     private void playSound (String sound)
     {
+        String soundFileName = scenarioFilePath + File.separator + "AudioFiles" + File.separator + sound;
         try
         {
             Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(new File(scenarioFilePath + File.separator + "AudioFiles" + File.separator + sound)));
+            clip.open(AudioSystem.getAudioInputStream(new File(soundFileName)));
             clip.start();
             //This while loop is to check if the audio file has played or not, and if it has not then it will
             //continue to wait until it does.
@@ -640,13 +646,15 @@ public class ScenarioParser
             clip.close();  
 
         }
+        catch (IOException e)
+        {
+            errorLog("Exception error: " + e.toString(), "File " + soundFileName + " not found!", "Sound file not found!");
+        }
         catch (Exception e)
         {
-            errorLog ("Exception error: " + e.toString(), "Expected the name of the file (including extension) but instead got: " +
-          sound + "\n Perhaps you forgot to include the extension of the sound file with the name? Other "
-                + "possibilities include: \n Incorrect name of the file, the file not being in the same location"
-                + "as the project folder, or an attempt to play an unsupported sound file. (.wav file formats"
-                + "supported, not sure about other)");
+            errorLog ("Exception error: " + e.toString(), "Sound file " + soundFileName + " could not be played!" +
+                      "Most likely due to unsupported format. Try again using the .wav format, with a sample rate of 44.1kHz and a bit depth of 16.",
+                      "Unsupported sound file format");
         }
     }
     
