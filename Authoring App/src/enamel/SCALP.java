@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -497,7 +498,7 @@ public class SCALP {
      * @param path
      *          the absolute path of the scenario file to start the ScenarioParser with 
      */
-    void startPlayer(String path) {
+    void startPlayer(String path){
         if (hardwareAvailable) {
             removeHWButtons();
         }
@@ -507,9 +508,16 @@ public class SCALP {
         }
         new Thread(new Runnable() {
             public void run() {
-                ScenarioParser s = new ScenarioParser();
-                voice.deallocate();
-                s.setScenarioFile(path);
+                ScenarioParser s;
+				try {
+					s = new ScenarioParser();
+					 voice.deallocate();
+		             s.setScenarioFile(path);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+               
             }
         }).start();
     }

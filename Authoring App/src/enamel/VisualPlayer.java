@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 
@@ -49,7 +51,8 @@ public class VisualPlayer extends Player {
 	LinkedList<JButton> buttonList = new LinkedList<JButton>();
 	JPanel southPanel = new JPanel();
 	JPanel centerPanel = new JPanel();
-	JRadioButton[] pins = new JRadioButton[8];
+	ArrayList<JRadioButton> pins = new ArrayList<JRadioButton>(8);
+	LinkedList<ArrayList<JRadioButton>> pinList = new LinkedList<ArrayList<JRadioButton>>();
 	int[] pinIndex = {0, 2, 4, 1, 3, 5, 6, 7};
 
 	
@@ -62,10 +65,12 @@ public class VisualPlayer extends Player {
 	 *            the number of braille cells the Simulator should have
 	 * @param buttonNumber
 	 *            the number of buttons the Simulator should have
+	 * @throws IOException 
+	 * @throws SecurityException 
 	 * @throws IllegalArgumentException
 	 *             if one or both of the two parameters is negative or 0
 	 */
-	public VisualPlayer(int brailleCellNumber, int buttonNumber) {
+	public VisualPlayer(int brailleCellNumber, int buttonNumber) throws SecurityException, IOException {
 
 		super(brailleCellNumber, buttonNumber);
 
@@ -88,11 +93,13 @@ public class VisualPlayer extends Player {
 						radioButton.setSize(25, 25);
 						radioButton.getAccessibleContext().setAccessibleName("Cell " + (j + 1));
 
-						pins[j] = radioButton;
+						pins.add(radioButton);
+						
 
 						panel.add(radioButton);
 						panel.repaint();
 					}
+					pinList.add(pins);
 					
 					panel.setVisible(true);
 
@@ -116,6 +123,7 @@ public class VisualPlayer extends Player {
 
 				frame.repaint();
 				frame.setVisible(true);
+				refresh();
 			}
 		});
 	}
@@ -151,11 +159,25 @@ public class VisualPlayer extends Player {
      */
 	@Override
 	public void refresh() {
-		for (BrailleCell s : brailleList) {
-			for (int i = 0; i < s.getNumberOfPins(); i++) {
-				pins[pinIndex[i]].setSelected(s.getPinState(i));
+			//int j=0;
+			for (int j = 0; j<brailleList.size(); j++) 
+			
+			{ BrailleCell s = this.brailleList.get(j);
+				
+				for (int i = 0; i < 8 ; i++) {
+				
+					pinList.get(j).get(i).setSelected(s.listOfPins[i]);
+					
+					
+					
+					
+
+				}
+				this.centerPanel.repaint();
+				frame.revalidate();
+				frame.repaint();
 			}
-		}
+		
 	}
 	
 	/**

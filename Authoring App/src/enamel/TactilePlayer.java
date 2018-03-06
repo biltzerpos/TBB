@@ -1,5 +1,6 @@
 package enamel;
 
+import java.io.IOException;
 import java.util.logging.Level;
 
 import com.pi4j.io.gpio.GpioController;
@@ -58,12 +59,14 @@ public class TactilePlayer extends Player {
      *            the number of braille cells the TactilePlayer should have
      * @param buttonNumber
      *            the number of buttons the TactilePlayer should have
+     * @throws IOException 
+     * @throws SecurityException 
      * @throws IllegalArgumentException
      *             if one or both of the two parameters is negative or 0,
      *             or if brailleCellNumber exceeds 1, or if buttonNumber exceeds
      *             4.
      */
-    public TactilePlayer(int brailleCellNumber, int buttonNumber) {
+    public TactilePlayer(int brailleCellNumber, int buttonNumber) throws SecurityException, IOException {
 
         super(brailleCellNumber, buttonNumber);
         if (brailleCellNumber > 1 || buttonNumber > 4)

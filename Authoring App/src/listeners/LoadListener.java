@@ -113,6 +113,7 @@ public class LoadListener implements ActionListener {
 		FileNameExtensionFilter txtFilter = new FileNameExtensionFilter("text files (*.txt)", "txt");
 		importDialog.addChoosableFileFilter(txtFilter);
 		importDialog.setFileFilter(txtFilter);
+		importDialog.setCurrentDirectory(new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "SampleScenarios" + System.getProperty("file.separator")));
 		if (filepath != null) { importDialog.setCurrentDirectory(filepath); }
 
 		int r = importDialog.showOpenDialog(gui);

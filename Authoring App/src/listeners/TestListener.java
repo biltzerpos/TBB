@@ -99,8 +99,15 @@ public class TestListener implements ActionListener {
 		
 		new Thread(new Runnable() {
             public void run() {
-                ScenarioParser s = new ScenarioParser();
-                s.setScenarioFile(file.getAbsolutePath());
+                ScenarioParser s;
+				try {
+					s = new ScenarioParser();
+					s.setScenarioFile(file.getAbsolutePath());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                
             }
         }).start();
 		
