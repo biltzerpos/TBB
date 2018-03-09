@@ -94,25 +94,14 @@ public class TestListener implements ActionListener {
 		
 		
 		exportFile(file, sb.toString());
-		
-		//s.setScenarioFile(file.getAbsolutePath());
-		
-		new Thread(new Runnable() {
-            public void run() {
-                ScenarioParser s;
-				try {
-					s = new ScenarioParser();
-					s.setScenarioFile(file.getAbsolutePath());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                
-            }
-        }).start();
-		
-		
 
+		Thread playerThread = new Thread("Player Thread") {
+		    public void run(){    
+		        ScenarioParser s = new ScenarioParser();
+		        s.setScenarioFile(file.getAbsolutePath());
+		    }
+		};
+		playerThread.start();
 	}
 
 	/**
