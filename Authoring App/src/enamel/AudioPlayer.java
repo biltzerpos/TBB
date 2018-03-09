@@ -2,6 +2,7 @@ package enamel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,10 +58,12 @@ public class AudioPlayer extends Player {
      *            the number of braille cells the AudioPlayer should have
      * @param buttonNumber
      *            the number of buttons the AudioPlayer should have
+     * @throws IOException 
+     * @throws SecurityException 
      * @throws IllegalArgumentException
      *             if one or both of the two parameters is negative or 0
      */
-    public AudioPlayer(int brailleCellNumber, int buttonNumber) {
+    public AudioPlayer(int brailleCellNumber, int buttonNumber) throws SecurityException, IOException {
         super(brailleCellNumber, buttonNumber);
                 
         AFrame = new JFrame();

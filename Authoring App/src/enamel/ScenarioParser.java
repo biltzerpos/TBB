@@ -26,7 +26,7 @@ public class ScenarioParser
     private int score = 0;
     Logger logger = Logger.getLogger(ScenarioParser.class.getName());
     
-    public ScenarioParser() 
+    public ScenarioParser() throws IOException
     {
     	//Code for the logger. We decided to maintain the logging format through code instead of changing the System Property
     	//and using the default ParentHandler, so that we can rely on consistency without changing settings for each system. 
@@ -36,8 +36,9 @@ public class ScenarioParser
 		//and set the output to the appropriate directory. 
     	
     	//To find out what's being logged, search and find any "logger.log" calls.
-    	ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setFormatter(new Formatter() {
+    	FileHandler fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "parser log.log", 0, 1);
+    	
+        fileHandler.setFormatter(new Formatter() {
     		private String format = "[%1$s] [%2$s] %3$s %n";
 			private SimpleDateFormat dateWithMillis = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
 			@Override
@@ -45,7 +46,7 @@ public class ScenarioParser
 				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(), formatMessage(record));
 			}
     	});
-    	logger.addHandler(consoleHandler);
+    	logger.addHandler(fileHandler);
     	logger.setUseParentHandlers(false);
     	
         //The next two lines allow the use of the mbrola voices.
@@ -248,6 +249,7 @@ public class ScenarioParser
                 speak(fileLine);
             }
         }
+        sim.refresh();
     }
     
     /*

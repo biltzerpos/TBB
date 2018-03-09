@@ -1,9 +1,12 @@
 package enamel;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -38,10 +41,12 @@ public abstract class Player {
      *            the number of braille cells the Player should have
      * @param buttonNumber
      *            the number of buttons the Player should have
+	 * @throws IOException 
+	 * @throws SecurityException 
      * @throws IllegalArgumentException
      *             if one or both of the two parameters is negative or 0
      */
-	public Player(int brailleCellNumber, int buttonNumber) {
+	public Player(int brailleCellNumber, int buttonNumber) throws SecurityException, IOException {
 
 	    //Formatting the Logger for the player class, which all its child classes uses. 
 		//Change the formatting as needed. 
@@ -51,8 +56,8 @@ public abstract class Player {
 		//and set the output to the appropriate directory. 
 		
 		//To find out what's being logged, search and find any "logger.log" calls.
-		ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setFormatter(new Formatter() {
+		FileHandler fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "logs.log", 0, 1);
+        fileHandler.setFormatter(new Formatter() {
     		private String format = "[%1$s] [%2$s] %3$s %n";
 			private SimpleDateFormat dateWithMillis = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
 			@Override
@@ -60,7 +65,7 @@ public abstract class Player {
 				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(), formatMessage(record));
 			}
     	});
-    	logger.addHandler(consoleHandler);
+    	logger.addHandler(fileHandler);
     	logger.setUseParentHandlers(false);
 	    
 		if (brailleCellNumber <= 0 || buttonNumber <= 0)
@@ -121,6 +126,8 @@ public abstract class Player {
 		for (int i = 0; i < this.brailleCellNumber && i < aString.length(); i++) {
 			this.brailleList.get(i).displayCharacter(aString.charAt(i));
 		}
+		
+		this.refresh();
 	}
 	/**
 	 * An abstract method to refresh the current implementation's "display" of 

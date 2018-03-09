@@ -32,7 +32,7 @@ import java.util.*;
  */
 public class BrailleCell {
 
-	private boolean[] listOfPins = new boolean[8];
+	boolean[] listOfPins = new boolean[8];
 	private static HashMap<Character, String> alphabet = new HashMap<Character, String>();
 
 	/**
@@ -100,6 +100,7 @@ public class BrailleCell {
 			throw new IllegalArgumentException("Non standard character");
 		}
 		this.setPins(alphabet.get(a));
+		
 	}
 	
 	/**
@@ -130,11 +131,12 @@ public class BrailleCell {
 						"Invalid string passed, non-binary character detected at index:" + i + ".");
 			}
 		}
-		this.clear();
+		
 		for (int i = 0; i < 8; i++) {
 			if (pins.charAt(i) == '1') {
 				listOfPins[i] = true;
 			}
+			
 		}
 	}
 	
