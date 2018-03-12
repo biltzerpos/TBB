@@ -1,20 +1,15 @@
 package enamel;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 /**
@@ -46,13 +41,12 @@ public class VisualPlayer extends Player {
 
 	
 	private JFrame frame;
-	private GridLayout cellGrid = new GridLayout(4, 2);
-	LinkedList<JPanel> panelList = new LinkedList<JPanel>();
+	//private GridLayout cellGrid = new GridLayout(4, 2);
+	List<BrailleCellPanel> brailleCellPanelList = new LinkedList<BrailleCellPanel>();
 	LinkedList<JButton> buttonList = new LinkedList<JButton>();
 	JPanel southPanel = new JPanel();
 	JPanel centerPanel = new JPanel();
-	ArrayList<JRadioButton> pins = new ArrayList<JRadioButton>(8);
-	LinkedList<ArrayList<JRadioButton>> pinList = new LinkedList<ArrayList<JRadioButton>>();
+	//LinkedList<ArrayList<JRadioButton>> pinList = new LinkedList<ArrayList<JRadioButton>>();
 	int[] pinIndex = {0, 2, 4, 1, 3, 5, 6, 7};
 
 	
@@ -77,7 +71,6 @@ public class VisualPlayer extends Player {
 		SwingUtilities.invokeLater(new Runnable() {
 			//@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				frame = new JFrame();
 				frame.setTitle("Simulator");
 				frame.setBounds(100, 100, 627, 459);
@@ -86,27 +79,9 @@ public class VisualPlayer extends Player {
 
 				for (int i = 0; i < brailleCellNumber; i++) {
 
-					JPanel panel = new JPanel(cellGrid);
-					for (int j = 0; j < 8; j++) {
-						JRadioButton radioButton = new JRadioButton();
-						radioButton.setEnabled(false);
-						radioButton.setSize(25, 25);
-						radioButton.getAccessibleContext().setAccessibleName("Cell " + (j + 1));
-
-						pins.add(radioButton);
-						
-
-						panel.add(radioButton);
-						panel.repaint();
-					}
-					pinList.add(pins);
-					
-					panel.setVisible(true);
-
-					panelList.add(panel);
-					panel.setSize(50, 50);
-					panel.setBorder(BorderFactory.createLineBorder(Color.black));
-					centerPanel.add(panel);
+					BrailleCellPanel bcp = new BrailleCellPanel();
+                    brailleCellPanelList.add(bcp);
+                    centerPanel.add(bcp);
 
 					if (i == (brailleCellNumber - 1))
 						frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
@@ -114,13 +89,11 @@ public class VisualPlayer extends Player {
 
 				for (int i = 0; i < buttonNumber; i++) {
 					JButton button = new JButton("" + (i + 1));
-
 					buttonList.add(button);
 					southPanel.add(button);
 				}
 
 				frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
-
 				frame.repaint();
 				frame.setVisible(true);
 				refresh();
@@ -159,25 +132,17 @@ public class VisualPlayer extends Player {
      */
 	@Override
 	public void refresh() {
-			//int j=0;
-			for (int j = 0; j<brailleList.size(); j++) 
-			
-			{ BrailleCell s = this.brailleList.get(j);
-				
-				for (int i = 0; i < 8 ; i++) {
-				
-					pinList.get(j).get(i).setSelected(s.listOfPins[i]);
-					
-					
-					
-					
 
-				}
-				this.centerPanel.repaint();
-				frame.revalidate();
-				frame.repaint();
-			}
-		
+	    for (int j = 0; j < brailleList.size(); j++) 
+	    { 
+	        BrailleCell cell = this.brailleList.get(j);
+	        for (int i = 0; i < 8 ; i++) {
+	            brailleCellPanelList.get(j).setRadioButtons(cell.listOfPins);
+	        }
+	        this.centerPanel.repaint();
+	        frame.revalidate();
+	        frame.repaint();
+	    }
 	}
 	
 	/**
