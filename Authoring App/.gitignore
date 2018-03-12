@@ -1,2 +1,4 @@
 /bin/
 /ERROR_LOG.txt
+*.log
+*.log.*
