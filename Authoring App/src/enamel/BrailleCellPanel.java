@@ -12,6 +12,7 @@ import javax.swing.JRadioButton;
 public class BrailleCellPanel extends JPanel {
 
     ArrayList<JRadioButton> pins = new ArrayList<JRadioButton>(8);
+    int[] pinIndex = {0, 2, 4, 1, 3, 5, 6, 7};
 
     public BrailleCellPanel()
     {
@@ -36,7 +37,7 @@ public class BrailleCellPanel extends JPanel {
     {
         for (int i = 0; i< 8; i++)
         {
-            pins.get(i).setSelected(b[i]);
+            pins.get(pinIndex[i]).setSelected(b[i]);
         }
     }
     

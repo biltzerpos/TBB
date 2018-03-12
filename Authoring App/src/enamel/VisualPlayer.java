@@ -39,16 +39,11 @@ import javax.swing.SwingUtilities;
  */
 public class VisualPlayer extends Player {
 
-	
-	private JFrame frame;
-	//private GridLayout cellGrid = new GridLayout(4, 2);
+	JFrame frame;
 	List<BrailleCellPanel> brailleCellPanelList = new LinkedList<BrailleCellPanel>();
 	LinkedList<JButton> buttonList = new LinkedList<JButton>();
 	JPanel southPanel = new JPanel();
 	JPanel centerPanel = new JPanel();
-	//LinkedList<ArrayList<JRadioButton>> pinList = new LinkedList<ArrayList<JRadioButton>>();
-	int[] pinIndex = {0, 2, 4, 1, 3, 5, 6, 7};
-
 	
 	/**
 	 * Creates and displays a window with <code>brailleCellNumber</code> Braille
@@ -196,11 +191,9 @@ public class VisualPlayer extends Player {
 		getButton(index).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// This if statement is used to allow the user to press the
-				// button
+				// This if statement is used to allow the user to press the button
 				// after all the text has been read and that the program is
-				// expecting
-				// a user input.
+				// expecting a user input.
 				if (sp.userInput) {
 					repeat++;
 					logger.log(Level.INFO, "Repeat Button was pressed.");
