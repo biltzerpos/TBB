@@ -122,6 +122,7 @@ public class LoadListener implements ActionListener {
 		if (r == JFileChooser.APPROVE_OPTION) {
 			URI uri = importDialog.getSelectedFile().toURI();
 			filepath = importDialog.getSelectedFile();
+			gui.loadedFile = filepath.getParentFile();
 			gui.getRightPanel().setStart(true);
 			gui.getRightPanel().setNew(true);
 			gui.getRightPanel().setExport(true);

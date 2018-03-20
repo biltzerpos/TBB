@@ -84,7 +84,14 @@ public class TestListener implements ActionListener {
 //			file = new File(file.toString() + ".txt");
 //		}
 		//if (file.exists()) {file.delete();}
+		if (gui.loadedFile != null)
+		{
+			file = new File(gui.loadedFile.getPath() + System.getProperty("file.separator") + "test.txt");
+		}
+		else
+		{
 		file = new File(System.getProperty("user.dir") + "\\" + "test.txt");
+		}
 		
 		try {
 			file.createNewFile();

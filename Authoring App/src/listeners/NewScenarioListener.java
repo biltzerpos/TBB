@@ -117,6 +117,7 @@ public class NewScenarioListener implements ActionListener {
 				gui.getRightPanel().setExport(true);
 				gui.getRightPanel().setReadFile(true);
 				gui.getRightPanel().setNewQuestion(true);
+				gui.loadedFile = null;
 			}
 
 			// Takes the text that was input by the user in the fields and sets

@@ -54,6 +54,8 @@ public class GUI extends JFrame {
 	public  HashMap<String, Integer> counterMap = new HashMap<String, Integer>();
 	public Logger logger = Logger.getLogger(this.getClass().getName());
 	
+	public File loadedFile = null;
+	
 
 
 	/**
