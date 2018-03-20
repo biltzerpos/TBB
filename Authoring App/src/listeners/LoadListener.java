@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -68,6 +69,7 @@ public class LoadListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		gui.logger.log(Level.INFO, "User has clicked Load Scenario button.");
 		gui.counterMap.put("Load", gui.counterMap.get("Load") + 1);
 		List<String> inputLines = getInput();
 
@@ -131,6 +133,7 @@ public class LoadListener implements ActionListener {
 				// An IOException occured, this is outside the application's
 				// control.
 				// Gracefully return nothing
+				gui.logger.log(Level.INFO, "IOException ocurred, file was not loaded.");
 				return new ArrayList<String>();
 			}
 		}

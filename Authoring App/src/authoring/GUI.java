@@ -10,7 +10,17 @@ import javax.swing.KeyStroke;
 
 
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.FileHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
 import javax.swing.AbstractAction;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
@@ -18,6 +28,7 @@ import java.awt.KeyEventDispatcher;
 import javax.swing.SwingUtilities;
 
 import commands.PauseCommand;
+import enamel.ScenarioParser;
 import listeners.NewButtonListener;
 
 
@@ -41,6 +52,8 @@ public class GUI extends JFrame {
 	private HashMap<KeyStroke, Action> actionMap = new HashMap<KeyStroke, Action>();
 	private HashMap<KeyStroke, String> newItemMap = new HashMap<KeyStroke, String>();
 	public  HashMap<String, Integer> counterMap = new HashMap<String, Integer>();
+	public Logger logger = Logger.getLogger(this.getClass().getName());
+	
 
 
 	/**
@@ -54,6 +67,29 @@ public class GUI extends JFrame {
 				"Welcome to the Treasure Box Braille Authoring App. To scroll through the options, use the tab key. Press the space bar to select an option.");
 
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		
+		//Scenario creation logger
+		FileHandler fileHandler = null;
+		try {
+			fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "userActions.log", 0, 1);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+        fileHandler.setFormatter(new Formatter() {
+    		private String format = "[%1$s] [%2$s] %3$s %n";
+			private SimpleDateFormat dateWithMillis = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
+			@Override
+			public String format(LogRecord record) {
+				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(), formatMessage(record));
+			}
+    	});
+    	logger.addHandler(fileHandler);
+    	logger.setUseParentHandlers(false);
 		
 		// Create the colour mapper
 		ColourMapper mapper = new ColourMapper();
@@ -331,6 +367,7 @@ public class GUI extends JFrame {
 	      {
 	    	  String value = newItemMap.get(keyStroke);
 	    	  newItem.processAnswer(value);
+	    	  logger.log(Level.INFO, "User has used the " + value + " hotkey.");
 	    	  return true;
 	      }
 	      return false;

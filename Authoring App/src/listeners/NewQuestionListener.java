@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.Level;
 
 import javax.accessibility.Accessible;
 import javax.swing.JComboBox;
@@ -187,6 +188,7 @@ public class NewQuestionListener extends JPanel implements ActionListener, Acces
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		gui.logger.log(Level.INFO, "User has clicked New Question button.");
 		gui.counterMap.put("New Question", gui.counterMap.get("New Question") + 1);
 		// Generate a psuedorandom identifier
 		Random r = new Random();

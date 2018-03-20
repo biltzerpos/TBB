@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -42,11 +43,13 @@ public class SaveListener implements ActionListener {
 	 *            access the command list
 	 */
 	public SaveListener(GUI gui) {
+		
 		this.gui = gui;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		gui.logger.log(Level.INFO, "User has attempted to save the scenario file.");
 		StringBuilder sb = new StringBuilder();
 		// Build the file header first
 		sb.append("Cell " + gui.getSettingsPanel().getCellField() + newLine);
@@ -69,6 +72,8 @@ public class SaveListener implements ActionListener {
 		// Check to see if any file was set
 		File file = save.getSelectedFile();
 		if (file == null) {
+			gui.logger.log(Level.INFO, "File was not saved.");
+			System.out.println("File was not saved");
 			return;
 		}
 
