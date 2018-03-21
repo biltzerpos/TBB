@@ -3,6 +3,7 @@ package listeners;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -116,6 +117,7 @@ public class NewScenarioListener implements ActionListener {
 				gui.getRightPanel().setExport(true);
 				gui.getRightPanel().setReadFile(true);
 				gui.getRightPanel().setNewQuestion(true);
+				gui.loadedFile = null;
 			}
 
 			// Takes the text that was input by the user in the fields and sets
@@ -129,6 +131,7 @@ public class NewScenarioListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		gui.logger.log(Level.INFO, "User has clicked New Scenario Button.");
 		gui.counterMap.put("New Scenario", gui.counterMap.get("New Scenario") + 1);
 		// A check to see if the Scenario pane is empty
 		if (gui.getLeftPanel().elementCheck()) {

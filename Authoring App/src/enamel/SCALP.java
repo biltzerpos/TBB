@@ -509,14 +509,9 @@ public class SCALP {
         new Thread(new Runnable() {
             public void run() {
                 ScenarioParser s;
-				try {
-					s = new ScenarioParser();
-					 voice.deallocate();
-		             s.setScenarioFile(path);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				s = new ScenarioParser();
+				 voice.deallocate();
+				 s.setScenarioFile(path);
                
             }
         }).start();

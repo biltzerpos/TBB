@@ -2,6 +2,7 @@ package listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import javax.swing.JOptionPane;
 
@@ -51,6 +52,7 @@ public class NewButtonListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		gui.logger.log(Level.INFO, "User has clicked New Item button.");
 		// Show the Add Item dialog
 		String[] possibilities = { "Pause", "Text-to-speech", "Display String", "Repeat", "Button Repeat",
 				"Button Location", "User Input", "Sound", "Reset Buttons", "Go To Location", "Clear All", "Clear Cell",
@@ -60,7 +62,9 @@ public class NewButtonListener implements ActionListener {
 		String answer;
 		answer = (String) JOptionPane.showInputDialog(gui, "Select the type of the item.", "Add Item",
 				JOptionPane.PLAIN_MESSAGE, null, possibilities, "");
-		
+		if (answer != null) {
+			gui.logger.log(Level.INFO, "User has chosen:" + answer + ".");
+		}
 		processAnswer(answer);
 
 	}

@@ -46,7 +46,7 @@ public abstract class Player {
      * @throws IllegalArgumentException
      *             if one or both of the two parameters is negative or 0
      */
-	public Player(int brailleCellNumber, int buttonNumber) throws SecurityException, IOException {
+	public Player(int brailleCellNumber, int buttonNumber) {
 
 	    //Formatting the Logger for the player class, which all its child classes uses. 
 		//Change the formatting as needed. 
@@ -56,7 +56,13 @@ public abstract class Player {
 		//and set the output to the appropriate directory. 
 		
 		//To find out what's being logged, search and find any "logger.log" calls.
-		FileHandler fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "logs.log", 0, 1);
+		FileHandler fileHandler = null;
+		try {
+			fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "logs.log", 0, 1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         fileHandler.setFormatter(new Formatter() {
     		private String format = "[%1$s] [%2$s] %3$s %n";
 			private SimpleDateFormat dateWithMillis = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");

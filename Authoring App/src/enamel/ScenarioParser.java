@@ -26,7 +26,7 @@ public class ScenarioParser
     private int score = 0;
     Logger logger = Logger.getLogger(ScenarioParser.class.getName());
     
-    public ScenarioParser() throws IOException
+    public ScenarioParser()
     {
     	//Code for the logger. We decided to maintain the logging format through code instead of changing the System Property
     	//and using the default ParentHandler, so that we can rely on consistency without changing settings for each system. 
@@ -36,7 +36,16 @@ public class ScenarioParser
 		//and set the output to the appropriate directory. 
     	
     	//To find out what's being logged, search and find any "logger.log" calls.
-    	FileHandler fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "parser log.log", 0, 1);
+    	FileHandler fileHandler = null;
+		try {
+			fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "parser log.log", 0, 1);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
         fileHandler.setFormatter(new Formatter() {
     		private String format = "[%1$s] [%2$s] %3$s %n";

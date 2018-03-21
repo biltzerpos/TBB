@@ -11,6 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -50,6 +51,7 @@ public class TestListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		gui.logger.log(Level.INFO, "User has clicked Test Scenario button.");
 		gui.counterMap.put("Test", gui.counterMap.get("Test") + 1);
 		System.out.println(gui.counterMap.toString());
 		StringBuilder sb = new StringBuilder();
@@ -82,7 +84,14 @@ public class TestListener implements ActionListener {
 //			file = new File(file.toString() + ".txt");
 //		}
 		//if (file.exists()) {file.delete();}
+		if (gui.loadedFile != null)
+		{
+			file = new File(gui.loadedFile.getPath() + System.getProperty("file.separator") + "test.txt");
+		}
+		else
+		{
 		file = new File(System.getProperty("user.dir") + "\\" + "test.txt");
+		}
 		
 		try {
 			file.createNewFile();
@@ -97,10 +106,8 @@ public class TestListener implements ActionListener {
 
 		Thread playerThread = new Thread("Player Thread") {
 		    public void run(){    
-		        try {
-		            ScenarioParser s = new ScenarioParser();        
-		            s.setScenarioFile(file.getAbsolutePath());
-		        } catch (IOException e){}
+		        ScenarioParser s = new ScenarioParser();        
+				s.setScenarioFile(file.getAbsolutePath());
 		    }
 		};
 		playerThread.start();

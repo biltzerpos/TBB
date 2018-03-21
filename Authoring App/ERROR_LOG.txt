@@ -1,4 +1,4 @@
-Mar 05, 2018 6:50:18 PM enamel.ScenarioParser errorLog
-WARNING: Exception error : java.lang.NullPointerException
-Mar 05, 2018 6:50:18 PM enamel.ScenarioParser errorLog
-INFO: Strange error occurred if you are able to read this message. Possibilities could include possible file corruption, or that you have enter characters that could not be read/interpreted.
+Mar 20, 2018 4:47:37 PM enamel.ScenarioParser errorLog
+WARNING: Exception error: java.io.FileNotFoundException: C:\Users\Yassin\git\TBB fork 2\TBB\Authoring App\AudioFiles\correct.wav (The system cannot find the path specified)
+Mar 20, 2018 4:47:37 PM enamel.ScenarioParser errorLog
+INFO: File C:\Users\Yassin\git\TBB fork 2\TBB\Authoring App\AudioFiles\correct.wav not found!
