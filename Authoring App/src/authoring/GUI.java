@@ -71,13 +71,17 @@ public class GUI extends JFrame {
 		//Scenario creation logger
 		FileHandler fileHandler = null;
 		try {
-			fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "userActions.log", 0, 1);
+			fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "logs" + File.separator + "userActions.log", 0, 1);
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.err.println("An error has occurred while creating the log files, please contact an administrator."
+					+ System.getProperty("line.separator") + "Error type: SecurityException.");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.err.println("An error has occurred while creating the log files, please contact an administrator."
+					+ System.getProperty("line.separator") + "Error type: IOException.");
 		}
     	
         fileHandler.setFormatter(new Formatter() {

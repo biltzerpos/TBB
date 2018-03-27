@@ -58,7 +58,7 @@ public abstract class Player {
 		//To find out what's being logged, search and find any "logger.log" calls.
 		FileHandler fileHandler = null;
 		try {
-			fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "logs.log", 0, 1);
+			fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "logs" + File.separator + "logs.log", 0, 1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
