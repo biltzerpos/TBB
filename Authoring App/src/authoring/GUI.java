@@ -11,10 +11,13 @@ import javax.swing.KeyStroke;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
@@ -55,6 +58,11 @@ public class GUI extends JFrame {
 	public Logger logger = Logger.getLogger(this.getClass().getName());
 	
 	public File loadedFile = null;
+	
+	//This file keeps track of how many times each function was used, the counter persists through different instances of the JVM.
+	public File functionCounter = new File(
+			System.getProperty("user.dir") + File.separator + "logs" + File.separator + "functionCounter.txt"); 
+	
 	
 
 
@@ -310,11 +318,10 @@ public class GUI extends JFrame {
 		
 		KeyStroke key30 = KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key30,  "Location Tag");
-
-
 		
 		
 		
+				
 		counterMap.put("New Scenario", 0);
 		counterMap.put("New Item", 0);
 		counterMap.put("New Question", 0);
@@ -342,6 +349,22 @@ public class GUI extends JFrame {
 		counterMap.put("Set Voice", 0);
 		counterMap.put("Location Tag", 0);
 		counterMap.put("Test",  0);
+		
+		
+		
+		if (functionCounter.exists())
+		{
+			Scanner sc = null;
+			try {
+				sc = new Scanner(functionCounter);
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			if (sc.hasNext())
+			{loadCounter(functionCounter);}
+		}
 		
 		
 		
@@ -471,6 +494,32 @@ public class GUI extends JFrame {
 		counterMap.put("Set Voice", 0);
 		counterMap.put("Location Tag", 0);
 		counterMap.put("Test", 0);
+		
+	}
+	
+	
+	
+	private void loadCounter(File file)
+	{
+		Scanner sc = null;
+		try {
+			sc = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			// in theory this should never throw since we check if file exists before ever calling this method.
+			e.printStackTrace();
+			System.err.println("Failed to load the counter file, this error should not happen. Please contact an administrator.");
+		}
+		
+		for (String i : this.counterMap.keySet())
+		{
+			sc.findInLine(i);
+			String token = sc.next();
+			int count = Integer.parseInt(token.charAt(1) + "");
+			this.counterMap.put(i, count);
+			sc.reset();
+			
+		}
+				
 		
 	}
 	

@@ -6,11 +6,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 
 import javax.swing.JFileChooser;
@@ -100,6 +102,23 @@ public class TestListener implements ActionListener {
 		}
 		file.deleteOnExit();
 		
+		File functionCounter = new File(gui.functionCounter.toString());
+		BufferedWriter wr = null;
+		try {
+			functionCounter.createNewFile();
+			wr = new BufferedWriter(new FileWriter(functionCounter));
+			wr.write(gui.counterMap.toString());
+			wr.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.err.println("File creation failed, please contact an administrator.");
+		}
+		
+		
+		
+		
+		
 		
 		
 		exportFile(file, sb.toString());
@@ -143,4 +162,8 @@ public class TestListener implements ActionListener {
 			e1.printStackTrace();
 		}
 	}
+	
+	
+	
+	
 }
