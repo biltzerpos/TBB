@@ -363,7 +363,7 @@ public class GUI extends JFrame {
 			}
 			
 			if (sc.hasNext())
-			{loadCounter(functionCounter);}
+			{loadCounter(functionCounter, sc);}
 		}
 		
 		
@@ -499,16 +499,9 @@ public class GUI extends JFrame {
 	
 	
 	
-	private void loadCounter(File file)
+	private void loadCounter(File file, Scanner sc)
 	{
-		Scanner sc = null;
-		try {
-			sc = new Scanner(file);
-		} catch (FileNotFoundException e) {
-			// in theory this should never throw since we check if file exists before ever calling this method.
-			e.printStackTrace();
-			System.err.println("Failed to load the counter file, this error should not happen. Please contact an administrator.");
-		}
+		
 		
 		for (String i : this.counterMap.keySet())
 		{
