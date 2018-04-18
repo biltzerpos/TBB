@@ -1,4 +1,1 @@
-Mar 20, 2018 4:47:37 PM enamel.ScenarioParser errorLog
-WARNING: Exception error: java.io.FileNotFoundException: C:\Users\Yassin\git\TBB fork 2\TBB\Authoring App\AudioFiles\correct.wav (The system cannot find the path specified)
-Mar 20, 2018 4:47:37 PM enamel.ScenarioParser errorLog
-INFO: File C:\Users\Yassin\git\TBB fork 2\TBB\Authoring App\AudioFiles\correct.wav not found!
+
