@@ -643,6 +643,11 @@ public class ScenarioParser
     private void playSound (String sound)
     {
         String soundFileName = scenarioFilePath + File.separator + "AudioFiles" + File.separator + sound;
+        File file = new File(soundFileName);
+        if (!file.exists())
+        {
+        	soundFileName = sound;
+        }
         try
         {
             Clip clip = AudioSystem.getClip();

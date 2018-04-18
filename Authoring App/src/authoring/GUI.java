@@ -338,6 +338,7 @@ public class GUI extends JFrame {
 		counterMap.put("Button Location", 0);
 		counterMap.put("User Input", 0);
 		counterMap.put("Sound", 0);
+		counterMap.put("Record Audio",  0);
 		counterMap.put("Reset Buttons", 0);
 		counterMap.put("Go To Location", 0);
 		counterMap.put("Clear All", 0);
@@ -483,6 +484,7 @@ public class GUI extends JFrame {
 		counterMap.put("Button Location", 0);
 		counterMap.put("User Input", 0);
 		counterMap.put("Sound", 0);
+		counterMap.put("Record Audio",  0);
 		counterMap.put("Reset Buttons", 0);
 		counterMap.put("Go To Location", 0);
 		counterMap.put("Clear All", 0);

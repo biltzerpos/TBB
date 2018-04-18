@@ -83,7 +83,7 @@ public class ThreadRunnable extends Thread {
 	 * save the generated file someplace. Afterward, the thread will be stopped
 	 * automatically.
 	 */
-	public void stopRecording() {
+	public File stopRecording() {
 		// Stop the line and then close it. The recorder will drain the line
 		// itself.
 		line.stop();
@@ -103,7 +103,7 @@ public class ThreadRunnable extends Thread {
 		// Get the file and fix the extension if it's wrong
 		File file = saveFile.getSelectedFile();
 		if (file == null) {
-			return;
+			return null;
 		}
 
 		if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("wav")) {
@@ -117,8 +117,18 @@ public class ThreadRunnable extends Thread {
 			// If the move failed, a filesystem error occured. Could be a
 			// permissions error.
 			e.printStackTrace();
-			return;
+			return null;
 		}
+		return file;
+	}
+	
+	public void cancel()
+	{
+		line.stop();
+		line.close();
+		temporaryRecordingFile.delete();
+		
+		
 	}
 
 }
