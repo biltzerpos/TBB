@@ -102,6 +102,8 @@ public class TestListener implements ActionListener {
 		}
 		file.deleteOnExit();
 		
+		File log = new File(System.getProperty("user.dir") + File.separator + "logs");
+		log.mkdirs();
 		File functionCounter = new File(gui.functionCounter.toString());
 		BufferedWriter wr = null;
 		try {
