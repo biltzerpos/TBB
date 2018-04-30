@@ -14,7 +14,7 @@ public class EntryPoint {
 	 * @param args
 	 *            Command-line parameters (ignored)
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) { // main entry app to run the code
 		// Create a new thread to do things
 		Thread t = new Thread(new MainThread());
 		t.start();
