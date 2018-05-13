@@ -215,7 +215,7 @@ public void actionPerformed(ActionEvent arg0) {
 	qc.addCommand(new TTSCommand(introField.getText()));
 	qc.addCommand(new PauseCommand("1"));
 	qc.addCommand(new SetStringCommand(brailleField.getText()));
-	qc.addCommand(new GoHereCommand(randomLabel + "-start"));
+//	qc.addCommand(new GoHereCommand(randomLabel + "-start"));
 //	qc.addCommand(new TTSCommand(repeatField.getText()));
 
 /*	questionCommands.add(new ResetButtonCommand(""));
