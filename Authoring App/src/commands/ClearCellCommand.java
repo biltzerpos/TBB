@@ -9,7 +9,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class ClearCellCommand extends PlayerCommand {
+public class ClearCellCommand implements PlayerCommand {
 
 	private String cellNumber = "";
 

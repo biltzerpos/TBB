@@ -8,7 +8,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class SoundCommand extends PlayerCommand {
+public class SoundCommand implements PlayerCommand {
 
 	private String file = "";
 

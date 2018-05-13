@@ -7,7 +7,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class PauseCommand extends PlayerCommand {
+public class PauseCommand implements PlayerCommand {
 
 	private String waitTime;
 

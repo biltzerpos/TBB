@@ -6,8 +6,6 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import commands.PlayerCommand;
 
@@ -72,6 +72,8 @@ public class LeftPanel extends JPanel implements KeyListener {
 		scrollPane.setViewportView(commandList);
 
 		commandList.addKeyListener(this);
+		
+		
 		// Create a border around this panel
 		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Scenario"));
 
@@ -80,6 +82,24 @@ public class LeftPanel extends JPanel implements KeyListener {
 
 		this.gui = gui;
 		setup();
+		commandList.addListSelectionListener(new ListSelectionListener(){
+		@Override
+		public void valueChanged(ListSelectionEvent arg0) {
+			gui.getRightPanel().setDelete(true);
+			gui.getRightPanel().setUp(true);
+			gui.getRightPanel().setDown(true);
+			
+			//System.out.println(commandList.getSelectedIndices().length);
+			int x =commandList.getSelectedIndices().length;
+			String length = Integer.toString(x);
+			if (length.contains("2"))
+			{
+				gui.getRightPanel().setUp(false);
+				gui.getRightPanel().setDown(false);
+				gui.getRightPanel().setSwap(true);
+			}
+		}
+		});
 	}
 
 	/**
@@ -90,6 +110,8 @@ public class LeftPanel extends JPanel implements KeyListener {
 	 * @param b
 	 *            Parameter to be swapped with
 	 */
+	
+
 	private void swapElements(int a, int b) {
 		// Get the element at each of the requested locations
 		PlayerCommand strA = listModel.getElementAt(a);
@@ -109,6 +131,9 @@ public class LeftPanel extends JPanel implements KeyListener {
 	public void addItem(PlayerCommand newElement) {
 		listModel.addElement(newElement);
 	}
+	
+	
+	
 
 	/**
 	 * Move the currently selected element one spot higher in the list. If the
@@ -158,7 +183,14 @@ public class LeftPanel extends JPanel implements KeyListener {
 	public void deleteItem() {
 		// Get the index of the selected element
 		int selectedIndex = commandList.getSelectedIndex();
-
+		
+		System.out.println(selectedIndex);
+	/*	if(!(commandList.isSelectionEmpty()))
+		{
+			gui.getRightPanel().setDelete(true);
+		}
+		gui.getRightPanel().setDelete(true);*/
+		
 		// Remove that position from the listModel
 		listModel.remove(selectedIndex);
 	}

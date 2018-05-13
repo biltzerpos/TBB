@@ -38,6 +38,9 @@ public class RightPanel extends JPanel implements ActionListener {
 	public JButton readFile = new JButton("Read Audio File");
 	public JButton btnMoveUp = new JButton("Move Item Up (Control W)");
 	public JButton btnMoveDown = new JButton("Move Item Down (Control S)");
+	//------------------------------------------------------
+	public JButton btnSwap = new JButton("Swap Items (--)"); // NEW
+	
 	public JButton btnDelete = new JButton("Delete Item (Control D)");
 	public JButton btnNew = new JButton("New Item (Control N)");
 	public JButton btnSave = new JButton("Save (Control E)");
@@ -77,6 +80,8 @@ public class RightPanel extends JPanel implements ActionListener {
 		readFile.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnMoveUp.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnMoveDown.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
+		//-----------------------------------------------------------------
+		btnSwap.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE)); // NEW
 		btnDelete.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnNew.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnNewQuestion.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
@@ -89,6 +94,8 @@ public class RightPanel extends JPanel implements ActionListener {
 		//add(btnStop);
 		//add(readFile);
 		add(btnMoveUp);
+		//---------------------------------------------------------------
+		add(btnSwap); //NEW
 		add(btnMoveDown);
 		add(btnDelete);
 		add(btnLoad);
@@ -101,6 +108,8 @@ public class RightPanel extends JPanel implements ActionListener {
 		btnStop.addActionListener(this);
 		btnMoveUp.addActionListener(this);
 		btnMoveDown.addActionListener(this);
+		//---------------------------------------------------------------------
+		btnSwap.addActionListener(this); //NEW
 		btnNew.addActionListener(new NewButtonListener(gui));
 		btnDelete.addActionListener(this);
 		readFile.addActionListener(this);
@@ -118,6 +127,7 @@ public class RightPanel extends JPanel implements ActionListener {
 		// Enabling to be false so that user initializes with a New Scenario
 		// first
 		btnStop.setEnabled(false);
+		btnSwap.setEnabled(false);
 		btnNew.setEnabled(false);
 		btnSave.setEnabled(false);
 		readFile.setEnabled(false);
@@ -194,6 +204,19 @@ public class RightPanel extends JPanel implements ActionListener {
 	public void setDown(boolean status) {
 		btnMoveDown.setEnabled(status);
 	}
+	
+	//--------------------------------------------------- NEW
+	
+	/**
+	 * A method that changes the availability of a btnSwap button
+	 *
+	 * @param status
+	 *            parameter that is either true or false
+	 */
+	public void setSwap(boolean status) {
+		btnMoveDown.setEnabled(status);
+	}
+	
 
 	/**
 	 * A method that changes the availability of a btnDelete button
