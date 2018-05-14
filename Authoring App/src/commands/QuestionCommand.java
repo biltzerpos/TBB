@@ -48,8 +48,8 @@ import authoring.GUI;
 		@Override
 		public String toString() {  // this will be printed on Left Panel at one index
 			return "<html>Question to ask: " + question +
-					"<br" + "Pause for sconds: 1"+
-					"<br>" + "Display on Brille Cell: " + display + 
+					"<br" + "Pause for seconds: 1"+
+					"<br>" + "Display on Braille cells: " + display + 
 					"<br>" + "Wait for user input" + 
 					"<br>"+ "On Wrong answer: "+ wrongText;
 		}

@@ -39,6 +39,7 @@ public class TestListener implements ActionListener {
 
 	private GUI gui;
 	File file;
+	public static Thread playerThread;
 	String newLine = System.getProperty("line.separator");
 	/**
 	 * Create an export listener with a reference to the parent GUI.
@@ -119,13 +120,9 @@ public class TestListener implements ActionListener {
 		
 		
 		
-		
-		
-		
-		
 		exportFile(file, sb.toString());
 
-		Thread playerThread = new Thread("Player Thread") {
+		 playerThread = new Thread("Player Thread") {
 		    public void run(){    
 		        ScenarioParser s = new ScenarioParser();        
 				s.setScenarioFile(file.getAbsolutePath());

@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import listeners.TestListener;
 
 /**
  * This class simulates the hardware for a device with physical Braille cells
@@ -69,7 +70,20 @@ public class VisualPlayer extends Player {
 				frame = new JFrame();
 				frame.setTitle("Simulator");
 				frame.setBounds(100, 100, 627, 459);
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				
+				// Close Simulator and stop the audio.
+				frame.addWindowListener(new java.awt.event.WindowAdapter() {
+				    @Override
+				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				    	TestListener.playerThread.stop(); //???????
+				            frame.dispose();
+				            
+				        }
+				    
+				});
+				
+				
 				frame.getContentPane().setLayout(new BorderLayout());
 
 				for (int i = 0; i < brailleCellNumber; i++) {
