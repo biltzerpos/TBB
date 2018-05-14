@@ -9,7 +9,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class CellLowerCommand extends PlayerCommand {
+public class CellLowerCommand implements PlayerCommand {
 
 	private String cellAndPin = "";
 
