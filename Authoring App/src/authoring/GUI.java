@@ -13,6 +13,9 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,6 +84,9 @@ public class GUI extends JFrame {
 		//Scenario creation logger
 		FileHandler fileHandler = null;
 		try {
+			Path path = Paths.get(System.getProperty("user.dir") + File.separator + "logs");
+			if(!Files.exists(path))
+				Files.createDirectory(path);
 			fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "logs" + File.separator + "userActions.log", 0, 1);
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
