@@ -8,7 +8,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class ResetButtonCommand extends PlayerCommand {
+public class ResetButtonCommand implements PlayerCommand {
 
 	/***
 	 * Constructor for ResetButtonCommand.

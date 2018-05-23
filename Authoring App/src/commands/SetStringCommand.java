@@ -9,7 +9,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class SetStringCommand extends PlayerCommand {
+public class SetStringCommand implements PlayerCommand {
 
 	private String str = "";
 

@@ -38,7 +38,8 @@ import enamel.ScenarioParser;
 public class TestListener implements ActionListener {
 
 	private GUI gui;
-	File file;
+	File scenarioFile;
+	public static Thread playerThread;
 	String newLine = System.getProperty("line.separator");
 	/**
 	 * Create an export listener with a reference to the parent GUI.
@@ -88,47 +89,31 @@ public class TestListener implements ActionListener {
 		//if (file.exists()) {file.delete();}
 		if (gui.loadedFile != null)
 		{
-			file = new File(gui.loadedFile.getPath() + System.getProperty("file.separator") + "test.txt");
+			scenarioFile = new File(gui.loadedFile.getPath() + System.getProperty("file.separator") + "test.txt");
 		}
 		else
 		{
-		file = new File(System.getProperty("user.dir") + "\\" + "test.txt");
+		    scenarioFile = new File(System.getProperty("user.dir") + File.separator + "test.txt");
 		}
 		
 		try {
-			file.createNewFile();
+			scenarioFile.createNewFile();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		file.deleteOnExit();
+		scenarioFile.deleteOnExit();
 		
-		File log = new File(System.getProperty("user.dir") + File.separator + "logs");
-		log.mkdirs();
-		File functionCounter = new File(gui.functionCounter.toString());
-		BufferedWriter wr = null;
-		try {
-			functionCounter.createNewFile();
-			wr = new BufferedWriter(new FileWriter(functionCounter));
-			wr.write(gui.counterMap.toString());
-			wr.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.err.println("File creation failed, please contact an administrator.");
-		}
+//		File log = new File(System.getProperty("user.dir") + File.separator + "logs");
+//		log.mkdirs();
 		
+		gui.upd();
 		
-		
-		
-		
-		
-		
-		exportFile(file, sb.toString());
+		exportFile(scenarioFile, sb.toString());
 
-		Thread playerThread = new Thread("Player Thread") {
+		 playerThread = new Thread("Player Thread") {
 		    public void run(){    
 		        ScenarioParser s = new ScenarioParser();        
-				s.setScenarioFile(file.getAbsolutePath());
+				s.setScenarioFile(scenarioFile.getAbsolutePath());
 		    }
 		};
 		playerThread.start();

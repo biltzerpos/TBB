@@ -194,6 +194,19 @@ public class RightPanel extends JPanel implements ActionListener {
 	public void setDown(boolean status) {
 		btnMoveDown.setEnabled(status);
 	}
+	
+	//--------------------------------------------------- NEW
+	
+	/**
+	 * A method that changes the availability of a btnSwap button
+	 *
+	 * @param status
+	 *            parameter that is either true or false
+	 */
+	public void setSwap(boolean status) {
+		btnMoveDown.setEnabled(status);
+	}
+	
 
 	/**
 	 * A method that changes the availability of a btnDelete button

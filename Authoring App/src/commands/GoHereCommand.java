@@ -8,7 +8,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class GoHereCommand extends PlayerCommand {
+public class GoHereCommand implements PlayerCommand {
 
 	private String jumpTag = "";
 
