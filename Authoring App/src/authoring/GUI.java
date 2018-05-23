@@ -10,9 +10,14 @@ import javax.swing.KeyStroke;
 
 
 import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,16 +83,16 @@ public class GUI extends JFrame {
 
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
-		//Scenario creation logger
+		//User Actions log created
 		FileHandler fileHandler = null;
 		try {
-			fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "logs" + File.separator + "userActions.log", 0, 1);
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.err.println("An error has occurred while creating the log files, please contact an administrator." + System.getProperty("line.separator") + "Error type: SecurityException.");
+			Path path = Paths.get(System.getProperty("user.dir") + File.separator + "logs");
+			if(!Files.exists(path)) Files.createDirectory(path);
+			fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "logs" + File.separator + "userActions.log.txt", 0, 1);
+//		} catch (SecurityException e) {
+//			e.printStackTrace();
+//			System.err.println("An error has occurred while creating the log files, please contact an administrator." + System.getProperty("line.separator") + "Error type: SecurityException.");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 	         System.err.println("An error has occurred while creating the log files, please contact an administrator." + System.getProperty("line.separator") + "Error type: IOException.");
 		}
@@ -138,6 +143,21 @@ public class GUI extends JFrame {
 		setup();
 	}
 	
+	public void upd()
+	{
+	     //  File functionCounter = new File(functionCounter.toString());
+	        BufferedWriter wr = null;
+	        try {
+	            functionCounter.createNewFile();
+	            wr = new BufferedWriter(new FileWriter(functionCounter));
+	            wr.write(counterMap.toString());
+	            wr.close();
+	        } catch (IOException e1) {
+	            // TODO Auto-generated catch block
+	            e1.printStackTrace();
+	            System.err.println("File creation failed, please contact an administrator.");
+	        }
+	}
 	
 	private void setup() {
 	  
@@ -361,12 +381,13 @@ public class GUI extends JFrame {
 			try {
 				sc = new Scanner(functionCounter);
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
 			if (sc.hasNext())
-			{loadCounter(functionCounter, sc);}
+			{
+			    loadCounter(functionCounter, sc);
+			}
 		}
 		
 		
