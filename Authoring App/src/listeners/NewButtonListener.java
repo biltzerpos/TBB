@@ -68,7 +68,7 @@ public class NewButtonListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		gui.logger.log(Level.INFO, "User has clicked New Item button.");
 		// Show the Add Item dialog
-		String[] possibilities = { "Pause", "Text-to-speech", "Display String", "Record Audio", "Repeat", "Button Repeat",
+		String[] possibilities = { "Pause", "Text-to-speech", "Display Text", "Record Audio", "Repeat", "Button Repeat",
 				"Button Location", "User Input", "Sound", "Reset Buttons", "Go To Location", "Clear All", "Clear Cell",
 				"Set Pins", "Set Character", "Raise Pin", "Lower Pin", "Set Voice", "Location Tag" };
 		Object value;
@@ -102,12 +102,12 @@ public class NewButtonListener implements ActionListener {
 					gui.counterMap.put("Text-to-speech", gui.counterMap.get("Text-to-speech") + 1);
 				}
 				break;
-			case "Display String":
-				value = JOptionPane.showInputDialog(gui, "String to display", "Edit Item Details",
+			case "Display Text":
+				value = JOptionPane.showInputDialog(gui, "Text to Display", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
 				if (value != null && value != "") {
 					gui.getLeftPanel().addItem(new SetStringCommand((String) value));
-					gui.counterMap.put("Display String", gui.counterMap.get("Display String") + 1);
+					gui.counterMap.put("Display Text", gui.counterMap.get("Display Text") + 1);
 				}
 				break;
 			case "Repeat":

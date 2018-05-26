@@ -274,7 +274,7 @@ public class GUI extends JFrame {
 		newItemMap.put(key14,  "Text-to-speech");
 		
 		KeyStroke key15 = KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.ALT_DOWN_MASK);
-		newItemMap.put(key15,  "Display String");
+		newItemMap.put(key15, "Display Text");
 		
 		KeyStroke key16 = KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key16, "Repeat");
@@ -334,7 +334,7 @@ public class GUI extends JFrame {
 		counterMap.put("Load", 0);
 		counterMap.put("Pause", 0);
 		counterMap.put("Text-to-speech", 0);
-		counterMap.put("Display String", 0);
+		counterMap.put("Display Text", 0);
 		counterMap.put("Repeat", 0);
 		counterMap.put("Button Repeat", 0);
 		counterMap.put("Button Location", 0);
@@ -480,7 +480,7 @@ public class GUI extends JFrame {
 		counterMap.put("Load", 0);
 		counterMap.put("Pause", 0);
 		counterMap.put("Text-to-speech", 0);
-		counterMap.put("Display String", 0);
+		counterMap.put("Display Text", 0);
 		counterMap.put("Repeat", 0);
 		counterMap.put("Button Repeat", 0);
 		counterMap.put("Button Location", 0);
