@@ -217,7 +217,7 @@ public class NewButtonListener implements ActionListener {
 				break;
 			case "Set Voice":
 				String[] voices = {"1. male","2. female","3. male","4. male"};
-				value = JOptionPane.showInputDialog(gui, "Enter a voice number", "Edit Item Details",
+				value = JOptionPane.showInputDialog(gui, "Select a voice", "Edit Item Details",
 					JOptionPane.PLAIN_MESSAGE, null, voices, voices[0]);
 				if (value != null && value != "") {
 					gui.getLeftPanel().addItem(new SetVoiceCommand(value.toString().substring(0, 1)));

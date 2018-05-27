@@ -45,7 +45,7 @@ public class SetVoiceCommand implements PlayerCommand {
 
 	@Override
 	public String getEditLabel() {
-		return "Enter a voice number";
+		return "Select a voice";
 	}
 
 	@Override
