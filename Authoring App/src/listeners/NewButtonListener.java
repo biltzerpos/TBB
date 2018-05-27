@@ -216,12 +216,12 @@ public class NewButtonListener implements ActionListener {
 				}
 				break;
 			case "Set Voice":
+				String[] voices = {"1. male","2. female","3. male","4. male"};
 				value = JOptionPane.showInputDialog(gui, "Enter a voice number", "Edit Item Details",
-						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				if (value != null && value != "" && Integer.parseInt((String)value) > 0 && Integer.parseInt((String)value) < 5) {
-					gui.getLeftPanel().addItem(new SetVoiceCommand((String) value));
-					gui.counterMap.put("Set Voice", gui.counterMap.get("Set Voice") + 1);
-				}
+					JOptionPane.PLAIN_MESSAGE, null, voices, voices[0]);
+
+				gui.getLeftPanel().addItem(new SetVoiceCommand(value.toString().substring(0, 1)));
+				gui.counterMap.put("Set Voice", gui.counterMap.get("Set Voice") + 1);
 				break;
 			case "Location Tag":
 				value = JOptionPane.showInputDialog(gui, "Enter name of location", "Edit Item Details",
