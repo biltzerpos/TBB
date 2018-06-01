@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import javax.swing.RootPaneContainer;
+
 
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
@@ -350,7 +350,6 @@ public class GUI extends JFrame {
 		counterMap.put("Move Up", 0);
 		counterMap.put("Move Down", 0);
 		counterMap.put("Delete", 0);
-		counterMap.put("Edit", 0);
 		counterMap.put("Save", 0);
 		counterMap.put("Load", 0);
 		counterMap.put("Pause", 0);
@@ -498,7 +497,6 @@ public class GUI extends JFrame {
 		counterMap.put("Move Up", 0);
 		counterMap.put("Move Down", 0);
 		counterMap.put("Delete", 0);
-		counterMap.put("Edit", 0);
 		counterMap.put("Save", 0);
 		counterMap.put("Load", 0);
 		counterMap.put("Pause", 0);
@@ -541,11 +539,6 @@ public class GUI extends JFrame {
 		}
 				
 		
-	}
-	
-	public GUI returnGUI()
-	{
-		return this;
 	}
 	
 }
