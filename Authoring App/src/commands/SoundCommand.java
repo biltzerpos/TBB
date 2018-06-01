@@ -47,4 +47,10 @@ public class SoundCommand implements PlayerCommand {
 		this.file = file;
 	}
 
+	@Override
+	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
+		return null;
+		
+	}
+	
 }

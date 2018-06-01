@@ -47,4 +47,8 @@ abstract public interface  PlayerCommand {
 	 *            take.
 	 */
 	abstract public void setCurrentValue(String newValue);
+	
+	
+	
+	abstract PlayerCommand editCommand(String newValue, int seletedIndex);
 }

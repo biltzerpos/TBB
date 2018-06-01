@@ -48,4 +48,9 @@ public class CellLowerCommand implements PlayerCommand {
 		this.cellAndPin = cellAndPin;
 	}
 
+	@Override
+	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
+		return this;
+	}
+	
 }

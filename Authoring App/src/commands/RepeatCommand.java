@@ -55,4 +55,10 @@ public class RepeatCommand implements PlayerCommand {
 		this.repeatedText = repeatedText;
 	}
 
+	@Override
+	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
+		return null;
+		
+	}
+	
 }
