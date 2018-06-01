@@ -58,4 +58,10 @@ public class SetVoiceCommand implements PlayerCommand {
 		this.voiceNumber = voice;
 	}
 
+	@Override
+	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
+		return null;
+		
+	}
+	
 }

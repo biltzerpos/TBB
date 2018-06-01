@@ -42,5 +42,12 @@ public class ClearAllCommand implements PlayerCommand {
 	@Override
 	public void setCurrentValue(String val) {
 	}
+	
+	@Override
+	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
+		return null;
+		
+	}
+	
 
 }

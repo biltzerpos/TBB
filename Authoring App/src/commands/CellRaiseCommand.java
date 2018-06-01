@@ -48,4 +48,11 @@ public class CellRaiseCommand implements PlayerCommand {
 		this.cellAndPin = cellAndPin;
 	}
 
+	
+	@Override
+	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
+		return null;
+		
+	}
+	
 }

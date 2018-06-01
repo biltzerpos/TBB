@@ -46,5 +46,12 @@ public class RepeatButtonCommand implements PlayerCommand {
 	public void setCurrentValue(String waitTime) {
 		this.buttonNum = waitTime;
 	}
+	
+	@Override
+	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
+		return null;
+		
+	}
+	
 
 }
