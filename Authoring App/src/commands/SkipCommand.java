@@ -46,5 +46,12 @@ public class SkipCommand implements PlayerCommand {
 	public void setCurrentValue(String val) {
 		this.skipTo = val;
 	}
+	
+	@Override
+	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
+		return null;
+		
+	}
+	
 
 }

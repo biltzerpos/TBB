@@ -48,4 +48,10 @@ public class CellCharCommand implements PlayerCommand {
 		this.cellAndChar = cellAndChar;
 	}
 
+	
+	@Override
+	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
+		return this;
+	}
+	
 }

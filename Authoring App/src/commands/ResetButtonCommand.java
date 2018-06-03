@@ -43,4 +43,10 @@ public class ResetButtonCommand implements PlayerCommand {
 	public void setCurrentValue(String val) {
 	}
 
+	@Override
+	public PlayerCommand editCommand(String waitTime , int seletedIndex) {
+		return null;
+		
+	}
+	
 }

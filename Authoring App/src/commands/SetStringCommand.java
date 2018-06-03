@@ -49,4 +49,10 @@ public class SetStringCommand implements PlayerCommand {
 		this.str = str;
 	}
 
+	@Override
+	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
+		return null;
+		
+	}
+	
 }

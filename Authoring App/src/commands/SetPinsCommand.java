@@ -48,5 +48,12 @@ public class SetPinsCommand implements PlayerCommand {
 	public void setCurrentValue(String cellAndPins) {
 		this.cellAndPins = cellAndPins;
 	}
+	
+	@Override
+	public PlayerCommand editCommand(String waitTime , int seletedIndex) {
+		return null;
+		
+	}
+	
 
 }

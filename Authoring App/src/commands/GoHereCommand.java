@@ -46,5 +46,12 @@ public class GoHereCommand implements PlayerCommand {
 	public void setCurrentValue(String jumpTag) {
 		this.jumpTag = jumpTag;
 	}
+	
+	@Override
+	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
+		return null;
+		
+	}
+	
 
 }
