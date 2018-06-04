@@ -79,6 +79,8 @@ public class LoadListener implements ActionListener {
 			if (line.isEmpty()) {
 				continue;
 			}
+			else if (line.equals("cancel"))
+				return;
 
 			if (i >= 3) {
 				break;
@@ -137,6 +139,9 @@ public class LoadListener implements ActionListener {
 				gui.logger.log(Level.INFO, "IOException ocurred, file was not loaded.");
 				return new ArrayList<String>();
 			}
+		}
+		else if(r == JFileChooser.CANCEL_OPTION) {
+			str.add("cancel");
 		}
 		return str;
 	}
