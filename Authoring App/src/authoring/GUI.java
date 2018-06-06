@@ -276,6 +276,17 @@ public class GUI extends JFrame {
 			}
 		});
 		
+		KeyStroke key32 = KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK);
+		actionMap.put(key32, new AbstractAction("Edit") {
+			private static final long serialVersionUID = 1L;
+			@Override
+		    public void actionPerformed(ActionEvent e) {
+				if (rightPanel.btnEdit.isEnabled()) {
+					rightPanel.btnEdit.doClick();
+				}
+			}
+		});
+		
 		KeyStroke key31 = KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK);
 		actionMap.put(key31, new AbstractAction("Test") {
 			private static final long serialVersionUID = 1L;
