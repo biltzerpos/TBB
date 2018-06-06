@@ -50,5 +50,5 @@ abstract public interface  PlayerCommand {
 	
 	
 	
-	abstract PlayerCommand editCommand(String newValue, int seletedIndex);
+	abstract void editCommand(String newValue, int seletedIndex);
 }

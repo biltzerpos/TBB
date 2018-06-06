@@ -143,6 +143,8 @@ public void actionPerformed(ActionEvent arg0) {
         		holder = new GoHereCommand("" + randomLabel + "-good");
         		qc.addCommand(holder);
         		qc.addCommand(new TTSCommand(ques.getcorrectField().getText()));
+        		holder = new SkipCommand("" + randomLabel + "-next");
+        		qc.addCommand(holder);
         	//	qc.addCommand(new PauseCommand("1"));
       
         	
@@ -151,10 +153,6 @@ public void actionPerformed(ActionEvent arg0) {
         		
         		questionCommands.add(qc);
             	
-        	//	qc.addCommand(new PauseCommand("1"));
-        	// Set the colors
-        	//mapper.addColourMapping(questionCommands);
-
         		for (PlayerCommand pc : questionCommands) {
         		gui.getLeftPanel().addItem(pc);
         	}

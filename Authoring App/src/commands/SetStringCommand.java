@@ -50,8 +50,8 @@ public class SetStringCommand implements PlayerCommand {
 	}
 
 	@Override
-	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
-		return null;
+	public void editCommand(String waitTime, int seletedIndex) {
+	
 		
 	}
 	
