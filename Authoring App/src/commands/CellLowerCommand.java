@@ -49,8 +49,8 @@ public class CellLowerCommand implements PlayerCommand {
 	}
 
 	@Override
-	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
-		return this;
+	public void editCommand(String waitTime, int seletedIndex) {
+	
 	}
 	
 }

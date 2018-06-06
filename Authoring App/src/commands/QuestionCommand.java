@@ -66,13 +66,14 @@ import authoring.QuestionWindow;
 	
 		@Override
 		public String serialize() { // this will be stored in file
+			a="";
 			for (PlayerCommand pc : questionCommands) {
 				
 			//	System.out.println(pc.getClass()+"\n");
 			a =  a + pc.serialize() + "\n";
 			}
 			a = a.substring(0, a.length() - 1);
-		//	System.out.println(a);
+			System.out.println(a);
 			return a;
 			
 		}
@@ -102,7 +103,7 @@ import authoring.QuestionWindow;
 		}
 		
 		@Override
-		public PlayerCommand editCommand(String waitTime , int seletedIndex) {
+		public void editCommand(String waitTime , int seletedIndex) {
 //		///	QuestionWindow ques= new QuestionWindow(waitTime);
 //			ques.frame.addWindowListener(new WindowAdapter()
 //		    {
@@ -114,7 +115,6 @@ import authoring.QuestionWindow;
 //		        }
 //		    });
 			
-			return null;
 			
 		}
 			
