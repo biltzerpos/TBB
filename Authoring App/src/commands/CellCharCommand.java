@@ -50,7 +50,7 @@ public class CellCharCommand implements PlayerCommand {
 
 	
 	@Override
-	public void editCommand(String waitTime, int seletedIndex) {
+	public void editCommand() {
 		
 	}
 	

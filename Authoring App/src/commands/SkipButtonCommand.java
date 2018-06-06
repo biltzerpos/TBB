@@ -48,7 +48,7 @@ public class SkipButtonCommand implements PlayerCommand {
 		this.numAndIdentifier = numAndIdentifier;
 	}
 	@Override
-	public void editCommand(String waitTime, int seletedIndex) {
+	public void editCommand() {
 		
 		
 	}

@@ -350,6 +350,7 @@ public class GUI extends JFrame {
 		counterMap.put("Move Up", 0);
 		counterMap.put("Move Down", 0);
 		counterMap.put("Delete", 0);
+		counterMap.put("Edit", 0);
 		counterMap.put("Save", 0);
 		counterMap.put("Load", 0);
 		counterMap.put("Pause", 0);
@@ -497,6 +498,7 @@ public class GUI extends JFrame {
 		counterMap.put("Move Up", 0);
 		counterMap.put("Move Down", 0);
 		counterMap.put("Delete", 0);
+		counterMap.put("Edit", 0);
 		counterMap.put("Save", 0);
 		counterMap.put("Load", 0);
 		counterMap.put("Pause", 0);
