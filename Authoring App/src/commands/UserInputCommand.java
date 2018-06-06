@@ -35,8 +35,8 @@ public class UserInputCommand implements PlayerCommand {
 	}
 
 	@Override
-	public PlayerCommand editCommand(String waitTime, int seletedIndex) {
-		return null;
+	public void editCommand() {
+		
 		
 	}
 	

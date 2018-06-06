@@ -154,10 +154,10 @@ public void addItem(PlayerCommand newElement) {
  *            Parameter to edit
  */
 public void EditItem() {
-	System.out.println(this.listModel.size());
+	
 	int selectedIndex = commandList.getSelectedIndex();
 	PlayerCommand a = commandList.getSelectedValue();
-	a.editCommand(a.getCurrentValue(), selectedIndex);
+	a.editCommand();
 	listModel.setElementAt(a, selectedIndex);
 	
 	

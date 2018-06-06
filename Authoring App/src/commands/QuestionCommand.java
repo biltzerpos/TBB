@@ -34,13 +34,18 @@ import authoring.QuestionWindow;
 		private String question= "";
 		private String display="";
 		private String wrongText="";
+		private String rightText="";
+		private int correctButton;
 		public String a ="";
+		public static final String ANSI_PURPLE = "\u001B[35m";
 	//	private GUI gui = new GUI();
 	
-	public QuestionCommand(String question, String display, String wrongText) {
+	public QuestionCommand(String question, String display, String wrongText, String rightText, int correctButton) {
 			this.question = question;
 			this.display = display;
 			this.wrongText = wrongText;
+			this.rightText= rightText;
+			this.correctButton= correctButton+1;
 		}
 	
 	
@@ -50,16 +55,21 @@ import authoring.QuestionWindow;
 		}
 		@Override
 		public String toString() {  // this will be printed on Left Panel at one index
-			return "<html>Question to ask: " + question +
-					"<br" + "Pause for seconds: 1"+
-					"<br>" + "Display on Braille cells: " + display + 
+			return "<html>Question to ask: " +"<html><font color=\"red\">"+ question + "</font>"+
+					"<br>" + "Pause for seconds: "+ "<html><font color=\"red\">"+  "1"+ "</font>"+
+					"<br>" + "Display on Braille cells: " +"<html><font color=\"red\">"+ display + "</font>"+
+					"<br>" + "Correct button: " +"<html><font color=\"red\">"+  correctButton + "</font>"+
 					"<br>" + "Wait for user input" + 
-					"<br>"+ "On Wrong answer: "+ wrongText;
+					"<br>"+ "On Wrong answer: "+"<html><font color=\"red\">"+ wrongText + "</font>"+
+					"<br>" + "On Right answer: "+ "<html><font color=\"red\">"+  rightText +"</font>"; 
 		}
 	
 		@Override
 		public String serialize() { // this will be stored in file
+			a="";
 			for (PlayerCommand pc : questionCommands) {
+				
+			//	System.out.println(pc.getClass()+"\n");
 			a =  a + pc.serialize() + "\n";
 			}
 			a = a.substring(0, a.length() - 1);
@@ -93,20 +103,54 @@ import authoring.QuestionWindow;
 		}
 		
 		@Override
-		public PlayerCommand editCommand(String waitTime , int seletedIndex) {
-			QuestionWindow ques= new QuestionWindow(waitTime);
+		public void editCommand() {
+		QuestionWindow ques= new QuestionWindow(this);
 			ques.frame.addWindowListener(new WindowAdapter()
-		    {
-		        @Override
-		        public void windowClosing(WindowEvent e)
-		        {
-		        	
-		        	
+			{
+
+			@Override
+		        public void windowClosed(WindowEvent e)
+	        	{
+	        	
+	    		setAll(ques.getIntroField().getText(), ques.getBrailleField().getText(),ques.getCorrectField().getText(), ques.getRepeatField().getText(), ques.getButton().getSelectedIndex());
 		        }
 		    });
 			
-			return null;
 			
 		}
 			
+		public String getIntroField()
+		{
+			return this.question;
+		}
+		
+		public String getBrailleField()
+		{
+			return this.display;
+		}
+		
+		public String getCorrectField()
+		{
+			return this.rightText;
+		}
+		
+		public String getRepeatField()
+		{
+			return this.wrongText;
+		}
+		
+		public int getCorrectButton()
+		{
+			return this.correctButton;
+		}
+		
+		
+		public void setAll(String question, String display, String rightText, String wrongText, int correctButton)
+		{
+			this.question= question;
+			this.display= display;
+			this.rightText= rightText;
+			this.wrongText=wrongText;
+			this.correctButton= correctButton;
+		}
 }

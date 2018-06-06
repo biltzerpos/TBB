@@ -2,7 +2,6 @@ package authoring;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,26 +10,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import listeners.NewQuestionListener;
+import commands.PlayerCommand;
+import commands.QuestionCommand;
+
 
 public class QuestionWindow extends JFrame{
 
-	public JFrame frame= new JFrame();
-	private JTextField textField= new JTextField();
-	private JComboBox<String> buttons;
+	public JFrame frame= new JFrame("Enter New Question");
+	private JComboBox<String> buttons = new JComboBox<String>();
 	private JTextArea introField = new JTextArea(5,18);
 	private JTextField brailleField  = new JTextField();
 	private JTextArea repeatField= new JTextArea(5,18);
@@ -38,8 +37,8 @@ public class QuestionWindow extends JFrame{
 	private JTextField buttonField = new JTextField();
 	private JLabel introLabel = new JLabel("Introduction :");
 	private JLabel brailleLabel= new JLabel("Braille Text:");
-	private JLabel correctLabel= new JLabel("Correct Button:");
-	private JLabel correctLabel1= new JLabel("For Correct Answer:");
+	private JLabel correctButton= new JLabel("Correct Button:");
+	private JLabel correctLabel= new JLabel("For Correct Answer:");
 	private JLabel incorrectLabel= new JLabel("For Incorrect Answer:");
 	JButton text= new JButton("Enter Text");
 	JButton play= new JButton("Select Audio");
@@ -50,20 +49,33 @@ public class QuestionWindow extends JFrame{
 	JButton textCorrect= new JButton("Enter Text");
 	JButton recordCorrect= new JButton("Record Audio");
 	JButton playCorrect= new JButton("Select Audio");
+
 	
-	public boolean check=false;
+	private GUI gui;
 	private JButton ok;
 	private JButton cancel;
-	public int set=0;
-	
-	public Thread t;
+	private int index=0;
+
 	/**
 	 * Create the application.
-	 * @throws InterruptedException 
+	 * This constructor is used for NewQuestionListener
 	 */
-	public QuestionWindow(String flag){
-
-		t=new Thread();
+	public QuestionWindow(GUI gui){
+		this.gui= gui;
+		initialize();
+	}
+	
+	
+	/**
+	 * Create the application.
+	 * This constructor is used for Edit Question
+	 */
+	public QuestionWindow(QuestionCommand a){
+		this.introField.setText(a.getIntroField());
+		this.brailleField.setText(a.getBrailleField());
+		this.repeatField.setText(a.getRepeatField());
+		this.correctField.setText(a.getCorrectField());
+		this.index=a.getCorrectButton()-1;
 		initialize();
 	}
 	
@@ -73,19 +85,7 @@ public class QuestionWindow extends JFrame{
 	 */
 	public void initialize()  {
 
-		frame.addWindowListener(new WindowAdapter()
-	     {
-	         @Override
-	         public void windowClosing(WindowEvent e)
-	         {
-	             System.out.println("Closed");
-	             e.getWindow().dispose();
-	         }
-	     });
-		
-
-		System.out.println("in iniltialize");
-		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);	
+		//frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);	
 		frame.setPreferredSize(new Dimension(630,280));
 		frame.setMaximumSize(new Dimension(630,280));
 		frame.setMinimumSize(new Dimension(630,280));
@@ -94,6 +94,25 @@ public class QuestionWindow extends JFrame{
 		frame.pack();
 		frame.setVisible(true);
 		
+		
+		// confirmation dialog when frame is closed
+	frame.setDefaultCloseOperation(frame.DO_NOTHING_ON_CLOSE);
+	frame.addWindowListener(new WindowAdapter() {
+	    @Override
+	    public void windowClosing(WindowEvent we)
+	    { 
+	        String ObjButtons[] = {"Yes","No"};
+	        int PromptResult = JOptionPane.showOptionDialog(null,"Do you want to add this question in scenario?","Confirmation",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,ObjButtons,ObjButtons[1]);
+	        if(PromptResult==JOptionPane.YES_OPTION)
+	        {
+	        	frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);
+	        	//frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSED));
+	        }
+	        else
+	        	frame.setVisible(false);
+	    }
+	});
+			
 		
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -107,8 +126,6 @@ public class QuestionWindow extends JFrame{
 		/**
 		 * Introduction label
 		 */
-	
-		introLabel.setFont(new Font("Sitka Banner", Font.BOLD, 18));
 		GridBagConstraints gbc_introLabel = new GridBagConstraints();
 		gbc_introLabel.anchor = GridBagConstraints.WEST;
 		gbc_introLabel.insets = new Insets(10, 10, 5, 5);
@@ -119,9 +136,7 @@ public class QuestionWindow extends JFrame{
 		
 		/**
 		 * Braille Text label
-		 */
-		
-		brailleLabel.setFont(new Font("Sitka Banner", Font.BOLD, 18));
+		 */	
 		GridBagConstraints gbc_BrailleText = new GridBagConstraints();
 		gbc_BrailleText.anchor = GridBagConstraints.WEST;
 		gbc_BrailleText.insets = new Insets(10, 10, 0, 5);
@@ -132,21 +147,16 @@ public class QuestionWindow extends JFrame{
 		/**
 		 * Correct Button label
 		 */
-		
-	
-		correctLabel.setFont(new Font("Sitka Banner", Font.BOLD, 18));
 		GridBagConstraints gbc_correctLabel = new GridBagConstraints();
 		gbc_correctLabel.anchor = GridBagConstraints.WEST;
 		gbc_correctLabel.insets = new Insets(10, 10, 5, 5);
 		gbc_correctLabel.gridx = 3;
 		gbc_correctLabel.gridy = 5;
-		frame.getContentPane().add(correctLabel, gbc_correctLabel);
+		frame.getContentPane().add(correctButton, gbc_correctLabel);
 		
 		/**
 		 * Incorrect Button label
-		 */
-		
-		incorrectLabel.setFont(new Font("Sitka Banner", Font.BOLD, 18));
+		 */	
 		GridBagConstraints gbc_incorrectLabel  = new GridBagConstraints();
 		gbc_incorrectLabel.anchor = GridBagConstraints.WEST;
 		gbc_incorrectLabel .insets = new Insets(10, 10, 5, 5);
@@ -158,34 +168,28 @@ public class QuestionWindow extends JFrame{
 		/**
 		 * Correct Button label
 		 */
-		
-		correctLabel1.setFont(new Font("Sitka Banner", Font.BOLD, 18));
 		GridBagConstraints gbc_correctLabel1  = new GridBagConstraints();
 		gbc_correctLabel1.anchor = GridBagConstraints.WEST;
 		gbc_correctLabel1 .insets = new Insets(10, 10, 5, 5);
 		gbc_correctLabel1 .gridx = 3;
 		gbc_correctLabel1 .gridy = 8;
-		frame.getContentPane().add(correctLabel1 , gbc_correctLabel1 );
+		frame.getContentPane().add(correctLabel , gbc_correctLabel1 );
 		
 		
 		/**
 		 * Enter Text Button for Introduction
 		 */
-		
 		text.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
 				// Creates a text area that wraps properly and scrolls vertically only
-			
 				introField.setAutoscrolls(true);
 				introField.setWrapStyleWord(true); 
 				JScrollPane introPane = new JScrollPane(introField);
 				introField.getAccessibleContext().setAccessibleDescription("This is where you ask the question");
 				patch(introField);
-				
-				JOptionPane.showMessageDialog(null, introPane, "Enter introduction text",  
-						JOptionPane.PLAIN_MESSAGE);
 			
+
 				//Set initial focus to introField
 				introField.addAncestorListener(new AncestorListener(){
 
@@ -209,11 +213,13 @@ public class QuestionWindow extends JFrame{
 
 				});
 				
+				//Open intro field
+				JOptionPane.showMessageDialog(null, introPane, "Enter introduction text",  
+					JOptionPane.PLAIN_MESSAGE);	
 				
 			}
 		});
-		
-		
+			
 		GridBagConstraints gbc_text = new GridBagConstraints();
 		gbc_text.fill = GridBagConstraints.HORIZONTAL;
 		gbc_text.insets = new Insets(10, 10, 5, 5);
@@ -221,13 +227,9 @@ public class QuestionWindow extends JFrame{
 		gbc_text.gridy = 1;
 		frame.getContentPane().add(text, gbc_text);
 		
-		
-		
 		/**
 		 * Record Audio Button
 		 */
-		
-		
 		record.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -242,8 +244,6 @@ public class QuestionWindow extends JFrame{
 		/**
 		 * Play Audio Button
 		 */
-		
-		
 		play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -259,7 +259,6 @@ public class QuestionWindow extends JFrame{
 		/**
 		 * Enter Text Button for incorrect text
 		 */
-		
 		textIncorrect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -270,6 +269,31 @@ public class QuestionWindow extends JFrame{
 				repeatField.getAccessibleContext().setAccessibleDescription("This is what is said everytime an incorrect answer is given");
 				patch(repeatField);
 				
+	
+				//Set initial focus to repeatField
+				repeatField.addAncestorListener(new AncestorListener(){
+
+					@Override
+					public void ancestorAdded(AncestorEvent event) {
+						// TODO Auto-generated method stub
+						repeatField.requestFocusInWindow();			
+					}
+
+					@Override
+					public void ancestorMoved(AncestorEvent event) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void ancestorRemoved(AncestorEvent event) {
+						// TODO Auto-generated method stub
+
+					}
+
+				});
+				
+			
 				JOptionPane.showMessageDialog(null,repeatPane, "Enter Text for Incorrect Answer", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
@@ -280,12 +304,9 @@ public class QuestionWindow extends JFrame{
 		gbc_textIncorrect.gridy = 7;
 		frame.getContentPane().add(textIncorrect, gbc_textIncorrect);
 		
-		
 		/**
 		 * Record Audio Button
-		 */
-		
-		
+		 */	
 		recordIncorrect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -296,7 +317,6 @@ public class QuestionWindow extends JFrame{
 		gbc_recordIncorrect.gridx = 5;
 		gbc_recordIncorrect.gridy = 7;
 		frame.getContentPane().add(recordIncorrect, gbc_recordIncorrect);
-		
 		
 		/**
 		 * Play Audio Button
@@ -312,9 +332,6 @@ public class QuestionWindow extends JFrame{
 		gbc_playIncorrect.gridx = 6;
 		gbc_playIncorrect.gridy = 7;
 		frame.getContentPane().add(playIncorrect, gbc_playIncorrect);
-
-
-		
 		
 		/**
 		 * Enter Text Button for correct text
@@ -327,10 +344,33 @@ public class QuestionWindow extends JFrame{
 				correctField.setWrapStyleWord(true);
 				correctField.setAutoscrolls(true);
 				JScrollPane correctPane= new JScrollPane(correctField);
-				correctField.getAccessibleContext().setAccessibleDescription("This is what is said everytime an incorrect answer is given");
+				correctField.getAccessibleContext().setAccessibleDescription("This is what is said everytime an correct answer is given");
 				patch(correctField);
 				
-				JOptionPane.showMessageDialog(null,correctPane, "Enter Text for Incorrect Answer", JOptionPane.PLAIN_MESSAGE);
+
+				//Set initial focus to repeatField
+				correctField.addAncestorListener(new AncestorListener(){
+
+					@Override
+					public void ancestorAdded(AncestorEvent event) {
+						// TODO Auto-generated method stub
+						correctField.requestFocusInWindow();			
+					}
+
+					@Override
+					public void ancestorMoved(AncestorEvent event) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void ancestorRemoved(AncestorEvent event) {
+						// TODO Auto-generated method stub
+
+					}
+
+				});
+				JOptionPane.showMessageDialog(null,correctPane, "Enter Text for Correct Answer", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 		GridBagConstraints gbc_textCorrect = new GridBagConstraints();
@@ -344,8 +384,6 @@ public class QuestionWindow extends JFrame{
 		/**
 		 * Record Audio Button
 		 */
-		
-		
 		recordCorrect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -373,12 +411,10 @@ public class QuestionWindow extends JFrame{
 		gbc_playCorrect.gridy = 8;
 		frame.getContentPane().add(playCorrect, gbc_playCorrect);
 		
-	
 		
 		/**
 		 * This is what will be displayed on the braille cells
 		 */
-
 		brailleField.getAccessibleContext().setAccessibleDescription("This is what will be displayed on the braille cells");
 		GridBagConstraints gbc_brailleField = new GridBagConstraints();
 		gbc_brailleField.fill = GridBagConstraints.HORIZONTAL;
@@ -388,12 +424,26 @@ public class QuestionWindow extends JFrame{
 		frame.getContentPane().add(brailleField, gbc_brailleField);
 		brailleField.setColumns(10);
 		
+		
 		/**
 		 * This is the correct answer button for this question
 		 */
-		
 		buttonField = new JTextField();
-		this.buttons = new JComboBox<String>();
+		
+		
+	/*	String strNumOfButtons = gui.getSettingsPanel().getButtonField();
+    	if (strNumOfButtons == null || strNumOfButtons.isEmpty()) {
+    		return;
+    	}
+
+    	int numOfButtons = Integer.parseInt(strNumOfButtons);*/
+    	
+    	buttons.removeAllItems();
+    	for (int i = 0; i <4; i++) {
+    		buttons.addItem("Button " + (i + 1));
+    	}
+    	buttons.setSelectedIndex(this.index);
+    	
 		this.buttons.getAccessibleContext().setAccessibleDescription("This is the correct answer button for this question");
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 10, 5, 5);
@@ -407,16 +457,11 @@ public class QuestionWindow extends JFrame{
 		buttonField.setMinimumSize(new Dimension(200, 15));
 		buttons.setMinimumSize(new Dimension(200, 15));
 
-
-	
 	ok = new JButton("OK");
 	ok.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			set=1;
-			 check=true;
-			 System.out.println("in");
-			 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-			
+		
+			frame.dispose();	
 		}
 	});
 	GridBagConstraints gbc_ok = new GridBagConstraints();
@@ -428,27 +473,22 @@ public class QuestionWindow extends JFrame{
 	cancel = new JButton("Cancel");
 	cancel.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			check=true;
-			set=0;
 			frame.setVisible(false);
 		}
 	});
-	
 	
 	GridBagConstraints gbc_cancel = new GridBagConstraints();
 	gbc_cancel.insets = new Insets(10, 10, 5, 5);
 	gbc_cancel.gridx = 5;
 	gbc_cancel.gridy = 12;
-	frame.getContentPane().add(cancel, gbc_cancel);
-	
+	frame.getContentPane().add(cancel, gbc_cancel);	
 }
 	
-public static void patch(Component c) {
+	public static void patch(Component c) {
 		c.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
 		c.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 	}
 		
-
 	public JComboBox<String> getButton()
 	{
 		return buttons;
@@ -465,6 +505,12 @@ public static void patch(Component c) {
 		return repeatField;
 	}
 	
+	public JTextArea getCorrectField()
+	{
+		return correctField;
+	}
+	
+	
 	public JTextArea getIntroField()
 	{
 		return introField;
@@ -474,8 +520,7 @@ public static void patch(Component c) {
 	{
 		return buttonField;
 	}
-	
-	
+		
 	//set intoField
 	public void setIntroField(String intro)
 	{
@@ -496,8 +541,5 @@ public static void patch(Component c) {
 	{
 		getButtonField().setText(button);;
 	}
-	
-
-
 	
 }
