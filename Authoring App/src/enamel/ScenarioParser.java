@@ -95,6 +95,7 @@ public class ScenarioParser
      */
     void skip (String indicator)
     {
+    
         while (fileScanner.hasNextLine ())
         {
             if (fileScanner.nextLine().equals("/~" + indicator))

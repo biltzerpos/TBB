@@ -47,4 +47,10 @@ public class TTSCommand implements PlayerCommand {
 		this.textToSay = textToSay;
 	}
 
+	@Override
+	public void editCommand(String waitTime, int seletedIndex) {
+	
+		
+	}
+	
 }

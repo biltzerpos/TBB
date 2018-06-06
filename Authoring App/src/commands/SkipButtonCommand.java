@@ -47,5 +47,11 @@ public class SkipButtonCommand implements PlayerCommand {
 	public void setCurrentValue(String numAndIdentifier) {
 		this.numAndIdentifier = numAndIdentifier;
 	}
+	@Override
+	public void editCommand(String waitTime, int seletedIndex) {
+		
+		
+	}
+	
 
 }
