@@ -103,19 +103,54 @@ import authoring.QuestionWindow;
 		}
 		
 		@Override
-		public void editCommand(String waitTime , int seletedIndex) {
-//		///	QuestionWindow ques= new QuestionWindow(waitTime);
-//			ques.frame.addWindowListener(new WindowAdapter()
-//		    {
-//		        @Override
-//		        public void windowClosing(WindowEvent e)
-//		        {
-//		        	
-//		        	
-//		        }
-//		    });
+		public void editCommand() {
+		QuestionWindow ques= new QuestionWindow(this);
+			ques.frame.addWindowListener(new WindowAdapter()
+			{
+
+			@Override
+		        public void windowClosed(WindowEvent e)
+	        	{
+	        	
+	    		setAll(ques.getIntroField().getText(), ques.getBrailleField().getText(),ques.getCorrectField().getText(), ques.getRepeatField().getText(), ques.getButton().getSelectedIndex());
+		        }
+		    });
 			
 			
 		}
 			
+		public String getIntroField()
+		{
+			return this.question;
+		}
+		
+		public String getBrailleField()
+		{
+			return this.display;
+		}
+		
+		public String getCorrectField()
+		{
+			return this.rightText;
+		}
+		
+		public String getRepeatField()
+		{
+			return this.wrongText;
+		}
+		
+		public int getCorrectButton()
+		{
+			return this.correctButton;
+		}
+		
+		
+		public void setAll(String question, String display, String rightText, String wrongText, int correctButton)
+		{
+			this.question= question;
+			this.display= display;
+			this.rightText= rightText;
+			this.wrongText=wrongText;
+			this.correctButton= correctButton;
+		}
 }

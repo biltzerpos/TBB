@@ -105,7 +105,7 @@ public void actionPerformed(ActionEvent arg0) {
         	ArrayList<PlayerCommand> questionCommands = new ArrayList<>();
 
         	// qc is object of QuestionCommand class
-        	QuestionCommand qc= new QuestionCommand(ques.getIntroField().getText(),ques.getBrailleField().getText(),ques.getRepeatField().getText(), ques.getcorrectField().getText(), ques.getButton().getSelectedIndex());
+        	QuestionCommand qc= new QuestionCommand(ques.getIntroField().getText(),ques.getBrailleField().getText(),ques.getRepeatField().getText(), ques.getCorrectField().getText(), ques.getButton().getSelectedIndex());
         	
         	
         	qc.addCommand(new ResetButtonCommand(""));
@@ -142,7 +142,7 @@ public void actionPerformed(ActionEvent arg0) {
         	// Label for good
         		holder = new GoHereCommand("" + randomLabel + "-good");
         		qc.addCommand(holder);
-        		qc.addCommand(new TTSCommand(ques.getcorrectField().getText()));
+        		qc.addCommand(new TTSCommand(ques.getCorrectField().getText()));
         		holder = new SkipCommand("" + randomLabel + "-next");
         		qc.addCommand(holder);
         	//	qc.addCommand(new PauseCommand("1"));

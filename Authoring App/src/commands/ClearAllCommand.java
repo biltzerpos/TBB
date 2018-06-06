@@ -44,7 +44,7 @@ public class ClearAllCommand implements PlayerCommand {
 	}
 	
 	@Override
-	public void editCommand(String waitTime, int seletedIndex) {
+	public void editCommand() {
 		
 		
 	}

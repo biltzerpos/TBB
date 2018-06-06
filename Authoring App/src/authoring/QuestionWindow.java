@@ -22,11 +22,14 @@ import javax.swing.JTextField;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+import commands.PlayerCommand;
+import commands.QuestionCommand;
+
 
 public class QuestionWindow extends JFrame{
 
 	public JFrame frame= new JFrame("Enter New Question");
-	private JComboBox<String> buttons;
+	private JComboBox<String> buttons = new JComboBox<String>();
 	private JTextArea introField = new JTextArea(5,18);
 	private JTextField brailleField  = new JTextField();
 	private JTextArea repeatField= new JTextArea(5,18);
@@ -34,8 +37,8 @@ public class QuestionWindow extends JFrame{
 	private JTextField buttonField = new JTextField();
 	private JLabel introLabel = new JLabel("Introduction :");
 	private JLabel brailleLabel= new JLabel("Braille Text:");
-	private JLabel correctLabel= new JLabel("Correct Button:");
-	private JLabel correctLabel1= new JLabel("For Correct Answer:");
+	private JLabel correctButton= new JLabel("Correct Button:");
+	private JLabel correctLabel= new JLabel("For Correct Answer:");
 	private JLabel incorrectLabel= new JLabel("For Incorrect Answer:");
 	JButton text= new JButton("Enter Text");
 	JButton play= new JButton("Select Audio");
@@ -47,9 +50,11 @@ public class QuestionWindow extends JFrame{
 	JButton recordCorrect= new JButton("Record Audio");
 	JButton playCorrect= new JButton("Select Audio");
 
+	
 	private GUI gui;
 	private JButton ok;
 	private JButton cancel;
+	private int index=0;
 
 	/**
 	 * Create the application.
@@ -57,6 +62,20 @@ public class QuestionWindow extends JFrame{
 	 */
 	public QuestionWindow(GUI gui){
 		this.gui= gui;
+		initialize();
+	}
+	
+	
+	/**
+	 * Create the application.
+	 * This constructor is used for Edit Question
+	 */
+	public QuestionWindow(QuestionCommand a){
+		this.introField.setText(a.getIntroField());
+		this.brailleField.setText(a.getBrailleField());
+		this.repeatField.setText(a.getRepeatField());
+		this.correctField.setText(a.getCorrectField());
+		this.index=a.getCorrectButton()-1;
 		initialize();
 	}
 	
@@ -133,7 +152,7 @@ public class QuestionWindow extends JFrame{
 		gbc_correctLabel.insets = new Insets(10, 10, 5, 5);
 		gbc_correctLabel.gridx = 3;
 		gbc_correctLabel.gridy = 5;
-		frame.getContentPane().add(correctLabel, gbc_correctLabel);
+		frame.getContentPane().add(correctButton, gbc_correctLabel);
 		
 		/**
 		 * Incorrect Button label
@@ -154,7 +173,7 @@ public class QuestionWindow extends JFrame{
 		gbc_correctLabel1 .insets = new Insets(10, 10, 5, 5);
 		gbc_correctLabel1 .gridx = 3;
 		gbc_correctLabel1 .gridy = 8;
-		frame.getContentPane().add(correctLabel1 , gbc_correctLabel1 );
+		frame.getContentPane().add(correctLabel , gbc_correctLabel1 );
 		
 		
 		/**
@@ -410,21 +429,21 @@ public class QuestionWindow extends JFrame{
 		 * This is the correct answer button for this question
 		 */
 		buttonField = new JTextField();
-		this.buttons = new JComboBox<String>();
 		
-		String strNumOfButtons = gui.getSettingsPanel().getButtonField();
+		
+	/*	String strNumOfButtons = gui.getSettingsPanel().getButtonField();
     	if (strNumOfButtons == null || strNumOfButtons.isEmpty()) {
     		return;
     	}
 
-    	int numOfButtons = Integer.parseInt(strNumOfButtons);
+    	int numOfButtons = Integer.parseInt(strNumOfButtons);*/
     	
     	buttons.removeAllItems();
-    	for (int i = 0; i < numOfButtons; i++) {
+    	for (int i = 0; i <4; i++) {
     		buttons.addItem("Button " + (i + 1));
     	}
-
-
+    	buttons.setSelectedIndex(this.index);
+    	
 		this.buttons.getAccessibleContext().setAccessibleDescription("This is the correct answer button for this question");
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 10, 5, 5);
@@ -486,7 +505,7 @@ public class QuestionWindow extends JFrame{
 		return repeatField;
 	}
 	
-	public JTextArea getcorrectField()
+	public JTextArea getCorrectField()
 	{
 		return correctField;
 	}
