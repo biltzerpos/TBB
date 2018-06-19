@@ -38,6 +38,7 @@ import commands.ResetButtonCommand;
 import commands.SetStringCommand;
 import commands.SkipButtonCommand;
 import commands.SkipCommand;
+import commands.SoundCommand;
 import commands.TTSCommand;
 import commands.UserInputCommand;
 import commands.QuestionCommand;
@@ -88,6 +89,10 @@ public void actionPerformed(ActionEvent arg0) {
 	//This section of code will execute when Jframe window will be closed in QuestionWindow
 	ques.frame.addWindowListener(new WindowAdapter()
     {
+		
+		private String introText="none";
+		private String incorrectText="none";
+		private String correctText="none";
         @Override
         public void windowClosed(WindowEvent e)
         {
@@ -104,12 +109,41 @@ public void actionPerformed(ActionEvent arg0) {
 
         	ArrayList<PlayerCommand> questionCommands = new ArrayList<>();
 
+        
+        	if(ques.getIntroField().getText().length()>0)
+	        	{	
+	        		introText=ques.getIntroField().getText();
+	        	}
+        	if(ques.getRepeatField().getText().length()>0)
+	        	{	
+	        		incorrectText=ques.getRepeatField().getText();
+	        	}
+        	if(ques.getCorrectField().getText().length()>0)
+	        	{	
+	        		correctText=ques.getCorrectField().getText();
+	        	}
+        	
+        	
+        	
         	// qc is object of QuestionCommand class
-        	QuestionCommand qc= new QuestionCommand(ques.getIntroField().getText(),ques.getBrailleField().getText(),ques.getRepeatField().getText(), ques.getCorrectField().getText(), ques.getButton().getSelectedIndex());
+        	QuestionCommand qc= new QuestionCommand(introText, ques.getIntroAudio(), ques.getIntroSound(), ques.getBrailleField().getText(),incorrectText, ques.getIncorrectAudio(), ques.getIncorrectSound(), correctText, ques.getCorrectAudio(), ques.getCorrectSound(), ques.getButton().getSelectedIndex(), gui.getSettingsPanel().getButtonField());
         	
         	
         	qc.addCommand(new ResetButtonCommand(""));
-        	qc.addCommand(new TTSCommand(ques.getIntroField().getText()));
+        	if(ques.getIntroField().getText().length()>0)
+        	{qc.addCommand(new TTSCommand(ques.getIntroField().getText()));
+        	gui.counterMap.put("Text-to-speech", gui.counterMap.get("Text-to-speech") + 1);
+        	}
+        	else if(ques.getIntroAudio()!="none")
+        	{
+        		qc.addCommand(new SoundCommand(ques.getIntroAudio()));
+				gui.counterMap.put("Record Audio", gui.counterMap.get("Record Audio") + 1);
+        	}
+        	else if(ques.getIntroSound()!="none")
+        	{
+        		qc.addCommand(new SoundCommand(ques.getIntroSound()));
+        		gui.counterMap.put("Sound", gui.counterMap.get("Sound") + 1);	
+        	}
         	qc.addCommand(new PauseCommand("1"));
         	qc.addCommand(new SetStringCommand(ques.getBrailleField().getText()));
         //	qc.addCommand(new GoHereCommand(randomLabel + "-start"));
@@ -135,14 +169,27 @@ public void actionPerformed(ActionEvent arg0) {
         		qc.addCommand(new UserInputCommand());
         	// Labels for bad
         		qc.addCommand(new GoHereCommand("" + randomLabel + "-bad"));
-        		qc.addCommand(new TTSCommand(ques.getRepeatField().getText()));
+        		if(ques.getRepeatField().getText().length()>0)
+        			qc.addCommand(new TTSCommand(ques.getRepeatField().getText()));
+        		else if(ques.getIncorrectAudio()!="none")
+        			qc.addCommand(new SoundCommand(ques.getIncorrectAudio()));
+        		else if(ques.getIncorrectSound()!="none")
+        			qc.addCommand(new SoundCommand(ques.getIncorrectSound()));
         		holder = new SkipCommand("" + randomLabel + "-next");
     			qc.addCommand(holder);
         	//	qc.addCommand(new SkipCommand(randomLabel + "-start"));
         	// Label for good
         		holder = new GoHereCommand("" + randomLabel + "-good");
         		qc.addCommand(holder);
-        		qc.addCommand(new TTSCommand(ques.getCorrectField().getText()));
+        		
+        		
+        		if(ques.getCorrectField().getText().length()>0)
+        			qc.addCommand(new TTSCommand(ques.getCorrectField().getText()));
+        		else if(ques.getCorrectAudio()!="none")
+        			qc.addCommand(new SoundCommand(ques.getCorrectAudio()));
+        		else if(ques.getCorrectSound()!="none")
+        			qc.addCommand(new SoundCommand(ques.getCorrectSound()));
+        		
         		holder = new SkipCommand("" + randomLabel + "-next");
         		qc.addCommand(holder);
         	//	qc.addCommand(new PauseCommand("1"));
