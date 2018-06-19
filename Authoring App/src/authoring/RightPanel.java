@@ -36,15 +36,15 @@ public class  RightPanel extends JPanel implements ActionListener {
 	public JButton btnStart = new JButton("Start Recording");
 	public JButton btnStop = new JButton("Stop Recording");
 	public JButton readFile = new JButton("Read Audio File");
-	public JButton btnMoveUp = new JButton("Move Item Up (Control W)");
-	public JButton btnMoveDown = new JButton("Move Item Down (Control S)");
+	public JButton btnMoveUp = new JButton("Move Item Up (Control \u2191)");
+	public JButton btnMoveDown = new JButton("Move Item Down (Control \u2193)");
 	public JButton btnDelete = new JButton("Delete Item (Control D)");
-	public JButton btnEdit = new JButton("Edit Item (Control X)");
-	public JButton btnNew = new JButton("New Item (Control N)");
-	public JButton btnSave = new JButton("Save (Control E)");
-	public JButton btnLoad = new JButton("Load (Control I)");
+	public JButton btnEdit = new JButton("Edit Item (Control E)");
+	public JButton btnNew = new JButton("New Item (Control I)");
+	public JButton btnSave = new JButton("Save (Control S)");
+	public JButton btnLoad = new JButton("Load (Control L)");
 	public JButton btnNewScenario = new JButton("New Scenario (Control Shift N)");
-	public JButton btnNewQuestion = new JButton("New Question (Control M)");
+	public JButton btnNewQuestion = new JButton("New Question (Control Q)");
 	public JButton btnTestScenario = new JButton ("Test Scenario (Control T)");
 	private GUI gui;
 

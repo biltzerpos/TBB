@@ -31,21 +31,35 @@ import authoring.QuestionWindow;
 		
 		ArrayList<PlayerCommand> questionCommands = new ArrayList<>(); // list to store all commands
 		private String textToSay = "";
-		private String question= "";
+		private String question="";
 		private String display="";
 		private String wrongText="";
 		private String rightText="";
+		private String introAudio= "";
+		private String introSound= "";
+		private String correctAudio= "";
+		private String correctSound= "";
+		private String incorrectAudio= "";
+		private String incorrectSound= "";
+		private String noButton="";
 		private int correctButton;
 		public String a ="";
-		public static final String ANSI_PURPLE = "\u001B[35m";
+	
 	//	private GUI gui = new GUI();
 	
-	public QuestionCommand(String question, String display, String wrongText, String rightText, int correctButton) {
+	public QuestionCommand(String question,String introAudio, String introSound, String display, String wrongText, String incorrectAudio, String incorrectSound,  String rightText, String correctAudio, String correctSound, int correctButton, String button) {
 			this.question = question;
 			this.display = display;
+			this.introAudio= introAudio;
+			this.introSound= introSound;
+			this.incorrectAudio = incorrectAudio;
+			this.incorrectSound= incorrectSound;
+			this.correctAudio= correctAudio;
+			this.correctSound = correctSound;
 			this.wrongText = wrongText;
 			this.rightText= rightText;
 			this.correctButton= correctButton+1;
+			this.noButton= button;
 		}
 	
 	
@@ -55,13 +69,23 @@ import authoring.QuestionWindow;
 		}
 		@Override
 		public String toString() {  // this will be printed on Left Panel at one index
-			return "<html>Question to ask: " +"<html><font color=\"red\">"+ question + "</font>"+
-					"<br>" + "Pause for seconds: "+ "<html><font color=\"red\">"+  "1"+ "</font>"+
-					"<br>" + "Display on Braille cells: " +"<html><font color=\"red\">"+ display + "</font>"+
-					"<br>" + "Correct button: " +"<html><font color=\"red\">"+  correctButton + "</font>"+
-					"<br>" + "Wait for user input" + 
-					"<br>"+ "On Wrong answer: "+"<html><font color=\"red\">"+ wrongText + "</font>"+
-					"<br>" + "On Right answer: "+ "<html><font color=\"red\">"+  rightText +"</font>"; 
+
+			return 	"<html>"+ "<html><font color=\"blue\">" + "Display on Braille cells: " + "</font>" + "<html><font color=\"red\">"+ display + "</font>"+
+					"<br>" + "<html><font color=\"blue\">"+ "Correct button: " + "</font>"+"<html><font color=\"red\">"+  correctButton + "</font>"+
+					"<br>"+ "<html><font color=\"green\">"+ "____Question to Ask____" +"</font>"+ 
+					"<br>" + "Text: " +"<html><font color=\"red\">"+ question + "</font>"+
+					"<br>" + "Recorded Audio: "+ "<html><font color=\"red\">"+  introAudio+ "</font>"+
+					"<br>" + "Selected Audio: "+ "<html><font color=\"red\">"+  introSound+ "</font>"+
+				//	"<br>" + "Pause for seconds: "+ "<html><font color=\"red\">"+  "1"+ "</font>"+
+					//"<br>" + "Wait for user input" + 
+					"<br>"+"<html><font color=\"green\">"+  "___On Wrong Answer____" + "</font>"+
+					"<br>"+ "Text: " + "<html><font color=\"red\">"+ wrongText + "</font>"+
+					"<br>" + "Recorded Audio: "+ "<html><font color=\"red\">"+  incorrectAudio+ "</font>"+
+					"<br>" + "Selected Audio: "+ "<html><font color=\"red\">"+  incorrectSound+ "</font>"+
+					"<br>"+"<html><font color=\"green\">"+ "___On Right Answer____" + "</font>" +
+					"<br>" + "Text: "+ "<html><font color=\"red\">"+  rightText +"</font>"+
+					"<br>" + "Recorded Audio: "+ "<html><font color=\"red\">"+  correctAudio+ "</font>"+
+					"<br>" + "Selected Audio: "+ "<html><font color=\"red\">"+  correctSound+ "</font>";
 		}
 	
 		@Override
@@ -90,7 +114,7 @@ import authoring.QuestionWindow;
 	
 		@Override
 		public void setCurrentValue(String textToSay) {
-			this.question = question;
+			this.question = textToSay;
 		}
 		
 	
@@ -144,6 +168,10 @@ import authoring.QuestionWindow;
 			return this.correctButton;
 		}
 		
+		public String getTotalButtons()
+		{
+			return this.noButton;
+		}
 		
 		public void setAll(String question, String display, String rightText, String wrongText, int correctButton)
 		{
