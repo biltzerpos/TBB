@@ -126,7 +126,7 @@ public void actionPerformed(ActionEvent arg0) {
         	
         	
         	// qc is object of QuestionCommand class
-        	QuestionCommand qc= new QuestionCommand(introText, ques.getIntroAudio(), ques.getIntroSound(), ques.getBrailleField().getText(),incorrectText, ques.getIncorrectAudio(), ques.getIncorrectSound(), correctText, ques.getCorrectAudio(), ques.getCorrectSound(), ques.getButton().getSelectedIndex(), gui.getSettingsPanel().getButtonField());
+        	QuestionCommand qc= new QuestionCommand(introText, ques.getIntroAudio(), ques.getIntroSound(), ques.getBrailleField().getText(),incorrectText, ques.getIncorrectAudio(), ques.getIncorrectSound(), correctText, ques.getCorrectAudio(), ques.getCorrectSound(), ques.getButton().getSelectedIndex(), gui.getSettingsPanel().getButtonField(), gui);
         	
         	
         	qc.addCommand(new ResetButtonCommand(""));
