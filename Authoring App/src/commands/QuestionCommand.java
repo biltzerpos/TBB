@@ -44,10 +44,11 @@ import authoring.QuestionWindow;
 		private String noButton="";
 		private int correctButton;
 		public String a ="";
+		private GUI gui;
 	
 	//	private GUI gui = new GUI();
 	
-	public QuestionCommand(String question,String introAudio, String introSound, String display, String wrongText, String incorrectAudio, String incorrectSound,  String rightText, String correctAudio, String correctSound, int correctButton, String button) {
+	public QuestionCommand(String question,String introAudio, String introSound, String display, String wrongText, String incorrectAudio, String incorrectSound,  String rightText, String correctAudio, String correctSound, int correctButton, String button, GUI gui) {
 			this.question = question;
 			this.display = display;
 			this.introAudio= introAudio;
@@ -60,6 +61,7 @@ import authoring.QuestionWindow;
 			this.rightText= rightText;
 			this.correctButton= correctButton+1;
 			this.noButton= button;
+			this.gui= gui;
 		}
 	
 	
@@ -136,7 +138,7 @@ import authoring.QuestionWindow;
 		        public void windowClosed(WindowEvent e)
 	        	{
 	        	
-	    		setAll(ques.getIntroField().getText(), ques.getBrailleField().getText(),ques.getCorrectField().getText(), ques.getRepeatField().getText(), ques.getButton().getSelectedIndex());
+	    		setAll(ques.getIntroField().getText(), ques.getIntroAudio(), ques.getIntroSound(), ques.getBrailleField().getText(),ques.getCorrectField().getText(), ques.getRepeatField().getText(), ques.getButton().getSelectedIndex());
 		        }
 		    });
 			
@@ -173,12 +175,36 @@ import authoring.QuestionWindow;
 			return this.noButton;
 		}
 		
-		public void setAll(String question, String display, String rightText, String wrongText, int correctButton)
+		public GUI getGUI()
 		{
+			return this.gui;
+		}
+		public void setAll(String question,String introAudio, String introSound, String display, String rightText, String wrongText, int correctButton)
+		{
+			System.out.println(question);
+			if(!(question.equals("none")))
+			{questionCommands.set(1, new TTSCommand(question));
+			System.out.println("here");
+			}
+			
+			else if(introAudio!="none")
+			questionCommands.set(1, new SoundCommand(introAudio));
+			else if(introSound!="none")
+			questionCommands.set(1, new SoundCommand(introSound));	
+			
+			
+			if(display != this.display)
+				questionCommands.set(3, new SetStringCommand(display));
+			
+			for (PlayerCommand pc : questionCommands) {
+        		System.out.println(pc);
+			}
+			this.introAudio= introAudio;
+			this.introSound= introSound;
 			this.question= question;
 			this.display= display;
 			this.rightText= rightText;
 			this.wrongText=wrongText;
-			this.correctButton= correctButton;
+			this.correctButton= correctButton + 1;
 		}
 }

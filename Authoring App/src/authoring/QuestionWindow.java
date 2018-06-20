@@ -100,8 +100,9 @@ public class QuestionWindow extends JFrame{
 		this.brailleField.setText(a.getBrailleField());
 		this.repeatField.setText(a.getRepeatField());
 		this.correctField.setText(a.getCorrectField());
-		this.index=a.getCorrectButton();
+		this.index=a.getCorrectButton()-1;
 		strNumOfButtons = a.getTotalButtons();
+		this.gui= a.getGUI();
 		initialize();
 	}
 	
@@ -115,7 +116,7 @@ public class QuestionWindow extends JFrame{
 		frame.setPreferredSize(new Dimension(630,280));
 		frame.setMaximumSize(new Dimension(630,280));
 		frame.setMinimumSize(new Dimension(630,280));
-		frame.setLocation(300,300);
+	//	frame.setLocation(300,300);
 		frame.setResizable(false);
 		frame.pack();
 		frame.setVisible(true);
@@ -272,6 +273,7 @@ public class QuestionWindow extends JFrame{
 					introAudio= file.toString();
 					String basename = FilenameUtils.getBaseName(introAudio);
 					record.setText(basename+".wav");
+					introField.setText("none");
 					text.setEnabled(false);
 					play.setEnabled(false);
 				//	gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
@@ -593,7 +595,7 @@ public class QuestionWindow extends JFrame{
     		buttons.addItem("Button " + (i + 1));
     	}
     	buttons.setSelectedIndex(this.index);
-    	
+    
 		this.buttons.getAccessibleContext().setAccessibleDescription("This is the correct answer button for this question");
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 10, 5, 5);
@@ -823,7 +825,6 @@ public class QuestionWindow extends JFrame{
 						thread.cancel();
 						recordFlag=true;
 						recordDialog.setVisible(false);	
-					
 					}
 				}
 				
