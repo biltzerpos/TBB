@@ -97,6 +97,56 @@ public class QuestionWindow extends JFrame{
 	 */
 	public QuestionWindow(QuestionCommand a){
 		this.introField.setText(a.getIntroField());
+		if(a.getIntroField().length()>0 && a.getIntroField() != "none")
+		{
+			text.setText("Edit Text");
+			text.setForeground(Color.magenta);
+		}
+		else if(a.getIntroAudio()!= "none")
+		{
+			record.setText("Rerecord Audio");
+			record.setForeground(Color.magenta);
+		}
+		else if(a.getIntroSound()!="none")
+		{
+			play.setText("Reselect Audio");
+			play.setForeground(Color.magenta);
+		}
+		
+		if(a.getRepeatField().length()>0 && a.getRepeatField() != "none")
+		{
+			textIncorrect.setText("Edit Text");
+			textIncorrect.setForeground(Color.magenta);
+		}
+		else if(a.getIncorrectAudio()!= "none")
+		{
+			recordIncorrect.setText("Rerecord Audio");
+			recordIncorrect.setForeground(Color.magenta);
+		}
+		else if(a.getIncorrectSound()!="none")
+		{
+			playIncorrect.setText("Reselect Audio");
+			playIncorrect.setForeground(Color.magenta);
+		}
+		if(a.getCorrectField().length()>0 && a.getCorrectField() != "none")
+		{
+			textCorrect.setText("Edit Text");
+			textCorrect.setForeground(Color.magenta);
+		}
+		else if(a.getCorrectAudio()!= "none")
+		{
+			recordCorrect.setText("Rerecord Audio");
+			recordCorrect.setForeground(Color.magenta);
+		}
+		else if(a.getCorrectSound()!="none")
+		{
+			playCorrect.setText("Reselect Audio");
+			playCorrect.setForeground(Color.magenta);
+		}
+		
+		
+		
+		
 		this.brailleField.setText(a.getBrailleField());
 		this.repeatField.setText(a.getRepeatField());
 		this.correctField.setText(a.getCorrectField());
@@ -273,7 +323,8 @@ public class QuestionWindow extends JFrame{
 					introAudio= file.toString();
 					String basename = FilenameUtils.getBaseName(introAudio);
 					record.setText(basename+".wav");
-					introField.setText("none");
+					introField.setText("");
+					introSound="none";
 					text.setEnabled(false);
 					play.setEnabled(false);
 				//	gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
@@ -305,6 +356,8 @@ public class QuestionWindow extends JFrame{
 					introSound = file.toString();
 					String basename = FilenameUtils.getBaseName(introSound);
 					play.setText(basename+".wav");
+					introField.setText("");
+					introAudio="none";
 					text.setEnabled(false);
 					record.setEnabled(false);
 				//	gui.getLeftPanel().addItem(new SoundCommand(file.toString()));

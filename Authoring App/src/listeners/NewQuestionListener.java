@@ -109,40 +109,28 @@ public void actionPerformed(ActionEvent arg0) {
 
         	ArrayList<PlayerCommand> questionCommands = new ArrayList<>();
 
-        
-        	if(ques.getIntroField().getText().length()>0)
-	        	{	
-	        		introText=ques.getIntroField().getText();
-	        	}
-        	if(ques.getRepeatField().getText().length()>0)
-	        	{	
-	        		incorrectText=ques.getRepeatField().getText();
-	        	}
-        	if(ques.getCorrectField().getText().length()>0)
-	        	{	
-	        		correctText=ques.getCorrectField().getText();
-	        	}
-        	
+      
         	
         	
         	// qc is object of QuestionCommand class
-        	QuestionCommand qc= new QuestionCommand(introText, ques.getIntroAudio(), ques.getIntroSound(), ques.getBrailleField().getText(),incorrectText, ques.getIncorrectAudio(), ques.getIncorrectSound(), correctText, ques.getCorrectAudio(), ques.getCorrectSound(), ques.getButton().getSelectedIndex(), gui.getSettingsPanel().getButtonField(), gui);
+        	QuestionCommand qc = new QuestionCommand(ques, gui);
+        	//QuestionCommand qc= new QuestionCommand(introText, ques.getIntroAudio(), ques.getIntroSound(), ques.getBrailleField().getText(),incorrectText, ques.getIncorrectAudio(), ques.getIncorrectSound(), correctText, ques.getCorrectAudio(), ques.getCorrectSound(), ques.getButton().getSelectedIndex(), gui.getSettingsPanel().getButtonField(), gui);
         	
         	
         	qc.addCommand(new ResetButtonCommand(""));
-        	if(ques.getIntroField().getText().length()>0)
+        	if(ques.getIntroField().getText().length()>0 && ques.getIntroField().getText()!="none")
         	{qc.addCommand(new TTSCommand(ques.getIntroField().getText()));
-        	gui.counterMap.put("Text-to-speech", gui.counterMap.get("Text-to-speech") + 1);
+        	
         	}
         	else if(ques.getIntroAudio()!="none")
         	{
         		qc.addCommand(new SoundCommand(ques.getIntroAudio()));
-				gui.counterMap.put("Record Audio", gui.counterMap.get("Record Audio") + 1);
+				
         	}
         	else if(ques.getIntroSound()!="none")
         	{
         		qc.addCommand(new SoundCommand(ques.getIntroSound()));
-        		gui.counterMap.put("Sound", gui.counterMap.get("Sound") + 1);	
+        		
         	}
         	qc.addCommand(new PauseCommand("1"));
         	qc.addCommand(new SetStringCommand(ques.getBrailleField().getText()));
@@ -169,7 +157,7 @@ public void actionPerformed(ActionEvent arg0) {
         		qc.addCommand(new UserInputCommand());
         	// Labels for bad
         		qc.addCommand(new GoHereCommand("" + randomLabel + "-bad"));
-        		if(ques.getRepeatField().getText().length()>0)
+        		if(ques.getRepeatField().getText().length()>0 && ques.getIntroField().getText()!="none")
         			qc.addCommand(new TTSCommand(ques.getRepeatField().getText()));
         		else if(ques.getIncorrectAudio()!="none")
         			qc.addCommand(new SoundCommand(ques.getIncorrectAudio()));
