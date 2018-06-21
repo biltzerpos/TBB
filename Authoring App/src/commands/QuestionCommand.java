@@ -48,7 +48,7 @@ import authoring.QuestionWindow;
 	
 	//	private GUI gui = new GUI();
 	
-	public QuestionCommand(String question,String introAudio, String introSound, String display, String wrongText, String incorrectAudio, String incorrectSound,  String rightText, String correctAudio, String correctSound, int correctButton, String button, GUI gui) {
+	/*public QuestionCommand(String question,String introAudio, String introSound, String display, String wrongText, String incorrectAudio, String incorrectSound,  String rightText, String correctAudio, String correctSound, int correctButton, String button, GUI gui) {
 			this.question = question;
 			this.display = display;
 			this.introAudio= introAudio;
@@ -62,8 +62,39 @@ import authoring.QuestionWindow;
 			this.correctButton= correctButton+1;
 			this.noButton= button;
 			this.gui= gui;
+		}*/
+		public QuestionCommand(QuestionWindow ques, GUI gui)
+		{
+			  
+        	if(ques.getIntroField().getText().length()>0)
+	        	{	
+        		this.question =ques.getIntroField().getText();
+	        	}
+        	if(ques.getRepeatField().getText().length()>0)
+	        	{	
+        		this.wrongText = ques.getRepeatField().getText();
+	        	}
+        	if(ques.getCorrectField().getText().length()>0)
+	        	{	
+        		this.rightText= ques.getCorrectField().getText();
+	        	}
+        	this.display = ques.getBrailleField().getText();
+        	
+        	this.introAudio= ques.getIntroAudio();
+        	this.introSound= ques.getIntroSound();
+        	
+        	this.incorrectAudio = ques.getIncorrectAudio();
+        	this.correctAudio = ques.getCorrectAudio();
+        	
+        	this.incorrectSound = ques.getIncorrectSound();
+        	this.correctSound= ques.getCorrectSound();
+        	
+        	this.correctButton = ques.getButton().getSelectedIndex()+1;
+        	this.gui=gui;
+        	this.noButton = gui.getSettingsPanel().getButtonField();
+        	
+        	
 		}
-	
 	
 		public void addCommand(PlayerCommand q) // add commands in list
 		{
@@ -72,6 +103,37 @@ import authoring.QuestionWindow;
 		@Override
 		public String toString() {  // this will be printed on Left Panel at one index
 
+			String result;
+			result = "<html>"+  "<html><font color=\"green\">"+ "Question to Ask" +"</font>";
+			if(question!="none" && question.length()>0)
+				
+				result=result + "<br>" + "Text: " +"<html><font color=\"red\">"+ question + "</font>";
+			else if (introAudio != "none")
+				result= result + "<br>" + "Recorded Audio: "+ "<html><font color=\"red\">"+  introAudio+ "</font>";
+			else if(introSound != "none")
+				result= result+ "<br>" + "Selected Audio: "+ "<html><font color=\"red\">"+  introSound+ "</font>";
+			
+			result = result + "<br>"+ "<html><font color=\"blue\">" + "Display on Braille cells: " + "</font>" + "<html><font color=\"red\">"+ display + "</font>" +
+				"<br>" + "<html><font color=\"blue\">"+ "Correct button: " + "</font>"+"<html><font color=\"red\">"+  correctButton + "</font>" +
+				"<br>"+"<html><font color=\"green\">"+  "Wrong Answer" + "</font>";
+			
+			
+			if(wrongText!="none" && wrongText.length()>0)
+				result=result + "<br>"+ "Text: " + "<html><font color=\"red\">"+ wrongText + "</font>";
+			else if (incorrectAudio != "none")
+				result= result + "<br>" + "Recorded Audio: "+ "<html><font color=\"red\">"+  incorrectAudio+ "</font>";
+			else if(incorrectSound != "none")
+				result= result+ "<br>" + "Selected Audio: "+ "<html><font color=\"red\">"+  incorrectSound+ "</font>";
+			
+			
+			result = result + "<br>"+"<html><font color=\"green\">"+ "Right Answer" + "</font>" ;
+			if(rightText!="none" && rightText.length()>0)
+				result=result + 	"<br>" + "Text: "+ "<html><font color=\"red\">"+  rightText +"</font>";
+			else if (correctAudio != "none")
+				result= result + "<br>" + "Recorded Audio: "+ "<html><font color=\"red\">"+  correctAudio+ "</font>";
+			else if(correctSound != "none")
+				result= result+ "<br>" + "Selected Audio: "+ "<html><font color=\"red\">"+  correctSound+ "</font>";
+			/*
 			return 	"<html>"+ "<html><font color=\"blue\">" + "Display on Braille cells: " + "</font>" + "<html><font color=\"red\">"+ display + "</font>"+
 					"<br>" + "<html><font color=\"blue\">"+ "Correct button: " + "</font>"+"<html><font color=\"red\">"+  correctButton + "</font>"+
 					"<br>"+ "<html><font color=\"green\">"+ "____Question to Ask____" +"</font>"+ 
@@ -87,7 +149,8 @@ import authoring.QuestionWindow;
 					"<br>"+"<html><font color=\"green\">"+ "___On Right Answer____" + "</font>" +
 					"<br>" + "Text: "+ "<html><font color=\"red\">"+  rightText +"</font>"+
 					"<br>" + "Recorded Audio: "+ "<html><font color=\"red\">"+  correctAudio+ "</font>"+
-					"<br>" + "Selected Audio: "+ "<html><font color=\"red\">"+  correctSound+ "</font>";
+					"<br>" + "Selected Audio: "+ "<html><font color=\"red\">"+  correctSound+ "</font>";*/
+			return result;
 		}
 	
 		@Override
@@ -138,7 +201,7 @@ import authoring.QuestionWindow;
 		        public void windowClosed(WindowEvent e)
 	        	{
 	        	
-	    		setAll(ques.getIntroField().getText(), ques.getIntroAudio(), ques.getIntroSound(), ques.getBrailleField().getText(),ques.getCorrectField().getText(), ques.getRepeatField().getText(), ques.getButton().getSelectedIndex());
+	    		setAll(ques.getIntroField().getText(), ques.getIntroAudio(), ques.getIntroSound(), ques.getBrailleField().getText(),ques.getCorrectField().getText(), ques.getCorrectAudio(), ques.getCorrectSound(), ques.getRepeatField().getText(), ques.getIncorrectAudio(), ques.getIncorrectSound(),ques.getButton().getSelectedIndex());
 		        }
 		    });
 			
@@ -174,33 +237,81 @@ import authoring.QuestionWindow;
 		{
 			return this.noButton;
 		}
+		public String getIntroAudio()
+		{
+			return this.introAudio;
+		}
+		public String getIntroSound()
+		{
+			return this.introAudio;
+		}
+		
+		
+		
+		
+		public String getIncorrectAudio()
+		{
+			return this.incorrectAudio;
+		}
+		public String getIncorrectSound()
+		{
+			return this.incorrectSound;
+		}
+		
+		public String getCorrectAudio()
+		{
+			return this.correctAudio;
+		}
+		public String getCorrectSound()
+		{
+			return this.correctSound;
+		}
 		
 		public GUI getGUI()
 		{
 			return this.gui;
 		}
-		public void setAll(String question,String introAudio, String introSound, String display, String rightText, String wrongText, int correctButton)
+		public void setAll(String question,String introAudio, String introSound, String display, String rightText,String correctAudio, String correctSound,  String wrongText, String incorrectAudio, String incorrectSound, int correctButton)
 		{
-			System.out.println(question);
-			if(!(question.equals("none")))
-			{questionCommands.set(1, new TTSCommand(question));
-			System.out.println("here");
-			}
 			
-			else if(introAudio!="none")
-			questionCommands.set(1, new SoundCommand(introAudio));
-			else if(introSound!="none")
-			questionCommands.set(1, new SoundCommand(introSound));	
+			if(!(question.equals("none")) && question.length()>0)
+				questionCommands.set(1, new TTSCommand(question));			
+			else if(!(introAudio.equals("none")) && introAudio.length()>0)
+				questionCommands.set(1, new SoundCommand(introAudio));
+			else if(!(introSound.equals("none")) && introSound.length()>0)
+				questionCommands.set(1, new SoundCommand(introSound));	
 			
 			
 			if(display != this.display)
 				questionCommands.set(3, new SetStringCommand(display));
+			
+			
+			if(!(wrongText.equals("none")) && wrongText.length()>0)
+				questionCommands.set(8, new TTSCommand(wrongText));			
+			else if(!(incorrectAudio.equals("none")) && incorrectAudio.length()>0)
+				questionCommands.set(8, new SoundCommand(incorrectAudio));
+			else if(!(incorrectSound.equals("none")) && incorrectSound.length()>0)
+				questionCommands.set(8, new SoundCommand(incorrectSound));
+			
+			
+
+			if(!(rightText.equals("none")) && rightText.length()>0)
+				questionCommands.set(11, new TTSCommand(rightText));			
+			else if(!(correctAudio.equals("none")) && correctAudio.length()>0)
+				questionCommands.set(11, new SoundCommand(correctAudio));
+			else if(!(correctSound.equals("none")) && correctSound.length()>0)
+				questionCommands.set(11, new SoundCommand(correctSound));
+			
 			
 			for (PlayerCommand pc : questionCommands) {
         		System.out.println(pc);
 			}
 			this.introAudio= introAudio;
 			this.introSound= introSound;
+			this.incorrectAudio= incorrectAudio;
+			this.incorrectSound= incorrectSound;
+			this.correctAudio= correctAudio;
+			this.correctSound= correctSound;
 			this.question= question;
 			this.display= display;
 			this.rightText= rightText;
