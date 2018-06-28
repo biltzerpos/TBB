@@ -1,17 +1,22 @@
 package listeners;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.logging.Level;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import authoring.GUI;
@@ -49,7 +54,9 @@ public class NewButtonListener implements ActionListener {
 	private GUI gui;
 	ThreadRunnable thread = null;
 	File file = null;
-	
+	private boolean isRecording = false;
+	private boolean noRecording = true;
+	private boolean recordFlag= false;
 
 	/**
 	 * Create the NewButtonListener with a reference to the base GUI object
@@ -153,7 +160,7 @@ public class NewButtonListener implements ActionListener {
 				break;
 			case "Record Audio":
 				recordAudio();
-				if (file != null)
+				if (file != null && recordFlag==true)
 				{
 					gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
 					gui.counterMap.put("Record Audio", gui.counterMap.get("Record Audio") + 1);
@@ -240,91 +247,92 @@ public class NewButtonListener implements ActionListener {
 	
 	private void recordAudio()
 	{
-		
-		
 		JDialog recordDialog = new JDialog(gui, "Record Audio");
 		recordDialog.setModal(true);
 		JPanel panel = new JPanel();
-		recordDialog.setSize(200, 160);
+		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		recordDialog.setSize(200, 180);
 		recordDialog.setResizable(false);
 		recordDialog.setLocationRelativeTo(gui);
-		JLabel label = new JLabel("Press Record button to start recording, Stop button to stop and save, and Cancel button to canel recording");
-		JButton recordButton = new JButton("Record");
+	//	JLabel label = new JLabel("Press Record button to start recording, Stop button to stop and save, and Cancel button to canel recording");
+		JButton recordButton = new JButton("Start Recording");
 		recordButton.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
 				gui.logger.log(Level.INFO, "Recording Started");
-				label.setText("Recording started...");
+				isRecording=true;
+				noRecording = false;
+				recordButton.setForeground(Color.RED);
+				recordButton.setText("Recording...");
 				thread = new ThreadRunnable();
-				thread.start();
-				
-				
+				thread.start();			
 			}
-			
-			
-			
 		});
 		
-		
-		
-		
-		JButton stopButton = new JButton("Stop");
+		JButton stopButton = new JButton("Stop Recording");
 		stopButton.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(isRecording==true){
 				gui.logger.log(Level.INFO, "Recording Stopped");
-				label.setText("Recording stopped...");
+				isRecording=false;
+				recordButton.setForeground(Color.BLACK);
+				recordButton.setText("Start Recording");
 				file = thread.stopRecording();
-				recordDialog.setVisible(false);
-				
-				
-				
-				
-				
-				
-			}
-			
+				//recordDialog.setVisible(false);	
+				}
+			}	
 		});
-		
-		
-		
 		
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gui.logger.log(Level.INFO, "Recording Cancelled");
-				label.setText("Recording cancelled...");
-				thread.cancel();
-				recordDialog.setVisible(false);
+				if(noRecording)
+					recordDialog.setVisible(false);
+				else
+					{
+						gui.logger.log(Level.INFO, "Recording Cancelled");
+						isRecording=false;
+						thread.cancel();
+						recordFlag=false;
+						recordDialog.setVisible(false);	
+					}
+				}
 				
-			}
-			
 		});
 		
 		
-		
+		JButton okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(noRecording)
+					recordDialog.setVisible(false);
+				else
+					{
+						gui.logger.log(Level.INFO, "Recording Done");
+						isRecording=false;
+						thread.cancel();
+						recordFlag=true;
+						recordDialog.setVisible(false);	
+					
+					}
+				}
+				
+		});
+				
 		recordDialog.setLayout(new BorderLayout());
 		panel.add(recordButton);
 		panel.add(stopButton);
+		panel.add(okButton);
 		panel.add(cancelButton);
 		recordDialog.add(panel, BorderLayout.CENTER);
-		recordDialog.add(label, BorderLayout.SOUTH);
-		recordDialog.setVisible(true);
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		recordDialog.setVisible(true);		
 	}
-	
-
 }

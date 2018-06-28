@@ -47,5 +47,12 @@ public class ClearCellCommand implements PlayerCommand {
 	public void setCurrentValue(String cellNumber) {
 		this.cellNumber = cellNumber;
 	}
+	
+	@Override
+	public void editCommand() {
+	
+		
+	}
+	
 
 }
