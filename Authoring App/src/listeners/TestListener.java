@@ -102,26 +102,7 @@ public class TestListener implements ActionListener {
 		}
 		file.deleteOnExit();
 		
-		File log = new File(System.getProperty("user.dir") + File.separator + "logs");
-		log.mkdirs();
-		File functionCounter = new File(gui.functionCounter.toString());
-		BufferedWriter wr = null;
-		try {
-			functionCounter.createNewFile();
-			wr = new BufferedWriter(new FileWriter(functionCounter));
-			wr.write(gui.counterMap.toString());
-			wr.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.err.println("File creation failed, please contact an administrator.");
-		}
-		
-		
-		
-		
-		
-		
+		functionCounterUpdate(gui);
 		
 		exportFile(file, sb.toString());
 
@@ -132,6 +113,25 @@ public class TestListener implements ActionListener {
 		    }
 		};
 		playerThread.start();
+	}
+
+	public static void functionCounterUpdate(GUI gui) {
+		
+		File log = new File(System.getProperty("user.dir") + File.separator + "logs");
+		log.mkdirs();
+		File functionCounter = new File(gui.functionCounter.toString());
+		BufferedWriter wr = null;
+		
+		try {
+			functionCounter.createNewFile();
+			wr = new BufferedWriter(new FileWriter(functionCounter));
+			wr.write(gui.counterMap.toString());
+			wr.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.err.println("File creation failed, please contact an administrator.");
+		}
 	}
 
 	/**
