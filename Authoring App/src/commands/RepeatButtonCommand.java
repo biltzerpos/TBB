@@ -8,7 +8,7 @@ package commands;
  * @since 2017-04-01
  *
  */
-public class RepeatButtonCommand extends PlayerCommand {
+public class RepeatButtonCommand implements PlayerCommand {
 
 	private String buttonNum;
 
@@ -46,5 +46,12 @@ public class RepeatButtonCommand extends PlayerCommand {
 	public void setCurrentValue(String waitTime) {
 		this.buttonNum = waitTime;
 	}
+	
+	@Override
+	public void editCommand() {
+	
+		
+	}
+	
 
 }

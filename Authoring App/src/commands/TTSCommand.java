@@ -8,7 +8,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class TTSCommand extends PlayerCommand {
+public class TTSCommand implements PlayerCommand {
 
 	private String textToSay = "";
 
@@ -47,4 +47,10 @@ public class TTSCommand extends PlayerCommand {
 		this.textToSay = textToSay;
 	}
 
+	@Override
+	public void editCommand() {
+	
+		
+	}
+	
 }

@@ -8,7 +8,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class ClearAllCommand extends PlayerCommand {
+public class ClearAllCommand implements PlayerCommand {
 
 	/**
 	 * Construct a new instance of the Clear All command
@@ -42,5 +42,12 @@ public class ClearAllCommand extends PlayerCommand {
 	@Override
 	public void setCurrentValue(String val) {
 	}
+	
+	@Override
+	public void editCommand() {
+		
+		
+	}
+	
 
 }

@@ -9,7 +9,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class SetPinsCommand extends PlayerCommand {
+public class SetPinsCommand implements PlayerCommand {
 
 	private String cellAndPins = "";
 
@@ -48,5 +48,11 @@ public class SetPinsCommand extends PlayerCommand {
 	public void setCurrentValue(String cellAndPins) {
 		this.cellAndPins = cellAndPins;
 	}
+	
+	@Override
+	public void editCommand() {
+	
+	}
+	
 
 }

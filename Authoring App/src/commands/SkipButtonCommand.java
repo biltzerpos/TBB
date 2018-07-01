@@ -8,7 +8,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class SkipButtonCommand extends PlayerCommand {
+public class SkipButtonCommand implements PlayerCommand {
 
 	private String numAndIdentifier = "";
 
@@ -47,5 +47,11 @@ public class SkipButtonCommand extends PlayerCommand {
 	public void setCurrentValue(String numAndIdentifier) {
 		this.numAndIdentifier = numAndIdentifier;
 	}
+	@Override
+	public void editCommand() {
+		
+		
+	}
+	
 
 }

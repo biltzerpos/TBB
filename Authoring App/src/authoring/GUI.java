@@ -10,9 +10,14 @@ import javax.swing.KeyStroke;
 
 
 import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +38,6 @@ import javax.swing.SwingUtilities;
 import commands.PauseCommand;
 import enamel.ScenarioParser;
 import listeners.NewButtonListener;
-import listeners.TestListener;
 
 
 /**
@@ -79,16 +83,16 @@ public class GUI extends JFrame {
 
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
-		//Scenario creation logger
+		//User Actions log created
 		FileHandler fileHandler = null;
 		try {
-			fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "logs" + File.separator + "userActions.log", 0, 1);
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.err.println("An error has occurred while creating the log files, please contact an administrator." + System.getProperty("line.separator") + "Error type: SecurityException.");
+			Path path = Paths.get(System.getProperty("user.dir") + File.separator + "logs");
+			if(!Files.exists(path)) Files.createDirectory(path);
+			fileHandler = new FileHandler(System.getProperty("user.dir") + File.separator + "logs" + File.separator + "userActions.log.txt", 0, 1);
+//		} catch (SecurityException e) {
+//			e.printStackTrace();
+//			System.err.println("An error has occurred while creating the log files, please contact an administrator." + System.getProperty("line.separator") + "Error type: SecurityException.");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 	         System.err.println("An error has occurred while creating the log files, please contact an administrator." + System.getProperty("line.separator") + "Error type: IOException.");
 		}
@@ -139,6 +143,21 @@ public class GUI extends JFrame {
 		setup();
 	}
 	
+	public void upd()
+	{
+	     //  File functionCounter = new File(functionCounter.toString());
+	        BufferedWriter wr = null;
+	        try {
+	            functionCounter.createNewFile();
+	            wr = new BufferedWriter(new FileWriter(functionCounter));
+	            wr.write(counterMap.toString());
+	            wr.close();
+	        } catch (IOException e1) {
+	            // TODO Auto-generated catch block
+	            e1.printStackTrace();
+	            System.err.println("File creation failed, please contact an administrator.");
+	        }
+	}
 	
 	private void setup() {
 	  
@@ -180,7 +199,7 @@ public class GUI extends JFrame {
 			}
 		});
 		
-		KeyStroke key4 = KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke key4 = KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK);
 		actionMap.put(key4, new AbstractAction("New Item") {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -191,7 +210,7 @@ public class GUI extends JFrame {
 			}
 		});
 		
-		KeyStroke key6 = KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke key6 = KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK);
 		actionMap.put(key6, new AbstractAction("New Question") {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -202,7 +221,8 @@ public class GUI extends JFrame {
 			}
 		});
 		
-		KeyStroke key8 = KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_DOWN_MASK);
+	//	KeyStroke key8 = KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke key8 = KeyStroke.getKeyStroke("UP");
 		actionMap.put(key8, new AbstractAction("Move Up") {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -213,7 +233,8 @@ public class GUI extends JFrame {
 			}
 		});
 		
-		KeyStroke key9 = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
+	//	KeyStroke key9 = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke key9 = KeyStroke.getKeyStroke("DOWN");
 		actionMap.put(key9, new AbstractAction("Move Down") {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -235,7 +256,7 @@ public class GUI extends JFrame {
 			}
 		});
 		
-		KeyStroke key11 = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke key11 = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
 		actionMap.put(key11, new AbstractAction("Save") {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -246,13 +267,24 @@ public class GUI extends JFrame {
 			}
 		});
 		
-		KeyStroke key12 = KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke key12 = KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_DOWN_MASK);
 		actionMap.put(key12, new AbstractAction("Load") {
 			private static final long serialVersionUID = 1L;
 			@Override
 		    public void actionPerformed(ActionEvent e) {
 				if (rightPanel.btnLoad.isEnabled()) {
 					rightPanel.btnLoad.doClick();
+				}
+			}
+		});
+		
+		KeyStroke key32 = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK);
+		actionMap.put(key32, new AbstractAction("Edit") {
+			private static final long serialVersionUID = 1L;
+			@Override
+		    public void actionPerformed(ActionEvent e) {
+				if (rightPanel.btnEdit.isEnabled()) {
+					rightPanel.btnEdit.doClick();
 				}
 			}
 		});
@@ -275,7 +307,7 @@ public class GUI extends JFrame {
 		newItemMap.put(key14,  "Text-to-speech");
 		
 		KeyStroke key15 = KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.ALT_DOWN_MASK);
-		newItemMap.put(key15, "Display Text");
+		newItemMap.put(key15,  "Display on Braille Cell");
 		
 		KeyStroke key16 = KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key16, "Repeat");
@@ -283,7 +315,7 @@ public class GUI extends JFrame {
 		KeyStroke key17 = KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key17, "Button Repeat");
 		
-		KeyStroke key18 = KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.ALT_DOWN_MASK);
+		KeyStroke key18 = KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key18, "Button Location");
 		
 		KeyStroke key19 = KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.ALT_DOWN_MASK);
@@ -292,7 +324,7 @@ public class GUI extends JFrame {
 		KeyStroke key20 = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key20,  "Sound");
 		
-		KeyStroke key21 = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.ALT_DOWN_MASK);
+		KeyStroke key21 = KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key21,  "Reset Buttons");
 		
 		KeyStroke key22 = KeyStroke.getKeyStroke(KeyEvent.VK_G, KeyEvent.ALT_DOWN_MASK);
@@ -313,7 +345,7 @@ public class GUI extends JFrame {
 		KeyStroke key27 = KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key27,  "Raise Pin");
 		
-		KeyStroke key28 = KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.ALT_DOWN_MASK);
+		KeyStroke key28 = KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key28,  "Lower Pin");
 		
 		KeyStroke key29 = KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.ALT_DOWN_MASK);
@@ -322,30 +354,52 @@ public class GUI extends JFrame {
 		KeyStroke key30 = KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key30,  "Location Tag");
 		
-		resetCounter();
-			
+
+				
+		counterMap.put("New Scenario", 0);
+		counterMap.put("New Item", 0);
+		counterMap.put("New Question", 0);
+		counterMap.put("Move Up", 0);
+		counterMap.put("Move Down", 0);
+		counterMap.put("Delete", 0);
+		counterMap.put("Edit", 0);
+		counterMap.put("Save", 0);
+		counterMap.put("Load", 0);
+		counterMap.put("Pause", 0);
+		counterMap.put("Text-to-speech", 0);
+		counterMap.put("Display on Braille Cell", 0);
+		counterMap.put("Repeat", 0);
+		counterMap.put("Button Repeat", 0);
+		counterMap.put("Button Location", 0);
+		counterMap.put("User Input", 0);
+		counterMap.put("Sound", 0);
+		counterMap.put("Record Audio",  0);
+		counterMap.put("Reset Buttons", 0);
+		counterMap.put("Go To Location", 0);
+		counterMap.put("Clear All", 0);
+		counterMap.put("Clear Cell", 0);
+		counterMap.put("Set Pins", 0);
+		counterMap.put("Set Character", 0);
+		counterMap.put("Raise Pin", 0);
+		counterMap.put("Lower Pin", 0);
+		counterMap.put("Set Voice", 0);
+		counterMap.put("Location Tag", 0);
+		counterMap.put("Test",  0);
+		
+		
+		
 		if (functionCounter.exists())
 		{
 			Scanner sc = null;
 			try {
 				sc = new Scanner(functionCounter);
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
 			if (sc.hasNext())
 			{
-				try {
-					loadCounter(functionCounter, sc);
-				} catch (NumberFormatException e2) {
-					//e2.printStackTrace();
-					System.err.println("An error has occured in loading functionCounter into counterMap");
-					resetCounter();
-					TestListener.functionCounterUpdate(this);
-				}
-				
-				
+			    loadCounter(functionCounter, sc);
 			}
 		}
 		
@@ -456,11 +510,12 @@ public class GUI extends JFrame {
 		counterMap.put("Move Up", 0);
 		counterMap.put("Move Down", 0);
 		counterMap.put("Delete", 0);
+		counterMap.put("Edit", 0);
 		counterMap.put("Save", 0);
 		counterMap.put("Load", 0);
 		counterMap.put("Pause", 0);
 		counterMap.put("Text-to-speech", 0);
-		counterMap.put("Display Text", 0);
+		counterMap.put("Display on Braille Cell", 0);
 		counterMap.put("Repeat", 0);
 		counterMap.put("Button Repeat", 0);
 		counterMap.put("Button Location", 0);

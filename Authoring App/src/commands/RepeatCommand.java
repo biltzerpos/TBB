@@ -10,7 +10,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class RepeatCommand extends PlayerCommand {
+public class RepeatCommand implements PlayerCommand {
 
 	private String repeatedText;
 
@@ -55,4 +55,10 @@ public class RepeatCommand extends PlayerCommand {
 		this.repeatedText = repeatedText;
 	}
 
+	@Override
+	public void editCommand() {
+		
+		
+	}
+	
 }

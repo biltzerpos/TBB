@@ -9,7 +9,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class CellCharCommand extends PlayerCommand {
+public class CellCharCommand implements PlayerCommand {
 
 	private String cellAndChar = "";
 
@@ -48,4 +48,10 @@ public class CellCharCommand extends PlayerCommand {
 		this.cellAndChar = cellAndChar;
 	}
 
+	
+	@Override
+	public void editCommand() {
+		
+	}
+	
 }

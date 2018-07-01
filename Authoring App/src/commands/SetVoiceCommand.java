@@ -8,7 +8,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class SetVoiceCommand extends PlayerCommand {
+public class SetVoiceCommand implements PlayerCommand {
 
 	private String voiceNumber;
 
@@ -58,4 +58,10 @@ public class SetVoiceCommand extends PlayerCommand {
 		this.voiceNumber = voice;
 	}
 
+	@Override
+	public void editCommand() {
+
+		
+	}
+	
 }

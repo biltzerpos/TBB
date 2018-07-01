@@ -10,7 +10,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-abstract public class PlayerCommand {
+abstract public interface  PlayerCommand {
 	@Override
 	abstract public String toString();
 
@@ -47,4 +47,8 @@ abstract public class PlayerCommand {
 	 *            take.
 	 */
 	abstract public void setCurrentValue(String newValue);
+	
+	
+	
+	abstract void editCommand();
 }

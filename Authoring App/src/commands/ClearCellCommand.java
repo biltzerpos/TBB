@@ -9,7 +9,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class ClearCellCommand extends PlayerCommand {
+public class ClearCellCommand implements PlayerCommand {
 
 	private String cellNumber = "";
 
@@ -47,5 +47,12 @@ public class ClearCellCommand extends PlayerCommand {
 	public void setCurrentValue(String cellNumber) {
 		this.cellNumber = cellNumber;
 	}
+	
+	@Override
+	public void editCommand() {
+	
+		
+	}
+	
 
 }

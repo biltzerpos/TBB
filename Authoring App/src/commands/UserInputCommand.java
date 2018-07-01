@@ -8,7 +8,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class UserInputCommand extends PlayerCommand {
+public class UserInputCommand implements PlayerCommand {
 
 	@Override
 	public String toString() {
@@ -34,4 +34,10 @@ public class UserInputCommand extends PlayerCommand {
 	public void setCurrentValue(String val) {
 	}
 
+	@Override
+	public void editCommand() {
+		
+		
+	}
+	
 }

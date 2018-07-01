@@ -8,7 +8,7 @@ package commands;
  * @version 1.0
  * @since 2017-04-01
  */
-public class SkipCommand extends PlayerCommand {
+public class SkipCommand implements PlayerCommand {
 
 	private String skipTo = "";
 
@@ -46,5 +46,12 @@ public class SkipCommand extends PlayerCommand {
 	public void setCurrentValue(String val) {
 		this.skipTo = val;
 	}
+	
+	@Override
+	public void editCommand() {
+		
+		
+	}
+	
 
 }

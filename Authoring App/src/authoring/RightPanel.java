@@ -31,19 +31,20 @@ import listeners.TestListener;
  * @since 2017-03-17
  *
  */
-public class RightPanel extends JPanel implements ActionListener {
+public class  RightPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 4894342125883442327L;
 	public JButton btnStart = new JButton("Start Recording");
 	public JButton btnStop = new JButton("Stop Recording");
 	public JButton readFile = new JButton("Read Audio File");
-	public JButton btnMoveUp = new JButton("Move Item Up (Control W)");
-	public JButton btnMoveDown = new JButton("Move Item Down (Control S)");
+	public JButton btnMoveUp = new JButton("Move Item Up (Control \u2191)");
+	public JButton btnMoveDown = new JButton("Move Item Down (Control \u2193)");
 	public JButton btnDelete = new JButton("Delete Item (Control D)");
-	public JButton btnNew = new JButton("New Item (Control N)");
-	public JButton btnSave = new JButton("Save (Control E)");
-	public JButton btnLoad = new JButton("Load (Control I)");
+	public JButton btnEdit = new JButton("Edit Item (Control E)");
+	public JButton btnNew = new JButton("New Item (Control I)");
+	public JButton btnSave = new JButton("Save (Control S)");
+	public JButton btnLoad = new JButton("Load (Control L)");
 	public JButton btnNewScenario = new JButton("New Scenario (Control Shift N)");
-	public JButton btnNewQuestion = new JButton("New Question (Control M)");
+	public JButton btnNewQuestion = new JButton("New Question (Control Q)");
 	public JButton btnTestScenario = new JButton ("Test Scenario (Control T)");
 	private GUI gui;
 
@@ -78,6 +79,7 @@ public class RightPanel extends JPanel implements ActionListener {
 		btnMoveUp.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnMoveDown.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnDelete.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
+		btnEdit.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnNew.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnNewQuestion.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnTestScenario.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
@@ -85,7 +87,7 @@ public class RightPanel extends JPanel implements ActionListener {
 		// Add the buttons
 		add(btnNew);
 		add(btnNewQuestion);
-		//add(btnStart);
+		add(btnEdit);
 		//add(btnStop);
 		//add(readFile);
 		add(btnMoveUp);
@@ -103,11 +105,12 @@ public class RightPanel extends JPanel implements ActionListener {
 		btnMoveDown.addActionListener(this);
 		btnNew.addActionListener(new NewButtonListener(gui));
 		btnDelete.addActionListener(this);
+		btnEdit.addActionListener(this);
 		readFile.addActionListener(this);
 		btnSave.addActionListener(new SaveListener(gui));
 		btnLoad.addActionListener(new LoadListener(gui, mapper));
 		btnNewScenario.addActionListener(new NewScenarioListener(gui));
-		btnNewQuestion.addActionListener(new NewQuestionListener(gui, mapper));
+		btnNewQuestion.addActionListener(new NewQuestionListener(gui, mapper));		
 		btnTestScenario.addActionListener(new TestListener(gui));
 		
 		
@@ -122,6 +125,7 @@ public class RightPanel extends JPanel implements ActionListener {
 		btnSave.setEnabled(false);
 		readFile.setEnabled(false);
 		btnStart.setEnabled(false);
+		btnEdit.setEnabled(false);
 		btnNewQuestion.setEnabled(false);
 
 		this.gui = gui;
@@ -149,7 +153,10 @@ public class RightPanel extends JPanel implements ActionListener {
 		} else if (e.getSource() == btnDelete) {
 			gui.getLeftPanel().deleteItem();
 			gui.counterMap.put("Delete", gui.counterMap.get("Delete") + 1);
-		} else if (e.getSource() == readFile) {
+		} else if (e.getSource() == btnEdit) {
+			gui.getLeftPanel().EditItem();
+			gui.counterMap.put("Edit", gui.counterMap.get("Edit") + 1);
+		}else if (e.getSource() == readFile) {
 			this.fileChooser();
 		}
 
@@ -194,6 +201,19 @@ public class RightPanel extends JPanel implements ActionListener {
 	public void setDown(boolean status) {
 		btnMoveDown.setEnabled(status);
 	}
+	
+	//--------------------------------------------------- NEW
+	
+	/**
+	 * A method that changes the availability of a btnSwap button
+	 *
+	 * @param status
+	 *            parameter that is either true or false
+	 */
+	public void setSwap(boolean status) {
+		btnMoveDown.setEnabled(status);
+	}
+	
 
 	/**
 	 * A method that changes the availability of a btnDelete button
@@ -203,6 +223,18 @@ public class RightPanel extends JPanel implements ActionListener {
 	 */
 	public void setDelete(boolean status) {
 		btnDelete.setEnabled(status);
+	}
+	
+	
+
+	/**
+	 * A method that changes the availability of a btnEdit button
+	 *
+	 * @param status
+	 *            parameter that is either true or false
+	 */
+	public void setEdit(boolean status) {
+		btnEdit.setEnabled(status);
 	}
 
 	/**
