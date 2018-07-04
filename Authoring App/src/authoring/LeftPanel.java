@@ -210,9 +210,9 @@ public void moveDown() {
  */
 public void deleteItem() {
 	// Get the index of the selected element
-	int selectedIndex = commandList.getSelectedIndex();
+	int[] selectedIndex = commandList.getSelectedIndices();
 	
-	System.out.println(selectedIndex);
+	
 /*	if(!(commandList.isSelectionEmpty()))
 	{
 		gui.getRightPanel().setDelete(true);
@@ -220,7 +220,19 @@ public void deleteItem() {
 	gui.getRightPanel().setDelete(true);*/
 	
 	// Remove that position from the listModel
-	listModel.remove(selectedIndex);
+	
+	
+	  int index = commandList.getSelectedIndices().length - 1;
+
+       while (commandList.getSelectedIndices().length != 0) {
+           this.listModel.removeElementAt(commandList.getSelectedIndices()[index--]);
+       }
+	
+	/*for(int i=0; i< selectedIndex.length; i++ )
+	{
+	System.out.println(selectedIndex[i]);
+	listModel.remove(selectedIndex[i]);
+	}*/
 }
 
 /**
