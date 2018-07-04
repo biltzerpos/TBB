@@ -1,17 +1,22 @@
 package listeners;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.logging.Level;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import authoring.GUI;
@@ -49,7 +54,9 @@ public class NewButtonListener implements ActionListener {
 	private GUI gui;
 	ThreadRunnable thread = null;
 	File file = null;
-	
+	private boolean isRecording = false;
+	private boolean noRecording = true;
+	private boolean recordFlag= false;
 
 	/**
 	 * Create the NewButtonListener with a reference to the base GUI object
@@ -68,8 +75,8 @@ public class NewButtonListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		gui.logger.log(Level.INFO, "User has clicked New Item button.");
 		// Show the Add Item dialog
-		String[] possibilities = { "Pause", "Text-to-speech", "Display String", "Record Audio", "Repeat", "Button Repeat",
-				"Button Location", "User Input", "Sound", "Reset Buttons", "Go To Location", "Clear All", "Clear Cell",
+		String[] possibilities = { "Pause", "Text-to-speech", "Display on Braille Cell", "Record Audio", "Repeat", "Button Repeat",
+				"Button Location", "User Input", "Play Sound", "Reset Buttons", "Go To Location", "Clear All", "Clear Cell",
 				"Set Pins", "Set Character", "Raise Pin", "Lower Pin", "Set Voice", "Location Tag" };
 		Object value;
 		
@@ -102,12 +109,12 @@ public class NewButtonListener implements ActionListener {
 					gui.counterMap.put("Text-to-speech", gui.counterMap.get("Text-to-speech") + 1);
 				}
 				break;
-			case "Display String":
+			case "Display on Braille Cell":
 				value = JOptionPane.showInputDialog(gui, "String to display", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
 				if (value != null && value != "") {
 					gui.getLeftPanel().addItem(new SetStringCommand((String) value));
-					gui.counterMap.put("Display String", gui.counterMap.get("Display String") + 1);
+					gui.counterMap.put("Display on Braille Cell", gui.counterMap.get("Display on Braille Cell") + 1);
 				}
 				break;
 			case "Repeat":
@@ -138,7 +145,7 @@ public class NewButtonListener implements ActionListener {
 				gui.getLeftPanel().addItem(new UserInputCommand());
 				gui.counterMap.put("User Input", gui.counterMap.get("User Input") + 1);
 				break;
-			case "Sound":				
+			case "Play Sound":				
 				JFileChooser load = new JFileChooser();
 				FileNameExtensionFilter wavFileFilter = new FileNameExtensionFilter("wav files (*.wav)", "wav");
 				load.addChoosableFileFilter(wavFileFilter);
@@ -148,12 +155,12 @@ public class NewButtonListener implements ActionListener {
 				if (file != null)
 				{
 					gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
-					gui.counterMap.put("Sound", gui.counterMap.get("Sound") + 1);					
+					gui.counterMap.put("Play Sound", gui.counterMap.get("Play Sound") + 1);					
 				}
 				break;
 			case "Record Audio":
 				recordAudio();
-				if (file != null)
+				if (file != null && recordFlag==true)
 				{
 					gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
 					gui.counterMap.put("Record Audio", gui.counterMap.get("Record Audio") + 1);
@@ -239,91 +246,100 @@ public class NewButtonListener implements ActionListener {
 	
 	private void recordAudio()
 	{
-		
-		
 		JDialog recordDialog = new JDialog(gui, "Record Audio");
 		recordDialog.setModal(true);
 		JPanel panel = new JPanel();
-		recordDialog.setSize(200, 160);
+		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		recordDialog.setSize(200, 180);
 		recordDialog.setResizable(false);
 		recordDialog.setLocationRelativeTo(gui);
-		JLabel label = new JLabel("Press Record button to start recording, Stop button to stop and save, and Cancel button to canel recording");
-		JButton recordButton = new JButton("Record");
+	//	JLabel label = new JLabel("Press Record button to start recording, Stop button to stop and save, and Cancel button to canel recording");
+		JButton recordButton = new JButton("Start Recording");
+		JButton cancelButton = new JButton("Cancel");
+		JButton okButton = new JButton("OK");
+		
+		cancelButton.setEnabled(false);
+		okButton.setEnabled(false);
+		
 		recordButton.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
 				gui.logger.log(Level.INFO, "Recording Started");
-				label.setText("Recording started...");
+				isRecording=true;
+				noRecording = false;
+				recordButton.setForeground(Color.RED);
+				recordButton.setText("Recording...");
 				thread = new ThreadRunnable();
-				thread.start();
-				
-				
+				thread.start();			
 			}
-			
-			
-			
 		});
 		
-		
-		
-		
-		JButton stopButton = new JButton("Stop");
+		JButton stopButton = new JButton("Stop Recording");
 		stopButton.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(isRecording==true){
 				gui.logger.log(Level.INFO, "Recording Stopped");
-				label.setText("Recording stopped...");
+				isRecording=false;
+				recordButton.setForeground(Color.BLACK);
+				recordButton.setText("Start Recording");
+				cancelButton.setEnabled(true);
+				okButton.setEnabled(true);
 				file = thread.stopRecording();
-				recordDialog.setVisible(false);
-				
-				
-				
-				
-				
-				
-			}
-			
+				//recordDialog.setVisible(false);	
+				}
+			}	
 		});
 		
 		
-		
-		
-		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gui.logger.log(Level.INFO, "Recording Cancelled");
-				label.setText("Recording cancelled...");
-				thread.cancel();
-				recordDialog.setVisible(false);
+				if(noRecording)
+					recordDialog.setVisible(false);
+				else
+					{
+						gui.logger.log(Level.INFO, "Recording Cancelled");
+						isRecording=false;
+						thread.cancel();
+						recordFlag=false;
+						recordDialog.setVisible(false);	
+					}
+				}
 				
-			}
-			
 		});
 		
 		
-		
+	
+		okButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(noRecording)
+					recordDialog.setVisible(false);
+				else
+					{
+						gui.logger.log(Level.INFO, "Recording Done");
+						isRecording=false;
+						thread.cancel();
+						recordFlag=true;
+						recordDialog.setVisible(false);	
+					
+					}
+				}
+				
+		});
+				
 		recordDialog.setLayout(new BorderLayout());
 		panel.add(recordButton);
 		panel.add(stopButton);
+		panel.add(okButton);
 		panel.add(cancelButton);
 		recordDialog.add(panel, BorderLayout.CENTER);
-		recordDialog.add(label, BorderLayout.SOUTH);
-		recordDialog.setVisible(true);
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		recordDialog.setVisible(true);		
 	}
-	
-
 }

@@ -24,6 +24,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import commands.PlayerCommand;
+import listeners.NewQuestionListener;
 
 /**
  * LeftPanel is the abstraction which is used to store the list of commands. It
@@ -40,11 +41,16 @@ public class LeftPanel extends JPanel implements KeyListener {
 private static final long serialVersionUID = 2716138356085893186L;
 
 private JScrollPane scrollPane = new JScrollPane();
+
 public JList<PlayerCommand> commandList = new JList<>();
 private DefaultListModel<PlayerCommand> listModel = new DefaultListModel<>();
 int index=-1;
-
 private GUI gui;
+private boolean isEdit = false;
+int selectedIndex;
+
+ColourMapper map= new ColourMapper();
+NewQuestionListener listener= new NewQuestionListener(gui,map);
 
 
 private HashMap<KeyStroke, Action> actionMap = new HashMap<KeyStroke, Action>();
@@ -88,10 +94,21 @@ public LeftPanel(GUI gui, ColourMapper mapper) {
 		gui.getRightPanel().setDelete(true);
 		gui.getRightPanel().setUp(true);
 		gui.getRightPanel().setDown(true);
+		gui.getRightPanel().setEdit(true);
 
 	}
 	});
 }
+
+
+
+
+public DefaultListModel<PlayerCommand> getlistModel()
+	{
+		return this.listModel;
+	}
+
+
 
 /**
  * Swap two string elements in the list, given their indices
@@ -120,11 +137,31 @@ private void swapElements(int a, int b) {
  *            New element to be added
  */
 public void addItem(PlayerCommand newElement) {
-	listModel.addElement(newElement);
+	if(isEdit==true)
+	listModel.setElementAt(newElement, this.selectedIndex);
+	
+	else
+	{listModel.addElement(newElement);
+	}
+
 }
 
 
-
+/**
+ * Edit an element from the list 
+ *
+* @param a
+ *            Parameter to edit
+ */
+public void EditItem() {
+	
+	int selectedIndex = commandList.getSelectedIndex();
+	PlayerCommand a = commandList.getSelectedValue();
+	a.editCommand();
+	listModel.setElementAt(a, selectedIndex);
+	
+	
+}
 
 /**
  * Move the currently selected element one spot higher in the list. If the
@@ -292,6 +329,7 @@ public List<PlayerCommand> getList() {
 			result.add((PlayerCommand) o);
 		}
 	}
+	
 	return result;
 }
 

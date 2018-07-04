@@ -48,4 +48,10 @@ public class CellCharCommand implements PlayerCommand {
 		this.cellAndChar = cellAndChar;
 	}
 
+	
+	@Override
+	public void editCommand() {
+		
+	}
+	
 }

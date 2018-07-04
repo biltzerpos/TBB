@@ -1,5 +1,7 @@
 package commands;
 
+import javax.swing.JOptionPane;
+import authoring.GUI;
 /**
  * A class to represent pause commands. Contains a string for the pause duration
  *
@@ -9,7 +11,9 @@ package commands;
  */
 public class PauseCommand implements PlayerCommand {
 
+	private static final String String = null;
 	private String waitTime;
+	private GUI gui = new GUI();
 
 	/***
 	 * Constructor for PauseCommand.
@@ -45,5 +49,23 @@ public class PauseCommand implements PlayerCommand {
 	public void setCurrentValue(String waitTime) {
 		this.waitTime = waitTime;
 	}
-
+	
+	@Override
+	public void editCommand() {
+		Object value;
+	    value = JOptionPane.showInputDialog(null, "Length of time to wait", "Edit Item Details", JOptionPane.OK_CANCEL_OPTION, null, null, this.waitTime);
+	    this.waitTime= (String) value;
+	}
+	
+	public String getWaitTime()
+	{
+		return this.waitTime;
+	}
+	
+	public void setWaitTime(String time)
+	{
+		this.waitTime = time ;
+	}
+	
+	
 }

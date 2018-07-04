@@ -199,7 +199,7 @@ public class GUI extends JFrame {
 			}
 		});
 		
-		KeyStroke key4 = KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke key4 = KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK);
 		actionMap.put(key4, new AbstractAction("New Item") {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -210,7 +210,7 @@ public class GUI extends JFrame {
 			}
 		});
 		
-		KeyStroke key6 = KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke key6 = KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK);
 		actionMap.put(key6, new AbstractAction("New Question") {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -221,7 +221,8 @@ public class GUI extends JFrame {
 			}
 		});
 		
-		KeyStroke key8 = KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_DOWN_MASK);
+	//	KeyStroke key8 = KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke key8 = KeyStroke.getKeyStroke("UP");
 		actionMap.put(key8, new AbstractAction("Move Up") {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -232,7 +233,8 @@ public class GUI extends JFrame {
 			}
 		});
 		
-		KeyStroke key9 = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
+	//	KeyStroke key9 = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke key9 = KeyStroke.getKeyStroke("DOWN");
 		actionMap.put(key9, new AbstractAction("Move Down") {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -254,7 +256,7 @@ public class GUI extends JFrame {
 			}
 		});
 		
-		KeyStroke key11 = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke key11 = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
 		actionMap.put(key11, new AbstractAction("Save") {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -265,13 +267,24 @@ public class GUI extends JFrame {
 			}
 		});
 		
-		KeyStroke key12 = KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke key12 = KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_DOWN_MASK);
 		actionMap.put(key12, new AbstractAction("Load") {
 			private static final long serialVersionUID = 1L;
 			@Override
 		    public void actionPerformed(ActionEvent e) {
 				if (rightPanel.btnLoad.isEnabled()) {
 					rightPanel.btnLoad.doClick();
+				}
+			}
+		});
+		
+		KeyStroke key32 = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK);
+		actionMap.put(key32, new AbstractAction("Edit") {
+			private static final long serialVersionUID = 1L;
+			@Override
+		    public void actionPerformed(ActionEvent e) {
+				if (rightPanel.btnEdit.isEnabled()) {
+					rightPanel.btnEdit.doClick();
 				}
 			}
 		});
@@ -294,7 +307,7 @@ public class GUI extends JFrame {
 		newItemMap.put(key14,  "Text-to-speech");
 		
 		KeyStroke key15 = KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.ALT_DOWN_MASK);
-		newItemMap.put(key15,  "Display String");
+		newItemMap.put(key15,  "Display on Braille Cell");
 		
 		KeyStroke key16 = KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key16, "Repeat");
@@ -302,7 +315,7 @@ public class GUI extends JFrame {
 		KeyStroke key17 = KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key17, "Button Repeat");
 		
-		KeyStroke key18 = KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.ALT_DOWN_MASK);
+		KeyStroke key18 = KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key18, "Button Location");
 		
 		KeyStroke key19 = KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.ALT_DOWN_MASK);
@@ -311,7 +324,7 @@ public class GUI extends JFrame {
 		KeyStroke key20 = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key20,  "Sound");
 		
-		KeyStroke key21 = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.ALT_DOWN_MASK);
+		KeyStroke key21 = KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key21,  "Reset Buttons");
 		
 		KeyStroke key22 = KeyStroke.getKeyStroke(KeyEvent.VK_G, KeyEvent.ALT_DOWN_MASK);
@@ -332,7 +345,7 @@ public class GUI extends JFrame {
 		KeyStroke key27 = KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key27,  "Raise Pin");
 		
-		KeyStroke key28 = KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.ALT_DOWN_MASK);
+		KeyStroke key28 = KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key28,  "Lower Pin");
 		
 		KeyStroke key29 = KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.ALT_DOWN_MASK);
@@ -350,11 +363,12 @@ public class GUI extends JFrame {
 		counterMap.put("Move Up", 0);
 		counterMap.put("Move Down", 0);
 		counterMap.put("Delete", 0);
+		counterMap.put("Edit", 0);
 		counterMap.put("Save", 0);
 		counterMap.put("Load", 0);
 		counterMap.put("Pause", 0);
 		counterMap.put("Text-to-speech", 0);
-		counterMap.put("Display String", 0);
+		counterMap.put("Display on Braille Cell", 0);
 		counterMap.put("Repeat", 0);
 		counterMap.put("Button Repeat", 0);
 		counterMap.put("Button Location", 0);
@@ -497,11 +511,12 @@ public class GUI extends JFrame {
 		counterMap.put("Move Up", 0);
 		counterMap.put("Move Down", 0);
 		counterMap.put("Delete", 0);
+		counterMap.put("Edit", 0);
 		counterMap.put("Save", 0);
 		counterMap.put("Load", 0);
 		counterMap.put("Pause", 0);
 		counterMap.put("Text-to-speech", 0);
-		counterMap.put("Display String", 0);
+		counterMap.put("Display on Braille Cell", 0);
 		counterMap.put("Repeat", 0);
 		counterMap.put("Button Repeat", 0);
 		counterMap.put("Button Location", 0);
