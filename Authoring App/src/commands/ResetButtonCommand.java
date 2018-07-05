@@ -44,7 +44,7 @@ public class ResetButtonCommand implements PlayerCommand {
 	}
 
 	@Override
-	public void editCommand(String waitTime , int seletedIndex) {
+	public void editCommand() {
 		
 		
 	}

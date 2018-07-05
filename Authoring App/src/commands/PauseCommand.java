@@ -51,12 +51,10 @@ public class PauseCommand implements PlayerCommand {
 	}
 	
 	@Override
-	public void editCommand(String waitTime, int selectedIndex) {
+	public void editCommand() {
 		Object value;
-	    value = JOptionPane.showInputDialog(null, "Length of time to wait", "Edit Item Details", JOptionPane.OK_CANCEL_OPTION, null, null, waitTime);
+	    value = JOptionPane.showInputDialog(null, "Length of time to wait", "Edit Item Details", JOptionPane.OK_CANCEL_OPTION, null, null, this.waitTime);
 	    this.waitTime= (String) value;
-
-	 
 	}
 	
 	public String getWaitTime()

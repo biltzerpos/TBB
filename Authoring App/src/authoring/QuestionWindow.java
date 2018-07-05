@@ -1,5 +1,7 @@
 package authoring;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -10,8 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.util.logging.Level;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,14 +26,21 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import commands.PlayerCommand;
+import commands.QuestionCommand;
+import commands.SoundCommand;
+import org.apache.commons.io.FilenameUtils;
 
 
 public class QuestionWindow extends JFrame{
 
 	public JFrame frame= new JFrame("Enter New Question");
-	private JComboBox<String> buttons;
+	private JComboBox<String> buttons = new JComboBox<String>();
 	private JTextArea introField = new JTextArea(5,18);
 	private JTextField brailleField  = new JTextField();
 	private JTextArea repeatField= new JTextArea(5,18);
@@ -34,8 +48,8 @@ public class QuestionWindow extends JFrame{
 	private JTextField buttonField = new JTextField();
 	private JLabel introLabel = new JLabel("Introduction :");
 	private JLabel brailleLabel= new JLabel("Braille Text:");
-	private JLabel correctLabel= new JLabel("Correct Button:");
-	private JLabel correctLabel1= new JLabel("For Correct Answer:");
+	private JLabel correctButton= new JLabel("Correct Button:");
+	private JLabel correctLabel= new JLabel("For Correct Answer:");
 	private JLabel incorrectLabel= new JLabel("For Incorrect Answer:");
 	JButton text= new JButton("Enter Text");
 	JButton play= new JButton("Select Audio");
@@ -46,10 +60,25 @@ public class QuestionWindow extends JFrame{
 	JButton textCorrect= new JButton("Enter Text");
 	JButton recordCorrect= new JButton("Record Audio");
 	JButton playCorrect= new JButton("Select Audio");
-
-	private GUI gui;
 	private JButton ok;
 	private JButton cancel;
+	
+	private GUI gui;
+	private String strNumOfButtons;
+	private int index=0;
+	private boolean isRecording = false;
+	private boolean noRecording = true;
+	private boolean recordFlag= false;
+	private String introAudio= "none";
+	private String correctAudio= "none";
+	private String incorrectAudio= "none";
+	private String introSound= "none";
+	private String correctSound= "none";
+	private String incorrectSound= "none";
+	
+	ThreadRunnable thread = null;
+	File file = null;
+	
 
 	/**
 	 * Create the application.
@@ -57,6 +86,73 @@ public class QuestionWindow extends JFrame{
 	 */
 	public QuestionWindow(GUI gui){
 		this.gui= gui;
+		strNumOfButtons = gui.getSettingsPanel().getButtonField();
+		initialize();
+	}
+	
+	
+	/**
+	 * Create the application.
+	 * This constructor is used for Edit Question
+	 */
+	public QuestionWindow(QuestionCommand a){
+		this.introField.setText(a.getIntroField());
+		if(a.getIntroField().length()>0 && a.getIntroField() != "none")
+		{
+			text.setText("Edit Text");
+			text.setForeground(Color.magenta);
+		}
+		else if(a.getIntroAudio()!= "none")
+		{
+			record.setText("Rerecord Audio");
+			record.setForeground(Color.magenta);
+		}
+		else if(a.getIntroSound()!="none")
+		{
+			play.setText("Reselect Audio");
+			play.setForeground(Color.magenta);
+		}
+		
+		if(a.getRepeatField().length()>0 && a.getRepeatField() != "none")
+		{
+			textIncorrect.setText("Edit Text");
+			textIncorrect.setForeground(Color.magenta);
+		}
+		else if(a.getIncorrectAudio()!= "none")
+		{
+			recordIncorrect.setText("Rerecord Audio");
+			recordIncorrect.setForeground(Color.magenta);
+		}
+		else if(a.getIncorrectSound()!="none")
+		{
+			playIncorrect.setText("Reselect Audio");
+			playIncorrect.setForeground(Color.magenta);
+		}
+		if(a.getCorrectField().length()>0 && a.getCorrectField() != "none")
+		{
+			textCorrect.setText("Edit Text");
+			textCorrect.setForeground(Color.magenta);
+		}
+		else if(a.getCorrectAudio()!= "none")
+		{
+			recordCorrect.setText("Rerecord Audio");
+			recordCorrect.setForeground(Color.magenta);
+		}
+		else if(a.getCorrectSound()!="none")
+		{
+			playCorrect.setText("Reselect Audio");
+			playCorrect.setForeground(Color.magenta);
+		}
+		
+		
+		
+		this.buttons.setEnabled(false);
+		this.brailleField.setText(a.getBrailleField());
+		this.repeatField.setText(a.getRepeatField());
+		this.correctField.setText(a.getCorrectField());
+		this.index=a.getCorrectButton()-1;
+		strNumOfButtons = a.getTotalButtons();
+		this.gui= a.getGUI();
 		initialize();
 	}
 	
@@ -70,7 +166,7 @@ public class QuestionWindow extends JFrame{
 		frame.setPreferredSize(new Dimension(630,280));
 		frame.setMaximumSize(new Dimension(630,280));
 		frame.setMinimumSize(new Dimension(630,280));
-		frame.setLocation(300,300);
+	//	frame.setLocation(300,300);
 		frame.setResizable(false);
 		frame.pack();
 		frame.setVisible(true);
@@ -133,7 +229,7 @@ public class QuestionWindow extends JFrame{
 		gbc_correctLabel.insets = new Insets(10, 10, 5, 5);
 		gbc_correctLabel.gridx = 3;
 		gbc_correctLabel.gridy = 5;
-		frame.getContentPane().add(correctLabel, gbc_correctLabel);
+		frame.getContentPane().add(correctButton, gbc_correctLabel);
 		
 		/**
 		 * Incorrect Button label
@@ -154,7 +250,7 @@ public class QuestionWindow extends JFrame{
 		gbc_correctLabel1 .insets = new Insets(10, 10, 5, 5);
 		gbc_correctLabel1 .gridx = 3;
 		gbc_correctLabel1 .gridy = 8;
-		frame.getContentPane().add(correctLabel1 , gbc_correctLabel1 );
+		frame.getContentPane().add(correctLabel , gbc_correctLabel1 );
 		
 		
 		/**
@@ -195,9 +291,16 @@ public class QuestionWindow extends JFrame{
 				});
 				
 				//Open intro field
-				JOptionPane.showMessageDialog(null, introPane, "Enter introduction text",  
-					JOptionPane.PLAIN_MESSAGE);	
-				
+		//	 JOptionPane.showMessageDialog(null, introPane, "Enter introduction text",  
+		//			JOptionPane.PLAIN_MESSAGE);	
+
+		int result = JOptionPane.showConfirmDialog(null, introPane, "Enter introduction text",
+						JOptionPane.OK_CANCEL_OPTION);
+		if (result == JOptionPane.OK_OPTION) {
+			record.setEnabled(false);
+			play.setEnabled(false);
+		}
+
 			}
 		});
 			
@@ -213,6 +316,20 @@ public class QuestionWindow extends JFrame{
 		 */
 		record.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				recordAudio();
+				if (file != null && recordFlag==true)
+				{
+					introAudio= file.toString();
+					String basename = FilenameUtils.getBaseName(introAudio);
+					record.setText(basename+".wav");
+					introField.setText("");
+					introSound="none";
+					text.setEnabled(false);
+					play.setEnabled(false);
+				//	gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
+				//	gui.counterMap.put("Record Audio", gui.counterMap.get("Record Audio") + 1);
+				}	
 			}
 		});
 		GridBagConstraints gbc_record = new GridBagConstraints();
@@ -227,6 +344,26 @@ public class QuestionWindow extends JFrame{
 		 */
 		play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				JFileChooser load = new JFileChooser();
+				FileNameExtensionFilter wavFileFilter = new FileNameExtensionFilter("wav files (*.wav)", "wav");
+				load.addChoosableFileFilter(wavFileFilter);
+				load.setFileFilter(wavFileFilter);				
+				load.showOpenDialog(null);
+				file = load.getSelectedFile();
+				if (file != null)
+				{
+					introSound = file.toString();
+					String basename = FilenameUtils.getBaseName(introSound);
+					play.setText(basename+".wav");
+					introField.setText("");
+					introAudio="none";
+					text.setEnabled(false);
+					record.setEnabled(false);
+				//	gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
+				//	gui.counterMap.put("Sound", gui.counterMap.get("Sound") + 1);					
+				}
+
 			}
 		});
 		GridBagConstraints gbc_play = new GridBagConstraints();
@@ -275,7 +412,17 @@ public class QuestionWindow extends JFrame{
 				});
 				
 			
-				JOptionPane.showMessageDialog(null,repeatPane, "Enter Text for Incorrect Answer", JOptionPane.PLAIN_MESSAGE);
+			//	JOptionPane.showMessageDialog(null,repeatPane, "Enter Text for Incorrect Answer", JOptionPane.PLAIN_MESSAGE);
+			
+				
+		int result = JOptionPane.showConfirmDialog(null, repeatPane, "Enter Text for Incorrect Answer",
+						JOptionPane.OK_CANCEL_OPTION);
+		if (result == JOptionPane.OK_OPTION) {
+			recordIncorrect.setEnabled(false);
+			playIncorrect.setEnabled(false);
+		}
+
+			
 			}
 		});
 		GridBagConstraints gbc_textIncorrect = new GridBagConstraints();
@@ -290,6 +437,18 @@ public class QuestionWindow extends JFrame{
 		 */	
 		recordIncorrect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				recordAudio();
+				if (file != null && recordFlag==true)
+				{
+					incorrectAudio= file.toString();
+					String basename = FilenameUtils.getBaseName(incorrectAudio);
+					recordIncorrect.setText(basename+".wav");
+					textIncorrect.setEnabled(false);
+					playIncorrect.setEnabled(false);
+				//	gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
+				//	gui.counterMap.put("Record Audio", gui.counterMap.get("Record Audio") + 1);
+				}	
 			}
 		});
 		GridBagConstraints gbc_recordIncorrect = new GridBagConstraints();
@@ -305,6 +464,26 @@ public class QuestionWindow extends JFrame{
 		
 		playIncorrect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				JFileChooser load = new JFileChooser();
+				FileNameExtensionFilter wavFileFilter = new FileNameExtensionFilter("wav files (*.wav)", "wav");
+				load.addChoosableFileFilter(wavFileFilter);
+				load.setFileFilter(wavFileFilter);				
+				load.showOpenDialog(null);
+				file = load.getSelectedFile();
+				if (file != null)
+				{
+					incorrectSound = file.toString();
+					String basename = FilenameUtils.getBaseName(incorrectSound);
+					playIncorrect.setText(basename+".wav");
+					textIncorrect.setEnabled(false);
+					recordIncorrect.setEnabled(false);
+				//	gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
+				//	gui.counterMap.put("Sound", gui.counterMap.get("Sound") + 1);					
+				}
+				
 			}
 		});
 		GridBagConstraints gbc_playIncorrect = new GridBagConstraints();
@@ -351,7 +530,17 @@ public class QuestionWindow extends JFrame{
 					}
 
 				});
-				JOptionPane.showMessageDialog(null,correctPane, "Enter Text for Correct Answer", JOptionPane.PLAIN_MESSAGE);
+			
+		//	JOptionPane.showMessageDialog(null,correctPane, "Enter Text for Correct Answer", JOptionPane.PLAIN_MESSAGE);
+			
+		int result = JOptionPane.showConfirmDialog(null, correctPane, "Enter Text for Correct Answer",
+						JOptionPane.OK_CANCEL_OPTION);
+		if (result == JOptionPane.OK_OPTION) {
+			recordCorrect.setEnabled(false);
+			playCorrect.setEnabled(false);
+		}
+		
+			
 			}
 		});
 		GridBagConstraints gbc_textCorrect = new GridBagConstraints();
@@ -367,6 +556,21 @@ public class QuestionWindow extends JFrame{
 		 */
 		recordCorrect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				recordAudio();
+				if (file != null && recordFlag==true)
+				{
+					correctAudio= file.toString();
+					String basename = FilenameUtils.getBaseName(correctAudio);
+					recordCorrect.setText(basename+".wav");
+					textCorrect.setEnabled(false);
+					playCorrect.setEnabled(false);
+				//	gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
+				//	gui.counterMap.put("Record Audio", gui.counterMap.get("Record Audio") + 1);
+				}
+				
 			}
 		});
 		GridBagConstraints gbc_recordCorrect = new GridBagConstraints();
@@ -383,6 +587,26 @@ public class QuestionWindow extends JFrame{
 	
 		playCorrect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				JFileChooser load = new JFileChooser();
+				FileNameExtensionFilter wavFileFilter = new FileNameExtensionFilter("wav files (*.wav)", "wav");
+				load.addChoosableFileFilter(wavFileFilter);
+				load.setFileFilter(wavFileFilter);				
+				load.showOpenDialog(null);
+				file = load.getSelectedFile();
+				if (file != null)
+				{
+					correctSound = file.toString();
+					String basename = FilenameUtils.getBaseName(correctSound);
+					playCorrect.setText(basename+".wav");
+					textCorrect.setEnabled(false);
+					recordCorrect.setEnabled(false);
+				//	gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
+				//	gui.counterMap.put("Sound", gui.counterMap.get("Sound") + 1);					
+				}
+				
+				
 			}
 		});
 		GridBagConstraints gbc_playCorrect = new GridBagConstraints();
@@ -410,9 +634,9 @@ public class QuestionWindow extends JFrame{
 		 * This is the correct answer button for this question
 		 */
 		buttonField = new JTextField();
-		this.buttons = new JComboBox<String>();
 		
-		String strNumOfButtons = gui.getSettingsPanel().getButtonField();
+		
+	//	String strNumOfButtons = gui.getSettingsPanel().getButtonField();
     	if (strNumOfButtons == null || strNumOfButtons.isEmpty()) {
     		return;
     	}
@@ -420,11 +644,11 @@ public class QuestionWindow extends JFrame{
     	int numOfButtons = Integer.parseInt(strNumOfButtons);
     	
     	buttons.removeAllItems();
-    	for (int i = 0; i < numOfButtons; i++) {
+    	for (int i = 0; i <numOfButtons; i++) {
     		buttons.addItem("Button " + (i + 1));
     	}
-
-
+    	buttons.setSelectedIndex(this.index);
+    
 		this.buttons.getAccessibleContext().setAccessibleDescription("This is the correct answer button for this question");
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 10, 5, 5);
@@ -470,6 +694,11 @@ public class QuestionWindow extends JFrame{
 		c.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 	}
 		
+	
+	
+	//-------------------------------------------------------------------------------------------------------------------
+	////////////////////////////////////////////////// GETTERS/////////////////////////////////////////////////////////
+	//---------------------------------------------------------------------------------------------------------------------
 	public JComboBox<String> getButton()
 	{
 		return buttons;
@@ -486,7 +715,7 @@ public class QuestionWindow extends JFrame{
 		return repeatField;
 	}
 	
-	public JTextArea getcorrectField()
+	public JTextArea getCorrectField()
 	{
 		return correctField;
 	}
@@ -501,6 +730,51 @@ public class QuestionWindow extends JFrame{
 	{
 		return buttonField;
 	}
+	
+	//get recorded audio field for introduction text
+	public String getIntroAudio()
+	{
+		return introAudio;
+	}
+	
+	//get selected audio field for introduction text
+	public String getIntroSound()
+	{
+		return introSound;
+	}
+	
+	
+	//get recorded audio field for incorrect text
+	public String getIncorrectAudio()
+	{
+		return incorrectAudio;
+	}
+	
+	//get selected audio field for incorrect text
+	public String getIncorrectSound()
+	{
+		return incorrectSound;
+	}
+	
+	
+	//get recorded audio field for correct text
+	public String getCorrectAudio()
+	{
+		return correctAudio;
+	}
+	
+	//get selected audio field for correct text
+	public String getCorrectSound()
+	{
+		return correctSound;
+	}
+	
+	
+	
+
+	//-------------------------------------------------------------------------------------------------------------------
+	////////////////////////////////////////////////// SETTERS/////////////////////////////////////////////////////////
+	//---------------------------------------------------------------------------------------------------------------------
 		
 	//set intoField
 	public void setIntroField(String intro)
@@ -522,5 +796,102 @@ public class QuestionWindow extends JFrame{
 	{
 		getButtonField().setText(button);;
 	}
+
+	
+	
+	////////////////////////////RECORD AUDIO////////////////////////////////////////////////////
+	
+	
+	private void recordAudio()
+	{
+		JDialog recordDialog = new JDialog(gui, "Record Audio");
+		recordDialog.setModal(true);
+		JPanel panel = new JPanel();
+		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		recordDialog.setSize(200, 180);
+		recordDialog.setResizable(false);
+		recordDialog.setLocationRelativeTo(gui);
+	//	JLabel label = new JLabel("Press Record button to start recording, Stop button to stop and save, and Cancel button to canel recording");
+		JButton recordButton = new JButton("Start Recording");
+		recordButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				gui.logger.log(Level.INFO, "Recording Started");
+				isRecording=true;
+				noRecording = false;
+				recordButton.setForeground(Color.RED);
+				recordButton.setText("Recording...");
+				thread = new ThreadRunnable();
+				thread.start();			
+			}
+		});
+		
+		JButton stopButton = new JButton("Stop Recording");
+		stopButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(isRecording==true){
+				gui.logger.log(Level.INFO, "Recording Stopped");
+				isRecording=false;
+				recordButton.setForeground(Color.BLACK);
+				recordButton.setText("Start Recording");
+				file = thread.stopRecording();
+				//recordDialog.setVisible(false);	
+				}
+			}	
+		});
+		
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(noRecording)
+					recordDialog.setVisible(false);
+				else
+					{
+						gui.logger.log(Level.INFO, "Recording Cancelled");
+						isRecording=false;
+						thread.cancel();
+						recordFlag=false;
+						recordDialog.setVisible(false);	
+					}
+				}
+				
+		});
+		
+		
+		JButton okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(noRecording)
+					recordDialog.setVisible(false);
+				else
+					{
+						gui.logger.log(Level.INFO, "Recording Done");
+						isRecording=false;
+						thread.cancel();
+						recordFlag=true;
+						recordDialog.setVisible(false);	
+					}
+				}
+				
+		});
+				
+		recordDialog.setLayout(new BorderLayout());
+		panel.add(recordButton);
+		panel.add(stopButton);
+		panel.add(okButton);
+		panel.add(cancelButton);
+		recordDialog.add(panel, BorderLayout.CENTER);
+		recordDialog.setVisible(true);		
+	}
+
+	
 	
 }
