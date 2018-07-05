@@ -159,8 +159,6 @@ public void EditItem() {
 	PlayerCommand a = commandList.getSelectedValue();
 	a.editCommand();
 	listModel.setElementAt(a, selectedIndex);
-	
-	
 }
 
 /**
@@ -212,12 +210,6 @@ public void deleteItem() {
 	// Get the index of the selected element
 	int[] selectedIndex = commandList.getSelectedIndices();
 	
-	
-/*	if(!(commandList.isSelectionEmpty()))
-	{
-		gui.getRightPanel().setDelete(true);
-	}
-	gui.getRightPanel().setDelete(true);*/
 	
 	// Remove that position from the listModel
 	
