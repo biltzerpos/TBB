@@ -322,7 +322,7 @@ public class GUI extends JFrame {
 		newItemMap.put(key19,  "User Input");
 		
 		KeyStroke key20 = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.ALT_DOWN_MASK);
-		newItemMap.put(key20,  "Sound");
+		newItemMap.put(key20,  "Play Sound");
 		
 		KeyStroke key21 = KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key21,  "Reset Buttons");
@@ -373,7 +373,7 @@ public class GUI extends JFrame {
 		counterMap.put("Button Repeat", 0);
 		counterMap.put("Button Location", 0);
 		counterMap.put("User Input", 0);
-		counterMap.put("Sound", 0);
+		counterMap.put("Play Sound", 0);
 		counterMap.put("Record Audio",  0);
 		counterMap.put("Reset Buttons", 0);
 		counterMap.put("Go To Location", 0);
@@ -521,7 +521,7 @@ public class GUI extends JFrame {
 		counterMap.put("Button Repeat", 0);
 		counterMap.put("Button Location", 0);
 		counterMap.put("User Input", 0);
-		counterMap.put("Sound", 0);
+		counterMap.put("Play Sound", 0);
 		counterMap.put("Record Audio",  0);
 		counterMap.put("Reset Buttons", 0);
 		counterMap.put("Go To Location", 0);

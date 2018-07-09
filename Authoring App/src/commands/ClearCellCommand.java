@@ -1,5 +1,7 @@
 package commands;
 
+import javax.swing.JOptionPane;
+
 /**
  * Command wrapper to represent the /~disp-clear-cell command in the player.
  * Values consist of a string consisting of only the cell number that should be
@@ -50,7 +52,12 @@ public class ClearCellCommand implements PlayerCommand {
 	
 	@Override
 	public void editCommand() {
-	
+		Object value;
+		value = JOptionPane.showInputDialog(null, "Cell number", "Edit Item Details",
+				JOptionPane.PLAIN_MESSAGE, null, null, this.cellNumber);
+		if (value != null && value != "") {
+			this.cellNumber= (String) value;
+		}
 		
 	}
 	
