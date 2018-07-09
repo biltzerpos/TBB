@@ -146,7 +146,7 @@ public class QuestionWindow extends JFrame{
 		
 		
 		
-		
+		this.buttons.setEnabled(false);
 		this.brailleField.setText(a.getBrailleField());
 		this.repeatField.setText(a.getRepeatField());
 		this.correctField.setText(a.getCorrectField());

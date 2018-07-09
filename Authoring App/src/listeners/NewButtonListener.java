@@ -2,7 +2,11 @@ package listeners;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,8 +15,10 @@ import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -57,7 +63,11 @@ public class NewButtonListener implements ActionListener {
 	private boolean isRecording = false;
 	private boolean noRecording = true;
 	private boolean recordFlag= false;
-
+	
+	private JFrame frame;
+	
+	
+	
 	/**
 	 * Create the NewButtonListener with a reference to the base GUI object
 	 * (required to access the left panel)
@@ -75,8 +85,162 @@ public class NewButtonListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		gui.logger.log(Level.INFO, "User has clicked New Item button.");
 		// Show the Add Item dialog
-		String[] possibilities = { "Pause", "Text-to-speech", "Display String", "Record Audio", "Repeat", "Button Repeat",
-				"Button Location", "User Input", "Sound", "Reset Buttons", "Go To Location", "Clear All", "Clear Cell",
+		
+	
+		frame = new JFrame("Add New Item");
+		frame.setPreferredSize(new Dimension(500,250));
+		frame.setMaximumSize(new Dimension(500,250));
+		frame.setMinimumSize(new Dimension(500,250));
+	//	frame.setLocation(300,300);
+		frame.setResizable(false);
+		frame.pack();
+		
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		frame.getContentPane().setLayout(gridBagLayout);
+		
+		JButton btnNewButton = new JButton("Text To Speech");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				processAnswer("Text-to-speech");
+			}
+		});
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(10, 10, 15, 15);
+		gbc_btnNewButton.gridx = 3;
+		gbc_btnNewButton.gridy = 1;
+		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
+		
+		JButton btnRecordAudio = new JButton("Record Audio");
+		btnRecordAudio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				processAnswer("Record Audio");
+			}
+		});
+		GridBagConstraints gbc_btnRecordAudio = new GridBagConstraints();
+		gbc_btnRecordAudio.anchor = GridBagConstraints.WEST;
+		gbc_btnRecordAudio.insets = new Insets(10, 10, 15, 15);
+		gbc_btnRecordAudio.gridx = 4;
+		gbc_btnRecordAudio.gridy = 1;
+		frame.getContentPane().add(btnRecordAudio, gbc_btnRecordAudio);
+		
+		JButton btnPlaySound = new JButton("Play Sound");
+		btnPlaySound.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				processAnswer("Play Sound");
+			}
+		});
+		GridBagConstraints gbc_btnPlaySound = new GridBagConstraints();
+		gbc_btnPlaySound.anchor = GridBagConstraints.WEST;
+		gbc_btnPlaySound.insets = new Insets(10, 10, 15, 15);
+		gbc_btnPlaySound.gridx = 5;
+		gbc_btnPlaySound.gridy = 1;
+		frame.getContentPane().add(btnPlaySound, gbc_btnPlaySound);
+		
+		JButton btnPause = new JButton("Pause");
+		btnPause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				processAnswer("Pause");
+			}
+		});
+		GridBagConstraints gbc_btnPause = new GridBagConstraints();
+		gbc_btnPause.fill = GridBagConstraints.HORIZONTAL;
+		//gbc_btnRecordAudio.anchor = GridBagConstraints.WEST;
+		gbc_btnPause.insets = new Insets(10, 10, 15, 15);
+		gbc_btnPause.gridx = 3;
+		gbc_btnPause.gridy = 2;
+		frame.getContentPane().add(btnPause, gbc_btnPause);
+		
+		
+		JButton userInput = new JButton("User Input");
+		userInput.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				processAnswer("User Input");
+			}
+		});
+		GridBagConstraints gbc_userInput = new GridBagConstraints();
+		gbc_userInput.fill = GridBagConstraints.HORIZONTAL;
+		gbc_userInput.insets = new Insets(10, 10, 15, 15);
+		gbc_userInput.gridx = 4;
+		gbc_userInput.gridy = 2;
+		frame.getContentPane().add(userInput, gbc_userInput);
+		
+		
+		JButton btnDisplayOnBraille = new JButton("Display on Braille Cell");
+		btnDisplayOnBraille.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				processAnswer("Display on Braille Cell");
+			}
+		});
+		GridBagConstraints gbc_btnDisplayOnBraille = new GridBagConstraints();
+		gbc_btnDisplayOnBraille.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnDisplayOnBraille.insets = new Insets(10, 10, 15, 15);
+		gbc_btnDisplayOnBraille.gridx = 5;
+		gbc_btnDisplayOnBraille.gridy = 2;
+		frame.getContentPane().add(btnDisplayOnBraille, gbc_btnDisplayOnBraille);
+		
+		
+		
+		
+		
+		String[] array= {"Select Item", "Repeat", "Button Repeat", "Button Location", "User Input", "Reset Buttons", "Go To Location", "Clear All", "Clear Cell",
+				"Set Pins", "Set Character", "Raise Pin", "Lower Pin", "Set Voice", "Location Tag"};
+		
+		JLabel lblAdvanceOptions = new JLabel("Advance Options");
+		GridBagConstraints gbc_lblAdvanceOptions = new GridBagConstraints();
+		gbc_lblAdvanceOptions.insets = new Insets(20, 20, 20, 20);
+		gbc_lblAdvanceOptions.gridx = 3;
+		gbc_lblAdvanceOptions.gridy = 3;
+		frame.getContentPane().add(lblAdvanceOptions, gbc_lblAdvanceOptions);
+		
+		JComboBox comboBox = new JComboBox<Object>(array);
+		comboBox.setSelectedIndex(0);
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.insets = new Insets(10, 10, 15, 15);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 4;
+		gbc_comboBox.gridy = 3;
+		
+		
+		
+		
+		  comboBox.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent event) {
+	                //
+	                // Get the source of the component, which is our combo
+	                // box.
+	                Object selected = comboBox.getSelectedItem();
+	                String answer = selected.toString();
+	                frame.dispose();
+	                processAnswer(answer);
+	         //       System.out.println(answer);
+
+	            }
+	        });
+		
+		
+	 
+		frame.getContentPane().add(comboBox, gbc_comboBox);
+	
+		frame.setVisible(true);
+		
+		
+		
+		
+		
+	/*	
+		String[] possibilities = { "Pause", "Text-to-speech", "Display on Braille Cell", "Record Audio", "Repeat", "Button Repeat",
+				"Button Location", "User Input", "Play Sound", "Reset Buttons", "Go To Location", "Clear All", "Clear Cell",
 				"Set Pins", "Set Character", "Raise Pin", "Lower Pin", "Set Voice", "Location Tag" };
 		Object value;
 		
@@ -87,6 +251,7 @@ public class NewButtonListener implements ActionListener {
 			gui.logger.log(Level.INFO, "User has chosen:" + answer + ".");
 		}
 		processAnswer(answer);
+		*/
 
 	}
 
@@ -109,12 +274,12 @@ public class NewButtonListener implements ActionListener {
 					gui.counterMap.put("Text-to-speech", gui.counterMap.get("Text-to-speech") + 1);
 				}
 				break;
-			case "Display String":
+			case "Display on Braille Cell":
 				value = JOptionPane.showInputDialog(gui, "String to display", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
 				if (value != null && value != "") {
 					gui.getLeftPanel().addItem(new SetStringCommand((String) value));
-					gui.counterMap.put("Display String", gui.counterMap.get("Display String") + 1);
+					gui.counterMap.put("Display on Braille Cell", gui.counterMap.get("Display on Braille Cell") + 1);
 				}
 				break;
 			case "Repeat":
@@ -145,7 +310,7 @@ public class NewButtonListener implements ActionListener {
 				gui.getLeftPanel().addItem(new UserInputCommand());
 				gui.counterMap.put("User Input", gui.counterMap.get("User Input") + 1);
 				break;
-			case "Sound":				
+			case "c":				
 				JFileChooser load = new JFileChooser();
 				FileNameExtensionFilter wavFileFilter = new FileNameExtensionFilter("wav files (*.wav)", "wav");
 				load.addChoosableFileFilter(wavFileFilter);
@@ -155,7 +320,7 @@ public class NewButtonListener implements ActionListener {
 				if (file != null)
 				{
 					gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
-					gui.counterMap.put("Sound", gui.counterMap.get("Sound") + 1);					
+					gui.counterMap.put("Play Sound", gui.counterMap.get("Play Sound") + 1);					
 				}
 				break;
 			case "Record Audio":
@@ -255,6 +420,12 @@ public class NewButtonListener implements ActionListener {
 		recordDialog.setLocationRelativeTo(gui);
 	//	JLabel label = new JLabel("Press Record button to start recording, Stop button to stop and save, and Cancel button to canel recording");
 		JButton recordButton = new JButton("Start Recording");
+		JButton cancelButton = new JButton("Cancel");
+		JButton okButton = new JButton("OK");
+		
+		cancelButton.setEnabled(false);
+		okButton.setEnabled(false);
+		
 		recordButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -280,13 +451,15 @@ public class NewButtonListener implements ActionListener {
 				isRecording=false;
 				recordButton.setForeground(Color.BLACK);
 				recordButton.setText("Start Recording");
+				cancelButton.setEnabled(true);
+				okButton.setEnabled(true);
 				file = thread.stopRecording();
 				//recordDialog.setVisible(false);	
 				}
 			}	
 		});
 		
-		JButton cancelButton = new JButton("Cancel");
+		
 		cancelButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -306,7 +479,7 @@ public class NewButtonListener implements ActionListener {
 		});
 		
 		
-		JButton okButton = new JButton("OK");
+	
 		okButton.addActionListener(new ActionListener(){
 
 			@Override
