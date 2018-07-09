@@ -46,7 +46,6 @@ public JList<PlayerCommand> commandList = new JList<>();
 private DefaultListModel<PlayerCommand> listModel = new DefaultListModel<>();
 int index=-1;
 private GUI gui;
-private boolean isEdit = false;
 int selectedIndex;
 
 ColourMapper map= new ColourMapper();
@@ -137,12 +136,9 @@ private void swapElements(int a, int b) {
  *            New element to be added
  */
 public void addItem(PlayerCommand newElement) {
-	if(isEdit==true)
-	listModel.setElementAt(newElement, this.selectedIndex);
+
+	listModel.addElement(newElement);
 	
-	else
-	{listModel.addElement(newElement);
-	}
 
 }
 

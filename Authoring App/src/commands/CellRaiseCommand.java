@@ -1,5 +1,7 @@
 package commands;
 
+import javax.swing.JOptionPane;
+
 /**
  * Command wrapper to represent the /~disp-cell-raise command in the player.
  * Values consist of a string with a space separator between a cell number and a
@@ -51,8 +53,13 @@ public class CellRaiseCommand implements PlayerCommand {
 	
 	@Override
 	public void editCommand() {
-
 		
+		Object value;
+		value = JOptionPane.showInputDialog(null, "Cell and Pin to raise (space separated)", "Edit Item Details",
+				JOptionPane.PLAIN_MESSAGE, null, null, this.cellAndPin);
+		if (value != null && value != "") {
+		 this.cellAndPin = (String) value;
+		}
 	}
 	
 }

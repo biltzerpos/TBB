@@ -310,7 +310,7 @@ public class NewButtonListener implements ActionListener {
 				gui.getLeftPanel().addItem(new UserInputCommand());
 				gui.counterMap.put("User Input", gui.counterMap.get("User Input") + 1);
 				break;
-			case "c":				
+			case "Play Sound":				
 				JFileChooser load = new JFileChooser();
 				FileNameExtensionFilter wavFileFilter = new FileNameExtensionFilter("wav files (*.wav)", "wav");
 				load.addChoosableFileFilter(wavFileFilter);

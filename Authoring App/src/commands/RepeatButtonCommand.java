@@ -1,5 +1,7 @@
 package commands;
 
+import javax.swing.JOptionPane;
+
 /**
  * A class to represent button repeating commands.
  *
@@ -49,9 +51,13 @@ public class RepeatButtonCommand implements PlayerCommand {
 	
 	@Override
 	public void editCommand() {
-	
-		
-	}
+		Object value;
+		value = JOptionPane.showInputDialog(null, "Button to use for repeating", "Edit Item Details",
+				JOptionPane.PLAIN_MESSAGE, null, null, this.buttonNum);
+		if (value != null && value != "") {
+			this.buttonNum = (String) value;
+			}
+		}
 	
 
 }

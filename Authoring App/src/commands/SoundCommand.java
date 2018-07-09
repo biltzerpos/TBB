@@ -1,5 +1,10 @@
 package commands;
 
+import java.io.File;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  * Command wrapper to represent the /~sound command in the player. Values are
  * given as a full path to the file to be played.
@@ -50,6 +55,17 @@ public class SoundCommand implements PlayerCommand {
 	@Override
 	public void editCommand() {
 	
+		File file = null;
+		JFileChooser load = new JFileChooser();
+		FileNameExtensionFilter wavFileFilter = new FileNameExtensionFilter("wav files (*.wav)", "wav");
+		load.addChoosableFileFilter(wavFileFilter);
+		load.setFileFilter(wavFileFilter);				
+		load.showOpenDialog(null);
+		file = load.getSelectedFile();
+		if (file != null)
+		{
+			this.file=file.toString();				
+		}
 		
 	}
 	
