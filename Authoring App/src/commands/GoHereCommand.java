@@ -1,5 +1,7 @@
 package commands;
 
+import javax.swing.JOptionPane;
+
 /**
  * Command wrapper to represent the jump tags in the player. Values consist of
  * any arbitrary string to be used as a descriptor
@@ -49,7 +51,13 @@ public class GoHereCommand implements PlayerCommand {
 	
 	@Override
 	public void editCommand() {
-	
+		Object value;
+		value = JOptionPane.showInputDialog(null, "Enter location to go to", "Edit Item Details",
+				JOptionPane.PLAIN_MESSAGE, null, null, this.jumpTag);
+		if (value != null && value != "") {
+			this.jumpTag = (String) value;
+		
+		}
 		
 	}
 	

@@ -177,7 +177,7 @@ public class  RightPanel extends JPanel implements ActionListener {
 			System.out.println("You chose to open this file: " + chooser.getSelectedFile());
 			String name = chooser.getSelectedFile().toString();
 			ReadFile read = new ReadFile();
-			gui.getLeftPanel().addItem(new SoundCommand(name));
+			gui.getLeftPanel().addItem(new SoundCommand(name, this.gui));
 			read.playSound(name);
 		}
 	}

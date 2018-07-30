@@ -1,5 +1,7 @@
 package commands;
 
+import javax.swing.JOptionPane;
+
 /**
  * A class to represent set voice commands. Contains a string for which numbered
  * text to speech voice to use
@@ -60,8 +62,13 @@ public class SetVoiceCommand implements PlayerCommand {
 
 	@Override
 	public void editCommand() {
-
-		
+		Object value;
+		value = JOptionPane.showInputDialog(null, "Enter a voice number", "Edit Item Details",
+				JOptionPane.PLAIN_MESSAGE, null, null, this.voiceNumber);
+		if (value != null && value != "" && Integer.parseInt((String)value) > 0 && Integer.parseInt((String)value) < 5)
+		{
+			this.voiceNumber = (String) value;
+		}
 	}
 	
 }
