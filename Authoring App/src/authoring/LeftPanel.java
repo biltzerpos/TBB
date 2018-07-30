@@ -46,7 +46,6 @@ public JList<PlayerCommand> commandList = new JList<>();
 private DefaultListModel<PlayerCommand> listModel = new DefaultListModel<>();
 int index=-1;
 private GUI gui;
-private boolean isEdit = false;
 int selectedIndex;
 
 ColourMapper map= new ColourMapper();
@@ -137,12 +136,9 @@ private void swapElements(int a, int b) {
  *            New element to be added
  */
 public void addItem(PlayerCommand newElement) {
-	if(isEdit==true)
-	listModel.setElementAt(newElement, this.selectedIndex);
+
+	listModel.addElement(newElement);
 	
-	else
-	{listModel.addElement(newElement);
-	}
 
 }
 
@@ -159,8 +155,6 @@ public void EditItem() {
 	PlayerCommand a = commandList.getSelectedValue();
 	a.editCommand();
 	listModel.setElementAt(a, selectedIndex);
-	
-	
 }
 
 /**
@@ -210,17 +204,23 @@ public void moveDown() {
  */
 public void deleteItem() {
 	// Get the index of the selected element
-	int selectedIndex = commandList.getSelectedIndex();
+	int[] selectedIndex = commandList.getSelectedIndices();
 	
-	System.out.println(selectedIndex);
-/*	if(!(commandList.isSelectionEmpty()))
-	{
-		gui.getRightPanel().setDelete(true);
-	}
-	gui.getRightPanel().setDelete(true);*/
 	
 	// Remove that position from the listModel
-	listModel.remove(selectedIndex);
+	
+	
+	  int index = commandList.getSelectedIndices().length - 1;
+
+       while (commandList.getSelectedIndices().length != 0) {
+           this.listModel.removeElementAt(commandList.getSelectedIndices()[index--]);
+       }
+	
+	/*for(int i=0; i< selectedIndex.length; i++ )
+	{
+	System.out.println(selectedIndex[i]);
+	listModel.remove(selectedIndex[i]);
+	}*/
 }
 
 /**
