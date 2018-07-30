@@ -45,7 +45,9 @@ public class RecordAudio {
 				recordButton.setForeground(Color.RED);
 				recordButton.setText("Recording...");
 				thread = new ThreadRunnable();
-				thread.start();			
+				thread.start();	
+				
+				
 			}
 		});
 		
@@ -61,6 +63,20 @@ public class RecordAudio {
 				recordButton.setText("Start Recording");
 				file = thread.stopRecording();
 				//recordDialog.setVisible(false);	
+				
+				
+				if(noRecording)
+					recordDialog.setVisible(false);
+				else
+					{
+						gui.logger.log(Level.INFO, "Recording Done");
+						isRecording=false;
+						thread.cancel();
+						recordFlag=true;
+						recordDialog.setVisible(false);	
+					}
+				
+				
 				}
 			}	
 		});
@@ -85,7 +101,7 @@ public class RecordAudio {
 		});
 		
 		
-		JButton okButton = new JButton("OK");
+	/*	JButton okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -102,12 +118,12 @@ public class RecordAudio {
 					}
 				}
 				
-		});
+		});*/
 				
 		recordDialog.setLayout(new BorderLayout());
 		panel.add(recordButton);
 		panel.add(stopButton);
-		panel.add(okButton);
+		//panel.add(okButton);
 		panel.add(cancelButton);
 		recordDialog.add(panel, BorderLayout.CENTER);
 		recordDialog.setVisible(true);		
