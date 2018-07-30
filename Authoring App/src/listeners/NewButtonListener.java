@@ -74,7 +74,7 @@ public class NewButtonListener implements ActionListener {
 	private JFrame frame;
 	
 	
-	
+	//
 	/**
 	 * Create the NewButtonListener with a reference to the base GUI object
 	 * (required to access the left panel)
