@@ -1,5 +1,7 @@
 package commands;
 
+import javax.swing.JOptionPane;
+
 /**
  * Command wrapper to represent the /~disp-cell-char command in the player.
  * Values consist of a string with a space separator between a cell number and a
@@ -51,7 +53,13 @@ public class CellCharCommand implements PlayerCommand {
 	
 	@Override
 	public void editCommand() {
-		
+		Object value;
+		value = JOptionPane.showInputDialog(null, "Cell and character (space seperated)", "Edit Item Details",
+				JOptionPane.PLAIN_MESSAGE, null, null, this.cellAndChar);
+		if (value != null && value != "") {
+			this.cellAndChar= (String) value;
+			
+		}
 	}
 	
 }

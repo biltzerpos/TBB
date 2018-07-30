@@ -124,12 +124,12 @@ public void actionPerformed(ActionEvent arg0) {
         	}
         	else if(ques.getIntroAudio()!="none")
         	{
-        		qc.addCommand(new SoundCommand(ques.getIntroAudio()));
+        		qc.addCommand(new SoundCommand(ques.getIntroAudio(), gui));
 				
         	}
         	else if(ques.getIntroSound()!="none")
         	{
-        		qc.addCommand(new SoundCommand(ques.getIntroSound()));
+        		qc.addCommand(new SoundCommand(ques.getIntroSound(), gui));
         		
         	}
         	qc.addCommand(new PauseCommand("1"));
@@ -160,9 +160,9 @@ public void actionPerformed(ActionEvent arg0) {
         		if(ques.getRepeatField().getText().length()>0 && ques.getIntroField().getText()!="none")
         			qc.addCommand(new TTSCommand(ques.getRepeatField().getText()));
         		else if(ques.getIncorrectAudio()!="none")
-        			qc.addCommand(new SoundCommand(ques.getIncorrectAudio()));
+        			qc.addCommand(new SoundCommand(ques.getIncorrectAudio(), gui));
         		else if(ques.getIncorrectSound()!="none")
-        			qc.addCommand(new SoundCommand(ques.getIncorrectSound()));
+        			qc.addCommand(new SoundCommand(ques.getIncorrectSound(), gui));
         		holder = new SkipCommand("" + randomLabel + "-next");
     			qc.addCommand(holder);
         	//	qc.addCommand(new SkipCommand(randomLabel + "-start"));
@@ -174,9 +174,9 @@ public void actionPerformed(ActionEvent arg0) {
         		if(ques.getCorrectField().getText().length()>0)
         			qc.addCommand(new TTSCommand(ques.getCorrectField().getText()));
         		else if(ques.getCorrectAudio()!="none")
-        			qc.addCommand(new SoundCommand(ques.getCorrectAudio()));
+        			qc.addCommand(new SoundCommand(ques.getCorrectAudio(), gui));
         		else if(ques.getCorrectSound()!="none")
-        			qc.addCommand(new SoundCommand(ques.getCorrectSound()));
+        			qc.addCommand(new SoundCommand(ques.getCorrectSound(), gui));
         		
         		holder = new SkipCommand("" + randomLabel + "-next");
         		qc.addCommand(holder);

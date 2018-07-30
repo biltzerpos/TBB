@@ -1,5 +1,7 @@
 package commands;
 
+import javax.swing.JOptionPane;
+
 /**
  * Command wrapper to represent the TTS command in the player. Values are given
  * as the text that should be read aloud by the TTS.
@@ -49,7 +51,10 @@ public class TTSCommand implements PlayerCommand {
 
 	@Override
 	public void editCommand() {
-	
+		Object value;
+		value = JOptionPane.showInputDialog(null, "Text to say", "Edit Item Details",
+				JOptionPane.PLAIN_MESSAGE, null, null, this.textToSay);
+		this.textToSay= (String) value;
 		
 	}
 	

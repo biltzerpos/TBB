@@ -1,5 +1,7 @@
 package commands;
 
+import javax.swing.JOptionPane;
+
 /**
  * Command wrapper to represent the /~disp-cell-pins command in the player.
  * Values are given as a cell number, followed by the pins that should be set
@@ -51,8 +53,13 @@ public class SetPinsCommand implements PlayerCommand {
 	
 	@Override
 	public void editCommand() {
-	
-	}
-	
+		Object value;
+		value = JOptionPane.showInputDialog(null, "Cell and pins (space separated)", "Edit Item Details",
+				JOptionPane.PLAIN_MESSAGE, null, null, this.cellAndPins);
+		if (value != null && value != "") {
+			this.cellAndPins = (String) value;
+		}
+		}
+		
 
 }
