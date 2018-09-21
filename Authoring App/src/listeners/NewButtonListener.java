@@ -26,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import authoring.GUI;
+import authoring.RecordAudio;
 import authoring.ThreadRunnable;
 import commands.CellCharCommand;
 import commands.CellLowerCommand;
@@ -63,6 +64,8 @@ public class NewButtonListener implements ActionListener {
 	private boolean isRecording = false;
 	private boolean noRecording = true;
 	private boolean recordFlag= false;
+	private RecordAudio rc= new RecordAudio();
+	
 	
 	private JFrame frame;
 	
@@ -319,15 +322,15 @@ public class NewButtonListener implements ActionListener {
 				file = load.getSelectedFile();
 				if (file != null)
 				{
-					gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
+					gui.getLeftPanel().addItem(new SoundCommand(file.toString(), this.gui));
 					gui.counterMap.put("Play Sound", gui.counterMap.get("Play Sound") + 1);					
 				}
 				break;
 			case "Record Audio":
-				recordAudio();
-				if (file != null && recordFlag==true)
+				rc.recordAudio(this.gui); //  calls recordAudio method in RecordAudio class
+				if (rc.file != null && rc.recordFlag==true)
 				{
-					gui.getLeftPanel().addItem(new SoundCommand(file.toString()));
+					gui.getLeftPanel().addItem(new SoundCommand(rc.file.toString(), this.gui));
 					gui.counterMap.put("Record Audio", gui.counterMap.get("Record Audio") + 1);
 				}				
 				break;
@@ -410,7 +413,7 @@ public class NewButtonListener implements ActionListener {
 		}
 	}
 	
-	private void recordAudio()
+/*	private void recordAudio()
 	{
 		JDialog recordDialog = new JDialog(gui, "Record Audio");
 		recordDialog.setModal(true);
@@ -507,5 +510,5 @@ public class NewButtonListener implements ActionListener {
 		panel.add(cancelButton);
 		recordDialog.add(panel, BorderLayout.CENTER);
 		recordDialog.setVisible(true);		
-	}
+	}*/
 }
