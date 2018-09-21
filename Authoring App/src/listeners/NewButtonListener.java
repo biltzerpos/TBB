@@ -90,6 +90,7 @@ public class NewButtonListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		gui.logger.log(Level.INFO, "User has clicked New Item button.");
 		// Show the Add Item dialog
+
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(6, 1, 5, 3));
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Items"));
@@ -200,6 +201,7 @@ public class NewButtonListener implements ActionListener {
 					gui.counterMap.put("Text-to-speech", gui.counterMap.get("Text-to-speech") + 1);
 				}
 				break;
+
 			case "Display on Braille Cell":
 				value = JOptionPane.showInputDialog(gui, "String to display", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
