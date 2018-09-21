@@ -289,6 +289,19 @@ public class GUI extends JFrame {
 			}
 		});
 		
+		
+		
+		KeyStroke key33 = KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK);
+		actionMap.put(key33, new AbstractAction("Insert Before") {
+			private static final long serialVersionUID = 1L;
+			@Override
+		    public void actionPerformed(ActionEvent e) {
+				if (rightPanel.btnInsert.isEnabled()) {
+					rightPanel.btnInsert.doClick();
+				}
+			}
+		});
+		
 		KeyStroke key31 = KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK);
 		actionMap.put(key31, new AbstractAction("Test") {
 			private static final long serialVersionUID = 1L;
@@ -364,6 +377,7 @@ public class GUI extends JFrame {
 		counterMap.put("Move Down", 0);
 		counterMap.put("Delete", 0);
 		counterMap.put("Edit", 0);
+		counterMap.put("Insert Before", 0);
 		counterMap.put("Save", 0);
 		counterMap.put("Load", 0);
 		counterMap.put("Pause", 0);
@@ -429,7 +443,7 @@ public class GUI extends JFrame {
 	      } else if (newItemMap.containsKey(keyStroke) && rightPanel.btnNew.isEnabled())
 	      {
 	    	  String value = newItemMap.get(keyStroke);
-	    	  newItem.processAnswer(value);
+	    	  newItem.processAnswer(value, "add");
 	    	  logger.log(Level.INFO, "User has used the " + value + " hotkey.");
 	    	  return true;
 	      }
@@ -512,6 +526,7 @@ public class GUI extends JFrame {
 		counterMap.put("Move Down", 0);
 		counterMap.put("Delete", 0);
 		counterMap.put("Edit", 0);
+		counterMap.put("Insert Before", 0);
 		counterMap.put("Save", 0);
 		counterMap.put("Load", 0);
 		counterMap.put("Pause", 0);
