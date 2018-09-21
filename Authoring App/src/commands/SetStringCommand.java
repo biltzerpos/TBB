@@ -1,5 +1,7 @@
 package commands;
 
+import javax.swing.JOptionPane;
+
 /**
  * Command wrapper to represent the /~disp-string command in the player. Values
  * are given as a single string, which is the string which should be shown on
@@ -51,8 +53,12 @@ public class SetStringCommand implements PlayerCommand {
 
 	@Override
 	public void editCommand() {
-	
-		
+		Object value;
+		value = JOptionPane.showInputDialog(null, "String to display", "Edit Item Details",
+				JOptionPane.PLAIN_MESSAGE, null, null, this.str);
+		if (value != null && value != "") {
+			this.str=(String) value;
+	}
 	}
 	
 }

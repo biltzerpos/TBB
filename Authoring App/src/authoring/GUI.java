@@ -289,6 +289,19 @@ public class GUI extends JFrame {
 			}
 		});
 		
+		
+		
+		KeyStroke key33 = KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK);
+		actionMap.put(key33, new AbstractAction("Insert Before") {
+			private static final long serialVersionUID = 1L;
+			@Override
+		    public void actionPerformed(ActionEvent e) {
+				if (rightPanel.btnInsert.isEnabled()) {
+					rightPanel.btnInsert.doClick();
+				}
+			}
+		});
+		
 		KeyStroke key31 = KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK);
 		actionMap.put(key31, new AbstractAction("Test") {
 			private static final long serialVersionUID = 1L;
@@ -322,7 +335,7 @@ public class GUI extends JFrame {
 		newItemMap.put(key19,  "User Input");
 		
 		KeyStroke key20 = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.ALT_DOWN_MASK);
-		newItemMap.put(key20,  "Sound");
+		newItemMap.put(key20,  "Play Sound");
 		
 		KeyStroke key21 = KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key21,  "Reset Buttons");
@@ -354,8 +367,9 @@ public class GUI extends JFrame {
 		KeyStroke key30 = KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.ALT_DOWN_MASK);
 		newItemMap.put(key30,  "Location Tag");
 				
+
 		resetCounter();
-		
+
 		
 		if (functionCounter.exists())
 		{
@@ -404,7 +418,7 @@ public class GUI extends JFrame {
 	      } else if (newItemMap.containsKey(keyStroke) && rightPanel.btnNew.isEnabled())
 	      {
 	    	  String value = newItemMap.get(keyStroke);
-	    	  newItem.processAnswer(value);
+	    	  newItem.processAnswer(value, "add");
 	    	  logger.log(Level.INFO, "User has used the " + value + " hotkey.");
 	    	  return true;
 	      }
@@ -487,6 +501,7 @@ public class GUI extends JFrame {
 		counterMap.put("Move Down", 0);
 		counterMap.put("Delete", 0);
 		counterMap.put("Edit", 0);
+		counterMap.put("Insert Before", 0);
 		counterMap.put("Save", 0);
 		counterMap.put("Load", 0);
 		counterMap.put("Pause", 0);
@@ -496,7 +511,7 @@ public class GUI extends JFrame {
 		counterMap.put("Button Repeat", 0);
 		counterMap.put("Button Location", 0);
 		counterMap.put("User Input", 0);
-		counterMap.put("Sound", 0);
+		counterMap.put("Play Sound", 0);
 		counterMap.put("Record Audio",  0);
 		counterMap.put("Reset Buttons", 0);
 		counterMap.put("Go To Location", 0);

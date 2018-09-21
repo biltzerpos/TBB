@@ -1,5 +1,7 @@
 package commands;
 
+import javax.swing.JOptionPane;
+
 /**
  * Command wrapper to represent the /~repeat command in the player. Values
  * consist of any arbitrary string which is text that should be read. The values
@@ -57,8 +59,14 @@ public class RepeatCommand implements PlayerCommand {
 
 	@Override
 	public void editCommand() {
-		
-		
+		Object value;
+		value = JOptionPane.showInputDialog(null, "Text to be repeated", "Edit Item Details",
+				JOptionPane.PLAIN_MESSAGE, null, null, this.repeatedText);
+		if (value != null && value != "") {
+			this.repeatedText = (String) value;
+			}
+		}
+	
 	}
 	
-}
+
