@@ -25,7 +25,6 @@ import javax.sound.sampled.TargetDataLine;
  */
 public class AudioRecorder {
 	// File for audio to be saved as, will be specified by user
-	private int i;
 	private File wavFile;
 	// Audio file format, set as .wav
 	private AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
